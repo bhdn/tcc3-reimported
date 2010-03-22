@@ -1,8 +1,10 @@
 \makeatletter
-\renewcommand*\l@chapter{\@dottedtocline{0}{0em}{2.3em}}
-\renewcommand*\l@section{\@dottedtocline{1}{0em}{2.3em}}
-\renewcommand*\l@subsection{\@dottedtocline{2}{0em}{3.2em}}
-\renewcommand*\l@subsubsection{\@dottedtocline{3}{0em}{4.1em}}
+\newcommand\l@section{\@dottedtocline{1}{0em}{2.3em}}
+\newcommand\l@subsection{\@dottedtocline{2}{0em}{3.2em}}
+\newcommand\l@subsubsection{\@dottedtocline{3}{0em}{4.1em}}
+\newcommand\l@paragraph{\@dottedtocline{4}{0em}{5em}}
+\newcommand\l@subparagraph{\@dottedtocline{5}{0em}{6em}}
+\makeatother
 
 \sloppy
 
@@ -27,8 +29,6 @@
   {\ifthenelse{\boolean{ABNTNextOutOfTOC}}
      {\setboolean{ABNTNextOutOfTOC}{false}}
      {\addcontentsline{#1}{#2}{#3}}}
-
-\renewcommand\contentsname{Isso nao esta funcionando}
 
 %% niveis de secao que devem ter numeracao
 \setcounter{secnumdepth}{3}
@@ -95,8 +95,3 @@
 	 \bfseries\MakeUppercase #1\par\vspace{30pt}\nobreak}}
 
 
-\newcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
-\newcommand*\l@subsection{\@dottedtocline{2}{3.8em}{3.2em}}
-\newcommand*\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
-\newcommand*\l@paragraph{\@dottedtocline{4}{10em}{5em}}
-\newcommand*\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
