@@ -1,34 +1,118 @@
+\NeedsTeXFormat{LaTeX2e}
+
+\renewcommand*\familydefault{\sfdefault}
+
 \makeatletter
-\newcommand\l@section{\@dottedtocline{1}{0em}{2.3em}}
-\newcommand\l@subsection{\@dottedtocline{2}{0em}{3.2em}}
-\newcommand\l@subsubsection{\@dottedtocline{3}{0em}{4.1em}}
-\newcommand\l@paragraph{\@dottedtocline{4}{0em}{5em}}
-\newcommand\l@subparagraph{\@dottedtocline{5}{0em}{6em}}
-\makeatother
+%%\renewcommand*\l@chapter{\@dottedtocline{0}{0em}{2.3em}}
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{2.3em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{0em}{3.2em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{0em}{4.1em}}
+\renewcommand*\l@paragraph{\@dottedtocline{4}{0em}{5em}}
+\renewcommand*\l@subparagraph{\@dottedtocline{5}{0em}{6em}}
+
+\renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
+                           {-3.5ex \@plus -1ex \@minus -.2ex}%
+                           {2.3ex \@plus.2ex}%
+                           {\espaco{simples}%
+			    \MakeUppercase%
+                            \ABNTsectionfont\ABNTsectionfontsize}}
+
+\renewcommand*\ABNTsectionfont{\MakeUppercase}
+
+%Altera o espa�mento entre dots
+\renewcommand\@dotsep{2}
+
+\def\ABNTsect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth
+    \let\@svsec\@empty
+  \else
+    \refstepcounter{#1}%
+    \protected@edef\@svsec{\@seccntformat{#1}\relax}%
+  \fi
+  \@tempskipa #5\relax
+  \ifdim \@tempskipa>\z@
+    \begingroup
+      #6{%
+        \@hangfrom{\hskip #3\relax\@svsec}%
+          \interlinepenalty \@M
+          \ifnum #2>1
+ 		#8
+          \else
+		\MakeUppercase{#8}
+          \fi
+         \@@par}%
+    \endgroup
+    \@ifundefined{ABNT#1mark}{}{\csname ABNT#1mark\endcsname{#7}}
+    \ABNTaddcontentsline{toc}{#1}{%
+      \ifnum #2>\c@secnumdepth \else
+        \protect\numberline{\csname the#1\endcsname}%
+      \fi
+      #7}%
+  \else
+    \def\@svsechd{%
+      #6{\hskip #3\relax
+      \@svsec \ifthenelse{\boolean{ABNTcapsec}}
+             {\MakeUppercase{#8}}{#8}}%
+      \@ifundefined{ABNT#1mark}{}{\csname ABNT#1mark\endcsname{#7}}
+      \ABNTaddcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth \else
+          \protect\numberline{\csname the#1\endcsname}%
+        \fi
+        #7}}%
+  \fi
+  \@xsect{#5}}
+
+%Altera forma de montagem do table of contents
+\renewcommand\l@chapter[2]{
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \ifthenelse{\boolean{ABNTpagenumstyle}}
+        {\renewcommand{\@pnumwidth}{3.5em}}
+        {}
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \normalsize\ABNTtocchapterfont
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\dotfill \nobreak%
+      \ifthenelse{\boolean{ABNTpagenumstyle}}
+         {%
+          \hb@xt@\@pnumwidth{\hss
+            \ifthenelse{\not\equal{#2}{}}{{\normalfont p.\thinspace#2}}{}}\par
+         }
+         {%
+          \hb@xt@\@pnumwidth{\hss #2}\par
+         }
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+
 
 \sloppy
 
-\renewcommand{\sumario}{%
-  \ifthenelse{\boolean{@twocolumn}}%
-    {\setboolean{ABNTrestorecol}{true}\onecolumn}%
-    {\setboolean{ABNTrestorecol}{false}}%
-  \if@openright\cleardoublepage\else\clearpage\fi
-  \thispagestyle{\chaptertitlepagestyle}
-  \global\@topnum\z@
-  \@afterindentfalse
-  \@makeschapterhead{\contentsname}%
-  \@afterheading
-  \@mkboth{\contentsname}{\contentsname}
-  \@starttoc{toc}%
-  \ifthenelse{\boolean{ABNTrestorecol}}{\twocolumn}{}%
-  \if@openright\cleardoublepage\else\clearpage\fi%
-  \setboolean{ABNTaftertoc}{true}
-}%
-
-\renewcommand{\ABNTaddcontentsline}[3]
-  {\ifthenelse{\boolean{ABNTNextOutOfTOC}}
-     {\setboolean{ABNTNextOutOfTOC}{false}}
-     {\addcontentsline{#1}{#2}{#3}}}
+%\renewcommand{\sumario}{%
+%  \ifthenelse{\boolean{@twocolumn}}%
+%    {\setboolean{ABNTrestorecol}{true}\onecolumn}%
+%    {\setboolean{ABNTrestorecol}{false}}%
+%  \if@openright\cleardoublepage\else\clearpage\fi
+%  \thispagestyle{\chaptertitlepagestyle}
+%  \global\@topnum\z@
+%  \@afterindentfalse
+%  \@makeschapterhead{\contentsname}%
+%  \@afterheading
+%  \@mkboth{\contentsname}{\contentsname}
+%  \@starttoc{toc}%
+%  \ifthenelse{\boolean{ABNTrestorecol}}{\twocolumn}{}%
+%  \if@openright\cleardoublepage\else\clearpage\fi%
+%  \setboolean{ABNTaftertoc}{true}
+%}%
+%
+%\renewcommand{\ABNTaddcontentsline}[3]
+%  {\ifthenelse{\boolean{ABNTNextOutOfTOC}}
+%     {\setboolean{ABNTNextOutOfTOC}{false}}
+%     {\addcontentsline{#1}{#2}{#3}}}
 
 %% niveis de secao que devem ter numeracao
 \setcounter{secnumdepth}{3}
@@ -36,11 +120,11 @@
 \renewcommand{\ABNTchapterfont}{\bfseries}
 \renewcommand{\ABNTchaptersize}{\normalsize}
 
-\renewcommand{\ABNTtocchapterfont}{\bfseries}
+%%\renewcommand{\ABNTtocchapterfont}{\bfseries}
 %%\renewcommand{\ABNTtocchaptersize}{\normalsize}
 
-\setboolean{ABNTcapchap}{true}
-\setboolean{ABNTcapsec}{true}
+%%\setboolean{ABNTcapchap}{true}
+%%\setboolean{ABNTcapsec}{true}
 
 \renewcommand{\ABNTsectionfontsize}{\normalsize}
 \renewcommand{\ABNTsectionfont}{\normalfont}
@@ -59,7 +143,7 @@
    {\large\bfseries {\ABNTautordata}}  \\[8.5cm]
    {\large\bfseries\MakeUppercase{\ABNTtitulodata}}\\[1cm]
    \vfill
-   \ABNTlocaldata\\
+   \MakeUppercase{\ABNTlocaldata}\\
    \ABNTdatadata
  \end{center}
 \end{titlepage}
@@ -89,9 +173,3 @@
   %%\vspace{\capsep}%
   }%
 }
-
-\renewcommand{\@makeschapterhead}[1]{%
-	{\centering\normalfont\large%
-	 \bfseries\MakeUppercase #1\par\vspace{30pt}\nobreak}}
-
-
