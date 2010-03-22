@@ -13,6 +13,86 @@
 %Altera o espa�mento entre dots
 \renewcommand\@dotsep{2}
 
+% Defining how is typeset the \chapter
+\def\@makechapterhead#1{%
+  {%
+%  \noindent\rule{\textwidth}{1.7pt}\\\par
+ \normalfont\ABNTchaptersize\ABNTchapterfont%
+%%   \normalfont\bfseries%
+  \espaco{simples}%
+  \noindent%
+  \parbox[b]{\textwidth}{%
+    \parbox[t]{4ex}{\thechapter}%
+    \parbox[t]{\textwidth-4ex-1ex}%
+      {\interlinepenalty\@M\raggedright%
+        \ifthenelse{\boolean{ABNTcapchap}}%
+          {\MakeUppercase{#1}}%
+          {#1}
+      }%
+    \vspace*{-0cm}
+    }\\[0pt]%
+  %%\vspace{\capsep}%
+  }%
+}
+
+
+% Defining how is typeset the \chapter*
+\def\@makeschapterhead#1{%
+  \vspace*{0pt}\par
+  {\centering\normalfont\ABNTchaptersize\ABNTchapterfont%
+   \ifthenelse{\boolean{ABNTcapchap}}%
+     {\MakeUppercase{#1}}%
+     {#1}
+    \par}%
+  \vspace{45pt}%
+  \par%
+}
+
+% \@chapter :
+\def\@chapter[#1]#2%
+      {\ifthenelse{\boolean{ABNThypertoc}}{\renewcommand{\theHchapter}{\chaptertype\thechapter}}{}
+       \ifnum \c@secnumdepth >\m@ne %report.cls
+         \refstepcounter{chapter}   %report.cls
+         \ABNTchaptermark{#1}% This command MUST come before addcontentsline
+         \typeout{\@chapapp\space\thechapter.}%report.cls
+         \ifthenelse{\boolean{ABNTaftertoc}}
+           {\ABNTaddcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}}%true
+           {}%false
+       \else%report.cls
+         \ABNTchaptermark{#1}% This command MUST come before addcontentsline
+         \ifthenelse{\boolean{ABNTaftertoc}}%
+           {\ABNTaddcontentsline{toc}{chapter}{#1}}%true
+           {}%false
+       \fi%end of ifnum
+       %%%begin report.cls
+       \if@twocolumn
+         \@topnewpage[\@makechapterhead{#2}]%
+       \else
+         \@makechapterhead{#2}%
+         \@afterheading
+       \fi
+       \par}
+
+\renewcommand\chapter%
+    {%
+     \if@openright\cleardoublepage\else\clearpage\fi%
+     \thispagestyle{\chaptertitlepagestyle}
+     \ifthenelse{\boolean{ABNTinpretext}}%
+       {%
+        \ifthenelse{\boolean{ABNTaftertoc}}%
+          {% change to textual part
+           \setboolean{ABNTinpretext}{false}%
+           \ABNTBeginOfTextualPart%
+          }%
+          {}%
+       }%
+       {}%
+     \global\@topnum\z@%
+     \@afterindentfalse%
+%     \ABNTsecdef\@chapter\@schapter%
+    \secdef\@chapter\@schapter%
+    }%
+
 \def\ABNTsect#1#2#3#4#5#6[#7]#8{%
   \ifnum #2>\c@secnumdepth
     \let\@svsec\@empty
@@ -52,33 +132,6 @@
         #7}}%
   \fi
   \@xsect{#5}}
-
-%Altera forma de montagem do table of contents
-\renewcommand\l@chapter[2]{
-  \ifnum \c@tocdepth >\m@ne
-    \addpenalty{-\@highpenalty}%
-    \setlength\@tempdima{1.5em}%
-    \begingroup
-      \ifthenelse{\boolean{ABNTpagenumstyle}}
-        {\renewcommand{\@pnumwidth}{3.5em}}
-        {}
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      \leavevmode \normalsize\ABNTtocchapterfont
-      \advance\leftskip\@tempdima
-      \hskip -\leftskip
-      #1\nobreak\dotfill \nobreak%
-      \ifthenelse{\boolean{ABNTpagenumstyle}}
-         {%
-          \hb@xt@\@pnumwidth{\hss
-            \ifthenelse{\not\equal{#2}{}}{{\normalfont p.\thinspace#2}}{}}\par
-         }
-         {%
-          \hb@xt@\@pnumwidth{\hss #2}\par
-         }
-      \penalty\@highpenalty
-    \endgroup
-  \fi}
 
 \renewcommand\l@chapter[2]{
   \ifnum \c@tocdepth >\m@ne
@@ -167,25 +220,3 @@
 
 \makeatletter
 
-% Defining how is typeset the \chapter
-\def\@makechapterhead#1{%
-  {%
-%  \noindent\rule{\textwidth}{1.7pt}\\\par
- \normalfont\ABNTchaptersize\ABNTchapterfont%
-%%   \normalfont\bfseries%
-  \espaco{simples}%
-  \vspace*{30pt}%
-  \noindent%
-  \parbox[b]{\textwidth}{%
-    \parbox[t]{4ex}{\thechapter}%
-    \parbox[t]{\textwidth-4ex-1ex}%
-      {\interlinepenalty\@M\raggedright%
-        \ifthenelse{\boolean{ABNTcapchap}}%
-          {\MakeUppercase{#1}}%
-          {#1}
-      }%
-    \vspace*{0cm}
-    }\\[0pt]%
-  %%\vspace{\capsep}%
-  }%
-}
