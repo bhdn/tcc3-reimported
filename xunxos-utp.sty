@@ -43,7 +43,7 @@
     \def\@svsechd{%
       #6{\hskip #3\relax
       \@svsec \ifthenelse{\boolean{ABNTcapsec}}
-             {\MakeUppercase{#8}}{#8} OI MARIA}%
+             {\MakeUppercase{#8}}{#8}}%
       \@ifundefined{ABNT#1mark}{}{\csname ABNT#1mark\endcsname{#7}}
       \ABNTaddcontentsline{toc}{#1}{%
         \ifnum #2>\c@secnumdepth \else

@@ -1,7 +1,7 @@
-%.pdf: %.tex xunxos-utp.sty
+estudo-caso.pdf: estudo-caso.tex xunxos-utp.sty
 	latex $<
 	latex $<
-	dvipdf $*.dvi
+	dvipdf estudo-caso.dvi
 
 teste.pdf: teste.tex
 	latex teste.tex
