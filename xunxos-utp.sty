@@ -10,15 +10,6 @@
 \renewcommand*\l@paragraph{\@dottedtocline{4}{0em}{5em}}
 \renewcommand*\l@subparagraph{\@dottedtocline{5}{0em}{6em}}
 
-\renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
-                           {-3.5ex \@plus -1ex \@minus -.2ex}%
-                           {2.3ex \@plus.2ex}%
-                           {\espaco{simples}%
-			    \MakeUppercase%
-                            \ABNTsectionfont\ABNTsectionfontsize}}
-
-\renewcommand*\ABNTsectionfont{\MakeUppercase}
-
 %Altera o espa�mento entre dots
 \renewcommand\@dotsep{2}
 
@@ -52,7 +43,7 @@
     \def\@svsechd{%
       #6{\hskip #3\relax
       \@svsec \ifthenelse{\boolean{ABNTcapsec}}
-             {\MakeUppercase{#8}}{#8}}%
+             {\MakeUppercase{#8}}{#8} OI MARIA}%
       \@ifundefined{ABNT#1mark}{}{\csname ABNT#1mark\endcsname{#7}}
       \ABNTaddcontentsline{toc}{#1}{%
         \ifnum #2>\c@secnumdepth \else
@@ -89,6 +80,31 @@
     \endgroup
   \fi}
 
+\renewcommand\l@chapter[2]{
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \ifthenelse{\boolean{ABNTpagenumstyle}}
+        {\renewcommand{\@pnumwidth}{3.5em}}
+        {}
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode \normalsize\ABNTtocchapterfont
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\dotfill \nobreak%
+      \ifthenelse{\boolean{ABNTpagenumstyle}}
+         {%
+          \hb@xt@\@pnumwidth{\hss
+            \ifthenelse{\not\equal{#2}{}}{{\normalfont p.\thinspace#2}}{}}\par
+         }
+         {%
+          \hb@xt@\@pnumwidth{\hss #2}\par
+         }
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
 
 \sloppy
 
