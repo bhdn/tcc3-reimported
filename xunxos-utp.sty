@@ -207,12 +207,20 @@
 \renewcommand{\ABNTsubsubsectionfontsize}{\normalsize}
 \renewcommand{\ABNTsubsubsectionfont}{\normalfont}
 
+\providecommand{\ABNTcoautordata}{}
+\newcommand{\coautor}[1]{\renewcommand{\ABNTcoautordata}{#1}}
+
 \newcommand{\UTPCapa}{
 \begin{titlepage}
  \vfill
  \begin{center}
    {\large\bfseries\MakeUppercase{\ABNTinstituicaodata}} \\[.2cm]
-   {\large\bfseries {\ABNTautordata}}  \\[8.5cm]
+   {\large\bfseries {\ABNTautordata}} \\
+   \ABNTifnotempty{\ABNTcoautordata}%
+   {%
+     {\large\bfseries {\ABNTcoautordata}}
+   }
+   \\[8.5cm]
    {\large\bfseries\MakeUppercase{\ABNTtitulodata}}\\[1cm]
    \vfill
    \MakeUppercase{\ABNTlocaldata}\\
@@ -231,6 +239,29 @@
    \ABNTdatadata
  \end{center}
 \end{titlepage}
+}
+
+
+\newcommand{\UTPFolhaDeRosto}{
+  \begin{titlepage}
+    \null
+    \begin{center}
+      {\large\bfseries\ABNTautordata}\\
+      \ABNTifnotempty{\ABNTcoautordata}%
+      {%
+        {\large\bfseries{\ABNTcoautordata}}\\
+      }
+      \vspace{6cm}
+      {\large \textbf{\MakeUppercase\@title}}\\
+      \vspace{4cm}
+
+      \hfill{\parbox{8cm}{\ABNTcomentariodata \\
+      Orientador: \ABNTorientadordata}}\par  \null\vfill
+      \MakeUppercase\ABNTlocaldata\\
+      \ABNTdatadata
+    \end{center}
+  \end{titlepage}
+  \setcounter{footnote}{0}
 }
 
 \makeatletter
