@@ -6,6 +6,16 @@
 
 \renewcommand*\familydefault{\sfdefault}
 
+\renewenvironment{resumo}%
+  {%
+   \if@openright\cleardoublepage\else\clearpage\fi%
+   \setchaptertype{resumo}
+   \pretextualchapter{\resumoname}%
+   \setlength{\parindent}{0cm}%
+   \begin{espacosimples}%
+  }%
+  {\end{espacosimples}\newpage}%abstract
+
 \makeatletter
 %%\renewcommand*\l@chapter{\@dottedtocline{0}{0em}{2.3em}}
 \renewcommand*\l@section{\@dottedtocline{1}{0em}{2.3em}}
