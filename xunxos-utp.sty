@@ -238,6 +238,7 @@
 
 \newcommand{\UTPCapa}{
 \begin{titlepage}
+ \begin{espacosimples}
  \vfill
  \begin{center}
    {\large\bfseries\MakeUppercase{\ABNTinstituicaodata}} \\[.2cm]
@@ -252,11 +253,13 @@
    \MakeUppercase{\ABNTlocaldata}\\
    \ABNTdatadata
  \end{center}
+ \end{espacosimples}
 \end{titlepage}
 }
 
 \newcommand{\UTPFalsaFolhaDeRosto}{
 \begin{titlepage}
+ \begin{espacosimples}
  \vspace*{10cm}
  \begin{center}
    {\large\bfseries\MakeUppercase{\ABNTtitulodata}} \\
@@ -264,12 +267,14 @@
    \ABNTlocaldata\\
    \ABNTdatadata
  \end{center}
+ \end{espacosimples}
 \end{titlepage}
 }
 
 
 \newcommand{\UTPFolhaDeRosto}{
   \begin{titlepage}
+  \begin{espacosimples}
     \null
     \begin{center}
       {\large\bfseries\ABNTautordata}\\
@@ -281,11 +286,12 @@
       {\large \textbf{\MakeUppercase\@title}}\\
       \vspace{4cm}
 
-      \hfill{\parbox{8cm}{\espaco{simples}\ABNTcomentariodata \\
+      \hfill{\parbox{8cm}{\small\ABNTcomentariodata \\
       Orientador: \ABNTorientadordata}}\par  \null\vfill
       \MakeUppercase\ABNTlocaldata\\
       \ABNTdatadata
     \end{center}
+  \end{espacosimples}
   \end{titlepage}
   \setcounter{footnote}{0}
 }
