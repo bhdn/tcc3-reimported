@@ -177,7 +177,9 @@
   \@makeschapterhead{\large{\nomesumario}}%
   \@afterheading
   \@mkboth{\nomesumario}{\nomesumario}
+  \begin{espacosimples}%
   \@starttoc{toc}%
+  \end{espacosimples}%
   \ifthenelse{\boolean{ABNTrestorecol}}{\twocolumn}{}%
   \if@openright\cleardoublepage\else\clearpage\fi%
   \setboolean{ABNTaftertoc}{true}
