@@ -38,6 +38,16 @@
 }
 \newcommand{\l@quadro}{\l@figure}
 
+\newcommand{\fonte}[1]{\small{FONTE: #1}}
+
+\newcommand{\figinfo}[2]{%
+\centering
+\par
+\captionsetup{format=plain}
+\caption{#1}
+\fonte{#2}
+}
+
 \makeatletter
 %%\renewcommand*\l@chapter{\@dottedtocline{0}{0em}{2.3em}}
 \renewcommand*\l@section{\@dottedtocline{1}{0em}{2.3em}}
