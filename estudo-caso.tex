@@ -1,17 +1,23 @@
 %% vim:ft=tex
-\documentclass[chapter=TITLE,section=Title,espaco=duplo,tocpage=plain,appendix=Name]{abnt}
+\documentclass[chapter=TITLE,section=Title,espaco=duplo,tocpage=plain,appendix=Name,floatnumber=continuous]{abnt}
 \usepackage{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
 \usepackage[alf]{abntcite}
 \usepackage{mdwlist}
 \usepackage{dsfont}
+\usepackage{graphicx}
+\usepackage[small]{caption}
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{subfigure}
+\usepackage{boxedminipage}
 
 %% xunxo especial para seguir as normas da UTP
 \usepackage{xunxos-utp}
 
 %% informações sobre o trabalho
-\autor{Nicolai Nicolaiev}
+\autor{Nicolai Nicolaiev \figurename}
 \coautor{Fulano Fulanowsky}
 \titulo{Eis um título para o trabalho}
 \comentario{Trabalho de Conclusão de Curso apresentado ao Curso de Bacharelado
@@ -24,9 +30,7 @@ Ciência da Computação.}
 \data{2010}
 
 \begin{document}
-
-\citeoption{minhasopcoes}
-\nohyphens
+\input{xunxos-utp-doc.tex}
 
 %%\capa
 %%\folhaderosto
@@ -47,6 +51,8 @@ a ressaltar a relatividade das formas de ação.
 Palavras-chave: fermento; sal; açúcar; linhaça
 \end{resumo}
 
+\listoffigures
+\listoftables
 \sumario
 
 \chapter{INTRODUÇÃO}
@@ -82,13 +88,32 @@ precisão e a definição de alternativas às soluções ortodoxas.
 E em imagens, porém,~\cite{semolini2002support} afirma que generalização
 para duas dimensões para uma matriz $p$ de tamanho $n \times n$:
 \begin{equation}
-\nonumber
 G_{ij} = \frac{1}{\sqrt{2n}} C_i C_j \sum_{x=0}^{n-1} \sum_{y=0}^{n-1}
          p_{xy} \cos{ \left ( \frac{(2y + 1) j \pi}{2n} \right ) }
               \cos{ \left ( \frac{(2x + 1) i \pi}{2n} \right ) }
 \end{equation}
 
-\section{PUTS AÍ É MUITO TOSCO FAZER ASSIM}
+\section{ESTE É O TÍTULO DESTA SEÇÃO}
+
+Caros amigos, o comprometimento entre as ontologias apresenta tendências no
+sentido de aprovar a manutenção das múltiplas direções do ponto de
+transcendência do sentido enunciativo. Por outro lado, a complexidade dos
+estudos efetuados cumpre um papel essencial na formulação do gênio grego
+fundado na poesia homérica. Assim mesmo, a estrutura atual da ideação semântica
+pode nos levar a considerar a o \textit{merge} na \textbf{reestruturação} da
+definição espinosista de substância. Neste sentido, existem duas tendências que
+coexistem de modo heterogêneo, revelando o novo modelo estruturalista aqui
+preconizado auxilia a preparação e a composição das posturas dos filósofos
+divergentes com relação às suas atribuições. Contudo, a crítica contundente de
+Deleuze/Guatarri - dupla implacável - nos mostra que a indeterminação contínua
+de distintas formas de fenômeno garante a contribuição de um grupo importante
+na determinação das novas teorias propostas.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{aguia}
+  \caption[Uma retumbante águia]{Observe aqui esta retumbante águia blalbalbla.}
+\end{figure}
 
 O incentivo ao avanço tecnológico, assim como a hegemonia do ambiente
 político não pode mais se dissociar das condições inegavelmente
@@ -97,6 +122,13 @@ informações oferece uma interessante oportunidade para verificação dos
 relacionamentos verticais entre as hierarquias. O empenho em analisar a
 mobilidade dos capitais internacionais é uma das consequências dos métodos
 utilizados na avaliação de resultados \cite{semolini2002support}.
+
+De acordo com as idéias de Deleuze, a crescente influência da mídia acarreta um
+processo de reformulação e modernização das diversas correntes de pensamento.
+Como afirmou Deleuze, o Übermensch de Nietzsche, ou seja, o Super-Homem, exige
+a precisão e a definição das ciências discursivas. Pode-se argumentar, como
+Bachelard fizera, que a teoria de Fliess é uma das consequências do processo de
+comunicação como um todo.
 
 Nunca podemos deixar de citar o velho mestre:
 
@@ -113,15 +145,32 @@ utilizados na avaliação de resultados \cite{semolini2002support}.
 
 \subsection{Mais Alguma Coisa}
 
-O incentivo ao avanço tecnológico, assim como a hegemonia do ambiente
-político não pode mais se dissociar das condições inegavelmente
-apropriadas. Gostaria de enfatizar que a constante divulgação das
-informações oferece uma interessante oportunidade para verificação dos
-relacionamentos verticais entre as hierarquias. O empenho em analisar a
-mobilidade dos capitais internacionais é uma das consequências dos métodos
-utilizados na avaliação de resultados.
+O incentivo ao avanço tecnológico, assim como a hegemonia do ambiente político
+não pode mais se dissociar das condições inegavelmente apropriadas. Gostaria de
+enfatizar que a constante divulgação das informações oferece uma interessante
+oportunidade para verificação dos relacionamentos verticais entre as
+hierarquias. O empenho em analisar a mobilidade dos capitais internacionais é
+uma das consequências dos métodos utilizados na avaliação de resultados.
 
-\subsubsection{Outra Coisa Finalmente}
+\chapter{EIS QUE TUDO MUDA}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.5\textwidth]{aguia}
+  \caption{Vejam, outra retumbante águia}
+\end{figure}
+
+Segundo o genial Heidegger, o entendimento dos universais antropológicos ainda
+não demonstrou convincentemente como vai participar na mudança das condições
+epistemológicas e cognitivas exigidas. Nietzsche diria que o aumento do diálogo
+entre os diferentes setores filosóficos limita as atividades das condições de
+suas incógnitas. Prospectos designam, de início, a expansão dos mercados
+mundiais prepara-nos para enfrentar situações atípicas decorrentes de todos os
+recursos funcionais envolvidos. Todas estas questões, devidamente ponderadas,
+levantam dúvidas sobre se a hegemonia das estruturas do poder repressivoé um
+subconjunto da corrente inovadora da qual fazemos parte.
+
+\section{Outra Coisa Finalmente}
 
 Caros amigos, a crescente influência da mídia nos obriga à análise dos
 procedimentos normalmente adotados. A certificação de metodologias que nos
