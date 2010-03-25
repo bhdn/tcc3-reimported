@@ -1,6 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 
 \usepackage{vmargin}
+\usepackage{caption}
 
 \setmargrb{3cm}{3cm}{2cm}{2cm}
 
@@ -17,6 +18,25 @@
    \begin{espacosimples}%
   }%
   {\end{espacosimples}\newpage}%abstract
+
+\newcommand{\listadequadros}{%
+  \ifthenelse{\boolean{@twocolumn}}%
+    {\setboolean{ABNTrestorecol}{true}\onecolumn}%
+    {\setboolean{ABNTrestorecol}{false}}%
+  \setchaptertype{listadequadros}
+  \pretextualchapter{LISTA DE QUADROS}
+  \@starttoc{qdr}%
+  \ifthenelse{\boolean{ABNTrestorecol}}{\twocolumn}{}%
+}%
+\newcounter{quadro}
+\setcounter{quadro}{0}
+\newcommand{\ext@quadro}{qdr}
+\newcommand{\quadro}[1]{%
+	\addtocounter{quadro}{1}%
+	\captionsetup{type=quadro}%
+	\caption[#1]{QUADRO\ \thequadro:\ #1}
+}
+\newcommand{\l@quadro}{\l@figure}
 
 \makeatletter
 %%\renewcommand*\l@chapter{\@dottedtocline{0}{0em}{2.3em}}
