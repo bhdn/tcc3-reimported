@@ -43,16 +43,27 @@ Como baixar e usar o _abntex-utp_?
 Para baixar o _abntex-utp_, é necessário usar a ferramenta git
 (referenciado como _o git_).
 
-`git` é uma ferramenta de controle de versão. Recomendo que continue
-mantendo seu trabalho usando esta ferramenta. Assim como LATEX, também é
-bom para você.
+[git](http://git-scm.com/) é uma ferramenta de controle de versão.
+Recomendo que continue mantendo seu trabalho usando esta ferramenta. Assim
+como LATEX, também é bom para você.
 
-Instale o [git](http://git-scm.com/).
-
-Em Mandriva Linux:
+Para instalar em Mandriva Linux:
 
 * `urpmi git-core`
 
 Em Ubuntu e Debian, instale `git-core`.
 
 Em Windows, instale o [msysgit](http://code.google.com/p/msysgit/).
+
+Depois de ter o git instalado, você deve baixar o projeto, executando:
+
+> git clone http://github.com/bhdn/abntex-utp.git
+
+Depois é só ir alterando `trabalho.tex` para ter o conteúdo do seu trabalho
+e executando `make` para ter `trabalho.pdf`.
+
+Como reportar problemas ou pedir modificações?
+-----------------------------------------------
+
+É só criar uma _issue_ [nesta página](http://github.com/bhdn/abntex-utp/issues)
+do Github descrevendo o problema ou o pedido.
