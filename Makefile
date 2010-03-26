@@ -1,11 +1,6 @@
-estudo-caso.pdf: estudo-caso.tex xunxos-utp.sty biblio.bib Makefile
+all: trabalho.pdf
+%.pdf: %.tex xunxos-utp.sty biblio.bib Makefile
 	pdflatex $<
-	bibtex estudo-caso
+	bibtex $*
 	pdflatex $<
 	pdflatex $<
-
-teste.pdf: teste.tex
-	latex teste.tex
-	latex teste.tex
-	dvipdf teste.dvi
-
