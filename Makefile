@@ -5,5 +5,6 @@ all: trabalho.pdf
 	pdflatex $<
 	pdflatex $<
 
+.PHONY: clean
 clean:
 	rm -f *.aux *.log *.lof *.loc *.lot *.qdr *.out *.blg *.bbl *.pdf
