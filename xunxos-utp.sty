@@ -72,37 +72,49 @@
 % Defining how is typeset the \chapter
 \def\@makechapterhead#1{%
   {%
-%  \noindent\rule{\textwidth}{1.7pt}\\\par
- \normalfont\ABNTchaptersize\ABNTchapterfont%
-%%   \normalfont\bfseries%
-  \espaco{simples}%
-  \noindent%
-  \parbox[b]{\textwidth}{%
-    \parbox[t]{4ex}{\thechapter}%
-    \parbox[t]{\textwidth-4ex-1ex}%
-      {\interlinepenalty\@M\raggedright%
-        \ifthenelse{\boolean{ABNTcapchap}}%
-          {\MakeUppercase{#1}}%
-          {#1}
-      }%
-    \vspace*{-0cm}
-    }\\[0pt]%
-  %%\vspace{\capsep}%
+  \noindent
+  \espaco{simples}
+  \textbf{\thechapter\hspace{1ex}#1}
+  \par
   }%
 }
 
-
 % Defining how is typeset the \chapter*
 \def\@makeschapterhead#1{%
-  \vspace*{0pt}\par
-  {\centering\normalfont\ABNTchaptersize\ABNTchapterfont%
-   \ifthenelse{\boolean{ABNTcapchap}}%
-     {\MakeUppercase{#1}}%
-     {#1}
-    \par}%
-  \vspace{45pt}%
-  \par%
+  {%
+  \espaco{simples}
+  \centering
+  \textbf{\MakeUppercase{#1}}
+  \par
+  }%
+  \vspace{\baselineskip}
 }
+
+\renewcommand\section{\ABNTstartsection{section}{1}{\z@}%
+                           {-3.5ex \@plus -1ex \@minus -.2ex}%
+                           {0.3ex \@plus.2ex}%
+                           {\espaco{simples}\normalfont%
+                            \ABNTsectionfont\ABNTsectionfontsize}}
+\renewcommand\subsection{\ABNTstartsection{subsection}{2}{\z@}%
+                           {-3.25ex\@plus -1ex \@minus -.2ex}%
+                           {0.5ex \@plus .2ex}%
+                           {\espaco{simples}\normalfont%
+                            \ABNTsubsectionfont\ABNTsubsectionfontsize}}
+\renewcommand\subsubsection{\ABNTstartsection{subsubsection}{3}{\z@}%
+                           {-3.25ex\@plus -1ex \@minus -.2ex}%
+                           {0.5ex \@plus .2ex}%
+                           {\espaco{simples}\normalfont%
+                            \ABNTsubsubsectionfont\ABNTsubsubsectionfontsize}}
+\renewcommand\paragraph{\ABNTstartsection{paragraph}{4}{\z@}%
+                           {0.25ex \@plus1ex \@minus.2ex}%
+                           {-1em}%
+                           {\espaco{simples}\normalfont%
+                            \ABNTparagraphfont\ABNTparagraphfontsize}}
+\renewcommand\subparagraph{\ABNTstartsection{subparagraph}{5}{\parindent}%
+                           {0.25ex \@plus1ex \@minus .2ex}%
+                           {-1em}%
+                           {\espaco{simples}\normalfont%
+                            \ABNTsubparagraphfont\ABNTsubparagraphfontsize}}
 
 % \@chapter :
 \def\@chapter[#1]#2%
