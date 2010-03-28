@@ -23,6 +23,13 @@
   }%
   {\end{espacosimples}\newpage}%abstract
 
+\newcommand{\tmpoldtoc}[1]{}
+\let\tmpoldtoc=\@starttoc
+\renewcommand{\@starttoc}[1]{%
+\begin{espacosimples}
+\tmpoldtoc{#1}
+\end{espacosimples}}
+
 \newcommand{\listadequadros}{%
   \ifthenelse{\boolean{@twocolumn}}%
     {\setboolean{ABNTrestorecol}{true}\onecolumn}%
@@ -226,9 +233,7 @@
   \@makeschapterhead{\large{\nomesumario}}%
   \@afterheading
   \@mkboth{\nomesumario}{\nomesumario}
-  \begin{espacosimples}%
   \@starttoc{toc}%
-  \end{espacosimples}%
   \ifthenelse{\boolean{ABNTrestorecol}}{\twocolumn}{}%
   \if@openright\cleardoublepage\else\clearpage\fi%
   \setboolean{ABNTaftertoc}{true}
