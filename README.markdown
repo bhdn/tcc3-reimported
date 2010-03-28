@@ -24,9 +24,6 @@ Como usar esse template?
 Como instalar os pacotes de LATEX?
 ----------------------------------
 
-Testei apenas em Linux, mas acredito que, usando o Miktex, seja possível
-usar em Windows também.
-
 Em [Mandriva Linux](http://www.mandriva.com/):
 
 * Execute `urpmi texlive-latex make` 
@@ -36,6 +33,12 @@ Não testei, mas eis os meus palpites para Ubuntu e Debian:
 * Instale `texlive-latex-base` e `texlive-latex-extra` (e, naturalmente,
   todas as dependências necessárias.)
 * Instale `make`
+
+Para Windows:
+
+* Instale o [MikTeX](http://miktex.org)
+* Siga as instruções de download instalação do ABNTEX [nesta página](http://sourceforge.net/apps/mediawiki/abntex/index.php?title=Instala%C3%A7%C3%A3o).
+* Fique atento para usar uma versão que seja igual ou superior à 0.9-beta2.
 
 Como baixar e usar o _abntex-utp_?
 ----------------------------------
@@ -53,7 +56,8 @@ Para instalar em Mandriva Linux:
 
 Em Ubuntu e Debian, instale `git-core`.
 
-Em Windows, instale o [msysgit](http://code.google.com/p/msysgit/).
+Em Windows, instale o [msysgit](http://code.google.com/p/msysgit/), baixe o arquivo
+git-_algumacoisa_.exe e instale.
 
 Depois de ter o git instalado, você deve baixar o projeto, executando:
 
@@ -61,6 +65,12 @@ Depois de ter o git instalado, você deve baixar o projeto, executando:
 
 Depois é só ir alterando `trabalho.tex` para ter o conteúdo do seu trabalho
 e executando `make` para ter `trabalho.pdf`.
+
+Para Windows, abra o arquivo `trabalho.tex` (o MikTeX deve associar esse tipo
+com o TeXworks) e clique no ícone que parece um botão de play, mas tem descrição
+"Typeset". Com isso deve ser suficiente para ter o PDF gerado. Recomendo usar o
+Notepadd++ ou algum outro editor melhor que o TeXworks, especialmente se você
+alterna o desenvolvimento entre Linux e Windows.
 
 Como reportar problemas ou pedir modificações?
 -----------------------------------------------
