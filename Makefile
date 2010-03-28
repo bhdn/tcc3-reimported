@@ -4,3 +4,6 @@ all: trabalho.pdf
 	bibtex $*
 	pdflatex $<
 	pdflatex $<
+
+clean:
+	rm -f *.aux *.log *.lof *.loc *.lot *.qdr *.out *.blg *.bbl *.pdf
