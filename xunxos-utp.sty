@@ -137,7 +137,7 @@
          \ABNTchaptermark{#1}% This command MUST come before addcontentsline
          \typeout{\@chapapp\space\thechapter.}%report.cls
          \ifthenelse{\boolean{ABNTaftertoc}}
-           {\ABNTaddcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}}%true
+           {\ABNTaddcontentsline{toc}{chapter}{\protect\numberline{\thechapter}\uppercase{#1}}}%true
            {}%false
        \else%report.cls
          \ABNTchaptermark{#1}% This command MUST come before addcontentsline
