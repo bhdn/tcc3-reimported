@@ -49,6 +49,10 @@ Palavras-chave: fermento; sal; açúcar; linhaça
 
 \chapter{Introdução}
 
+Este documento é uma demonstração do formato utilizado pelo pacote
+\texttt{ABNTeX-UTP}. Para mais detalhes, veja
+\texttt{http://abntex-utp.googlecode.com}.
+
 As experiências acumuladas demonstram que a contínua expansão de nossa
 atividade afeta positivamente a correta previsão das novas proposições. Do
 mesmo modo, a valorização de fatores subjetivos causa impacto indireto na
@@ -119,9 +123,19 @@ relacionamentos verticais entre as hierarquias. O empenho em analisar a
 mobilidade dos capitais internacionais é uma das consequências dos métodos
 utilizados na avaliação de resultados \cite{semolini2002support}.
 
+%%
+%% Mais informações a respeito de tabelas em latex:
+%% http://en.wikibooks.org/wiki/LaTeX/Tables
+%%
+%% Grandes dicas:
+%% - "|l|l|l|" representa a formatação de cada coluna, sendo "l" de "left"
+%%   (alinhado à esquerda) e o "|" significa que deve ter uma linha
+%%   vertical
+%% - & é o caractere que indica "tabulação", e no caso das tabelas, separa as colunas
+%%
 \begin{table}[h!b!p!]
 \centering
-\begin{tabular}{lll}
+\begin{tabular}{|l|l|l|}
 \hline
 Alphabet Character & Vowel & Number \\
 \hline
