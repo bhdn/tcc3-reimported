@@ -1,4 +1,6 @@
-all: trabalho.pdf exemplo.pdf
+all: trabalho.pdf exemplo.pdf apresentacao.pdf
+apresentacao.pdf: apresentacao.tex
+	pdflatex $<
 %.pdf: %.tex xunxos-utp.sty biblio.bib Makefile
 	pdflatex $<
 	bibtex $*
