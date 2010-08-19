@@ -1,0 +1,50 @@
+Notas
+Bogdano Arendartchuk
+hoje
+
+% vim:ft=txt2tags
+
+= Das referências =
+
+
+== Tese do Eugeni ==
+
+// ver esse gridbox
+
+Diversos trabalhos evidenciam que a extração do comportamento de processos
+resulta em uma grande quantidade de informações repetitivas e similares, o
+que torna complexa a sua análise (Madhyastha & Reed, 1997; Feitelson et
+al., 1997; Pavlovic et al., 1999; Thacker & Mayhew, 1990; Santos et al.,
+2007; Mello et al., 2005; Senger et al., 2005; Dodonov et al., 2006;
+Dodonov & Mello, 2007)
+
+Isso motivou o projeto de técnicas, baseadas em abordagens de classificação
+e agrupamento de dados, para **reduzir a dimensionalidade de dados** e
+determinar padrões mais representativos. Algumas das principais técnicas
+são apresentadas a seguir.
+// Como é essa redução de dimensionalidade???? O que são os **padrões**
+// nesse contexto??
+
+Enquanto diversas pesquisas foram realizadas com o objetivo de predizer o
+comportamento de processos, a grande maioria desses trabalhos avalia
+padrões de acesso simples, apresentando limitações para predizer
+comportamentos mais complexos (Dodonov & Mello, 2007).
+// Ver do que esse dodonov e mello tratam, parece bem relacionado com a
+// questão da predição
+
+Pesquisas realizadas ao longo das últimas décadas, apresentadas no capítulo
+anterior, demonstram que conhecimentos sobre o comportamento de processos e
+uso de recursos são essenciais para prover capacidades autônomas a sistemas
+distribuídos. Esse fato motivou diversas abordagens a extrair e estudar
+padrões comportamentais com o objetivo de estimar operações futuras e
+otimizar a tomada de decisões.
+// ver as tais pesquisas, pois provavelmente são necessárias para a revisão
+// da literatura do meu trabalho
+
+// Para ver as técnicas de predição genéricas, ver a seção 3.3 da tese
+
+N. A série é re-estruturada em uma seqüência de vetores de tamanho n, onde
+n representa o lag, ou atraso temporal do vetor v. Dessa forma, o
+comportamento de processos é representado conforme a equação 5.3, onde v é
+vetor de tamanho n no instante x, e ek é o k-ésimo estado de execução,
+agrupado pela rede neural ART-2A.
