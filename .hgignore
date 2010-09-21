@@ -1,0 +1,15 @@
+syntax: glob
+*.aux
+*.log
+*.lof
+*.loc
+*.lot
+*.qdr
+*.out
+*.blg
+*.bbl
+*.nav
+*.snm
+*.toc
+*.swp
+*~
