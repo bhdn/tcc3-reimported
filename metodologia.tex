@@ -17,7 +17,24 @@
 
 \section{Introdução}
 
-% Pôr aqui uma descrição superficial de como o software funciona
+Em um ambiente de virtualização gerenciado pela ferramenta \emph{libVirt}
+(apresentada na seção \ref{sec:libvirt}), o software executará em plano de
+fundo (ou seja, será um \emph{daemon}) e estará periodicamente coletando
+informações quantitativas a respeito do tempo de uso de processador de
+cada uma das máquinas virtuais que fazem parte de um determinado
+\emph{domínio}. O software utilizará estas informações para treinar uma
+técnica de aprendizado de máquina. Utilizando esta técnica, o software
+poderá então prever em quais situações alguma máquina virtual exigirá mais
+uso de processador que a máquina \emph{host} em que ela executa terá
+condições de atender sem prejudicar as outras.
 
+\section{Modelagem do software}
+
+\section{Treinamento}
 
 \section{Avaliação de desempenho}\label{sec:desemp}
+
+% utilizar SVM, K-NN, AR(16) (se for fácil de implementar)
+% variar o tamanho das janelas de histórico
+% utilizar uma instância do classificador para todas as VMs, versus
+% utilizar uma instância nova para cada VM
