@@ -17,7 +17,7 @@
 
 \section{Introdução}
 
-Em um ambiente de virtualização gerenciado pela ferramenta \emph{libVirt}
+Em um ambiente de virtualização gerenciado pela ferramenta \libvirt
 (apresentada na seção \ref{sec:libvirt}), o software executará em plano de
 fundo (ou seja, será um \emph{daemon}) e estará periodicamente coletando
 informações quantitativas a respeito do tempo de uso de processador de
@@ -30,7 +30,15 @@ executa terá condições de atender sem prejudicar as outras.
 
 \section{Modelagem do software}
 
-\begin{figure}[htp]
+A figura \ref{fig:contexto0} apresenta um diagrama de contexto, de nível 0,
+indicando a relação entre o projeto que será desenvolvido e a biblioteca
+\libvirt. O fluxo \texttt{estatísticas das máq. virtuais} indica as
+informações a respeito de uso de CPU que são providas pela libVirt,
+enquanto que \texttt{cmds. de migração} indica os comandos, transmitidos
+por meio da API (descrita na seção \ref{sec:libvirtapi}), que são enviadas
+à libVirt para a migração das máquinas virtuais, de acordo com o que 
+
+\begin{figure}
 \centering
 \includegraphics{img-met-contexto-0.pdf}
 \figinfo{Diagrama de contexto, interação entre as principais entidades no

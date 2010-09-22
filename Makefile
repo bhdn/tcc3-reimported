@@ -2,6 +2,7 @@ all: trabalho.pdf exemplo.pdf apresentacao.pdf
 trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	cronograma.tex \
 	aprendizado.tex \
+	definicoes.tex \
 	img-met-contexto-0.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
