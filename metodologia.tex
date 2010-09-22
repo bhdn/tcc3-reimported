@@ -22,11 +22,15 @@ Em um ambiente de virtualização gerenciado pela ferramenta \libvirt
 fundo (ou seja, será um \emph{daemon}) e estará periodicamente coletando
 informações quantitativas a respeito do tempo de uso de processador de
 cada uma das máquinas virtuais que fazem parte de um determinado
-\emph{domínio}. O software utilizará estas informações para treinar um
+\emph{domínio}. O software utilizará tais informações para treinar um
 mecanismo de aprendizado de máquina. Utilizando este mecanismo, a
 ferramenta poderá então prever em quais situações alguma máquina virtual
 exigirá mais uso de processador que a máquina \emph{host} em que ela
 executa terá condições de atender sem prejudicar as outras.
+
+% colocar aqui um ou mais diagramas descrevendo as máquinas virtuais que
+% estão em um ambiente "folgado" e então indicar uma situação em que uma
+% máquina virtual precisa ser migrada e daí migrar para outra máquina.
 
 \section{Modelagem do software}
 
@@ -36,7 +40,8 @@ indicando a relação entre o projeto que será desenvolvido e a biblioteca
 informações a respeito de uso de CPU que são providas pela libVirt,
 enquanto que \texttt{cmds. de migração} indica os comandos, transmitidos
 por meio da API (descrita na seção \ref{sec:libvirtapi}), que são enviadas
-à \libVirt para a migração das máquinas virtuais, de acordo com o que 
+à \libVirt para a migração das máquinas virtuais, de acordo com o que o
+software a ser implementado decidir.
 
 \begin{figure}
 \centering
