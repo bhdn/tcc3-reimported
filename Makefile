@@ -6,7 +6,8 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-met-contexto-0.pdf \
 	img-host-guests1.pdf \
 	img-host-guests2.pdf \
-	img-host-guests3.pdf
+	img-host-guests3.pdf \
+	img-host-guests4.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
 img-%.eps: img-%.dia

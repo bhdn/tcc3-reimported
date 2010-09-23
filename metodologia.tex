@@ -57,12 +57,13 @@ virtual não degrade o desempenho de outra a ponto de torná-lo inaceitável.
 \label{fig:hostguests2}
 \end{figure}
 
-Porém, à medida que mais máquinas virtuais forem necessárias, novas
-máquinas físicas terão que ser alocadas para acomodar as novas demandas. E
-a partir deste ponto gerenciar este parque computacional começa a tornar-se
-uma tarefa desafiadora, pois é necessário tentar acomodar tais máquinas
-virtuais levando em conta as necessidades particulares de cada aplicação
-que estão executando nelas.
+Porém, à medida que mais máquinas virtuais forem necessárias, como é
+apresentado na figura \ref{fig:hostguests2}, novas máquinas físicas terão
+que ser alocadas para acomodar as novas demandas. E a partir deste ponto
+gerenciar este parque computacional começa a tornar-se uma tarefa
+desafiadora, pois é necessário tentar acomodar tais máquinas virtuais
+levando em conta as necessidades particulares de cada aplicação que estão
+executando nelas.
 
 \begin{figure}[htp]
 \centering
@@ -71,7 +72,7 @@ que estão executando nelas.
 \label{fig:hostguests3}
 \end{figure}
 
-Na figura \ref{hostguests3}, a máquina \texttt{host3} possui cinco máquinas
+Na figura \ref{fig:hostguests3}, a máquina \texttt{host3} possui cinco máquinas
 virtuais que ocupam, ao todo, 57\% do tempo de processamento. Se estas
 máquinas virtuais mantiverem o mesmo comportamento no decorrer do tempo de
 vida deste ambiente, a única mudança necessária seria de talvez desligar
@@ -80,12 +81,24 @@ este hospedeiro ainda tem aproximadamente 43\% de tempo de processamento
 sendo desperdiçado. Sendo \texttt{host1} desligada, haveriam menos custos
 com energia e manutenção.
 
-Porém, os serviços que executam nestas máquinas virtuais podem sofrer de
-uma demanda abrupta, o que é mais ainda provável em aplicações que estão
-acessíveis por meio da Internet, como servidores web, ou serviços
+Porém, os serviços que executam nestas máquinas virtuais podem sofrer um
+abrupto aumento de demanda, o que é mais ainda provável em aplicações que
+estão acessíveis por meio da Internet, como servidores web, ou serviços
 relacionados, como servidores de banco de dados. Nestes casos, o
 adminstrador do ambiente precisa provisionar rapidamente recursos para
 atender a essa demanda.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{img-host-guests4.pdf}
+\figinfo{Dois hóspedeiros e carga das MVs desbalanceada entre eles}{autoria própria}
+\label{fig:hostguests4}
+\end{figure}
+
+No exemplo da figura \ref{fig:hostguests4}, a máquina virtual
+\texttt{vm-11} está executando algum processo que está exigindo muito tempo
+de CPU. % FIXME
+
 
 % colocar aqui um ou mais diagramas descrevendo as máquinas virtuais que
 % estão em um ambiente "folgado" e então indicar uma situação em que uma
