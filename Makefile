@@ -3,7 +3,8 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	cronograma.tex \
 	aprendizado.tex \
 	definicoes.tex \
-	img-met-contexto-0.pdf
+	img-met-contexto-0.pdf \
+	img-host-guests1.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
 img-%.eps: img-%.dia
