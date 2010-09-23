@@ -17,16 +17,29 @@
 
 \section{Introdução}
 
-Em um ambiente de virtualização gerenciado pela ferramenta \libvirt
+Em um ambiente de virtualização gerenciado pela ferramenta \libvirt{}
 (apresentada na seção \ref{sec:libvirt}), o software executará em plano de
 fundo (ou seja, será um \emph{daemon}) e estará periodicamente coletando
 informações quantitativas a respeito do tempo de uso de processador de
 cada uma das máquinas virtuais que fazem parte de um determinado
-\emph{domínio}. O software utilizará tais informações para treinar um
+\emph{domínio}. Este utilizará tais informações para treinar um
 mecanismo de aprendizado de máquina. Utilizando este mecanismo, a
 ferramenta poderá então prever em quais situações alguma máquina virtual
 exigirá mais uso de processador que a máquina \emph{host} em que ela
 executa terá condições de atender sem prejudicar as outras.
+
+A figura \ref{fig:hostguests1} apresenta um ambiente de virtualização
+mínimo, aonde tem-se um computador, denominado \textt{host}, que está
+executando três máquinas virtuais \texttt{mv-1}, \texttt{mv-2} e
+\texttt{mv-3}. Se o indivíduo que criou este ambiente esperava que as
+aplicações que executam dentro das máquinas virtuais tenham um \emph{bom
+desempenho}, então ele deve ter estudado os usos de processador, memória e
+entrada/saída dessas aplicações e dimensionado o ambiente de tal maneira
+que uma máquina virtual não degrade o desempenho de outra a ponto de
+torná-lo inaceitável.
+
+À medida que mais máquinas virtuais forem necessárias, novas máquinas
+físicas terão que ser alocadas para acomodar as novas demandas.
 
 \begin{figure}
 \centering
@@ -43,10 +56,10 @@ executa terá condições de atender sem prejudicar as outras.
 
 A figura \ref{fig:contexto0} apresenta um diagrama de contexto, de nível 0,
 indicando a relação entre o projeto que será desenvolvido e a biblioteca
-\libvirt. O fluxo \texttt{estatísticas das máq. virtuais} indica as
+\libvirt{}. O fluxo \texttt{estatísticas das máq. virtuais} indica as
 informações a respeito de uso de CPU que são providas pela libVirt,
 enquanto que \texttt{cmds. de migração} indica os comandos, transmitidos
-por meio da API (descrita na seção \ref{sec:libvirtapi}), que são enviadas
+por meio da API (introduzida na seção \ref{sec:libvirtapi}), que são enviadas
 à \libvirt{} para a migração das máquinas virtuais, de acordo com o que o
 software a ser implementado decidir.
 
