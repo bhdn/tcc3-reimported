@@ -142,6 +142,14 @@ migração entre um hospedeiro e outro (4).
 
 \section{Modelagem do software}
 
+\begin{figure}[htp]
+\centering
+\includegraphics{img-met-contexto-0.pdf}
+\figinfo{Diagrama de contexto, nível 0, interação entre as principais entidades no
+sistema}{autoria própria}
+\label{fig:contexto0}
+\end{figure}
+
 A figura \ref{fig:contexto0} apresenta um diagrama de contexto, de nível 0,
 indicando a relação entre o projeto que será desenvolvido e a biblioteca
 \libvirt{}. O fluxo \texttt{estatísticas das máq. virtuais} indica as
@@ -153,15 +161,39 @@ software a ser implementado decidir.
 
 \begin{figure}[htp]
 \centering
-\includegraphics{img-met-contexto-0.pdf}
-\figinfo{Diagrama de contexto, interação entre as principais entidades no
-sistema}{autoria própria}
-\label{fig:contexto0}
+\includegraphics{img-met-contexto-1.pdf}
+\figinfo{Diagrama de contexto, nível 1, interação entre os processos do
+projeto proposto}{autoria própria}
+\label{fig:contexto1}
 \end{figure}
+
+Já a figura \ref{fig:contexto1} maximiza o processo \texttt{Projeto} e
+descreve quais são os processos que fazem parte do software proposto. O
+fluxo \texttt{uso de CPU máq. virtuais} (também abreviado como \texttt{usos
+de CPU}) indica os valores que serão lidos periodicamente de cada máquina
+virtual. O processo \texttt{Coleta} trata da consulta à instância da
+\libvirt{} e o pré-processamento dos dados para envio à base. O processo
+\texttt{Treinamento} será executado periodicamente e consistirá na execução
+da fase de treinamento para as técnicas de AM (aprendizado de máquina). O
+depósito de dados \texttt{base ``treinada''} representa uma base de dados
+com os parâmetros utilizados para representar o \emph{conhecimento} dos
+algoritmos de AM (o conteúdo em si desta base depende da técnica utilizada;
+SVMs, por exemplo, guardam alguns exemplos da base de treinamento, já
+$k$-NN não guarda coisa alguma além dos exemplos). O processo
+\texttt{Predição} recebe dois fluxos de dados, o primeiro é o das
+informações de treinamento da \texttt{base ``treinada''}, o segundo é das
+mesmas informações de CPU que vieram da etapa \texttt{Coleta}; este
+processo utiliza o algoritmo de aprendizado para saber se alguma das
+máquinas virtuais que estão sendo monitoradas tem possibilidade de saturar
+os recursos de processador das máquinas hospeiras; é esse processo que
+envia os comandos necessários à \libvirt{} visando migrar máquinas para
+outro hospedeiro que possa acomodá-lo.
+
+% FIXME explicar esse tal pré-processamento
 
 % diagrama de classes
 
-\section{Implementação}
+\section{Detalhes de implementação}
 
 
 \section{Treinamento}
