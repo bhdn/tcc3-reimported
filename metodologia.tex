@@ -97,8 +97,44 @@ atender a essa demanda.
 
 No exemplo da figura \ref{fig:hostguests4}, a máquina virtual
 \texttt{vm-11} está executando algum processo que está exigindo muito tempo
-de CPU. % FIXME
+de CPU. Este tipo de situação pode ocorrer quando há este processo é
+\emph{CPU-bound} (que faz uso intensivo do processador), o que geralmente
+pode ser uma tarefa rotineira de backup (compressão, descompressão ou
+sincronização de árvores) ou o rotinas aritméticas. Neste caso fica claro
+que seria melhor ter esta máquina executando no hospedeiro \texttt{host1},
+pois o uso típico de CPU das máquinas virtuais que já estão lá ainda pode
+acomodar \texttt{vm-11}. A dificuldade neste modelo está no fato de que
+este uso de CPU pode ser sazonal, e que outras máquinas virtuais além de
+\texttt{vm-11} podem ter situações de demanda abrupta.
 
+Com isso, o software que será desenvolvido a partir deste projeto atuará
+tentando prever o comportamento destas máquinas virtuais e requisitando à
+ferramenta de virtualização que migre aquelas que apresentarem perspectiva
+de uso intensivo de CPU para um hospedeiro que tenha condições de tratar
+aquela demanda.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{img-libvirt-contexto0.pdf}
+\figinfo{libVirt e projeto}{autoria própria}
+\label{fig:libvirtcontexto0}
+\end{figure}
+
+De maneira a ser útil para o maior número de usuários de ferramentas de
+virtualização, este projeto utilizará a ferramenta \libvirt{} como
+interface para controle e migração das máquinas virtuais, pois esta possui
+suporte às principais softwares disponíveis atualmente, como descrito na
+seção \ref{sec:libvirt}. A figura \ref{fig:libvirtcontexto0} descreve de
+maneira superficial como será a interação entre o software a ser
+implementado e a \libvirt{}. O software estará periodicamente coletando
+informações a respeito de uso de CPU das máquinas virtuais sendo
+gerenciadas (1). E com essas informações, o software fará predições a
+respeito do comportamento destas máquinas virtuais e então enviará comandos
+por meio da API (\emph{Application Programming Interface}, Interface de
+Programação de Aplicação) da \libvirt{} (2), comandos estes indicando qual
+máquina virtual deve migrar para qual máquina hospedeira. A \libvirt{} por
+sua vez comunicará a ferramenta de virtualização (3) que então executará a
+migração entre um hospedeiro e outro (4).
 
 % colocar aqui um ou mais diagramas descrevendo as máquinas virtuais que
 % estão em um ambiente "folgado" e então indicar uma situação em que uma
@@ -115,7 +151,7 @@ por meio da API (introduzida na seção \ref{sec:libvirtapi}), que são enviadas
 à \libvirt{} para a migração das máquinas virtuais, de acordo com o que o
 software a ser implementado decidir.
 
-\begin{figure}
+\begin{figure}[htp]
 \centering
 \includegraphics{img-met-contexto-0.pdf}
 \figinfo{Diagrama de contexto, interação entre as principais entidades no
