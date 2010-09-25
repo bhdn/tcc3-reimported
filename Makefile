@@ -9,6 +9,7 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-host-guests2.pdf \
 	img-host-guests3.pdf \
 	img-host-guests4.pdf \
+	img-diagrama-classes0.pdf \
 	img-libvirt-contexto0.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
