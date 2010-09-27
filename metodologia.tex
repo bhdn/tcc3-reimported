@@ -140,7 +140,7 @@ migração entre um hospedeiro e outro (4).
 % estão em um ambiente "folgado" e então indicar uma situação em que uma
 % máquina virtual precisa ser migrada e daí migrar para outra máquina.
 
-\section{Modelagem do software}
+\section{Modelagem do software}\label{sec:modelagem}
 
 \begin{figure}[htp]
 \centering
@@ -236,9 +236,28 @@ os módulos da \libvirt{}.
 
 \section{Técnicas avaliadas}
 
-Para as etapas de aprendizado e predição, serão avaliados alguns métodos
-que acredita-se que terão bom desempenho na predição do comportamento das
-máquinas virtuais.
+Para as etapas de aprendizado e predição, serão utilizados os métodos de
+aprendizado de máquina \emph{Support Vector Machines} (Máquinas de Vetores
+de Suporte) e $k$-NN ($k$-Nearest Neighbors). A primeira em razão de seu
+bom desempenho em diversos tipos de problemas de aprendizado, como em
+detecção de escrita, reconhecimento de faces, categorização de texto, e
+outras~\cite{bennett2000support}. $k$-NN foi escolhido por se tratar de uma
+técnica, que em alguns casos, pode ter desempenho melhor que técnicas
+sofisticadas, servindo como base e indicação de quando uma técnica pode
+estar mal implementada, como indicado por \citeonline{joachims1998text} e
+\citeonline{hafner2007comparison}.
+
+Assim, das classes que foram apresentadas na seção \ref{sec:modelagem},
+serão especializações para cada tipo de técnica de aprendizado. O
+diagrama é apresentado na figura \ref{fig:diagramaclasses1}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{img-diagrama-classes1.pdf}
+\figinfo{Diagrama com classes especializando cada tipo de aprendizado
+utilizado}{autoria própria}
+\label{fig:diagramaclasses1}
+\end{figure}
 
 \section{Avaliação de desempenho}\label{sec:desemp}
 
