@@ -248,8 +248,11 @@ estar mal implementada, como indicado por \citeonline{joachims1998text} e
 \citeonline{hafner2007comparison}.
 
 Assim, das classes que foram apresentadas na seção \ref{sec:modelagem},
-serão especializações para cada tipo de técnica de aprendizado. O
-diagrama é apresentado na figura \ref{fig:diagramaclasses1}.
+serão especializações para cada tipo de técnica de aprendizado. O diagrama
+é apresentado na figura \ref{fig:diagramaclasses1}. Para o caso de SVMs,
+será usada a técnica de \emph{um-contra-todos} (descrita na seção
+\ref{sec:svmmulti}), que consiste na criação múltiplas instâncias de SVM,
+representando a identificação de uma classe.
 
 \begin{figure}[htp]
 \centering
@@ -258,6 +261,35 @@ diagrama é apresentado na figura \ref{fig:diagramaclasses1}.
 utilizado}{autoria própria}
 \label{fig:diagramaclasses1}
 \end{figure}
+
+\subsection{Treinamento}
+
+Para a etapa de treinamento, e subsequente uso pela etapa de predição, o
+vetor de características usado será constituído de uma \emph{janela}
+formada por um determinado número de leituras anteriores do uso de CPU para
+cada máquina virtual controlada naquele domínio. Como estes valores são
+percentuais de uso de CPU, a normalização destes será feita com uma divisão
+de cada valor por $100$.
+
+Para a classe usada em cada exemplo do treinamento, serão utilizados
+valores categóricos. Cada classe representará uma faixa de valor do
+percentual de uso de CPU. Por exemplo, a faixa 1--25\% seria a classe
+\texttt{A}, 26--50\% a classe \texttt{B}, e assim por diante.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{img-vetor0.pdf}
+\figinfo{Exemplo de série de valores lida e composição do vetor de
+características}{autoria própria}
+\label{fig:vetor0}
+\end{figure}
+
+Na figura \ref{fig:vetor0}, o item \emph{(a)} apresenta uma \emph{janela}
+formada por valores lidos da série para uma máquina virtual. Em \emph{(b)}
+são apresentados os vetores de características que são usados para treinar
+(para os testes que usarão SVMs) cada uma das SVMs usadas para categorizar
+o uso de CPU. Para este exemplo há 4 classes, o valor $1$ representa a
+classe selecionada, e $-1$ a não-seleção dela.
 
 \section{Avaliação de desempenho}\label{sec:desemp}
 
