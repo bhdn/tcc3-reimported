@@ -358,3 +358,39 @@ comportamentos observados no ambiente de compilação descrito anteriormente.
 Estes programas serão implementados utilizando laços de repetição que
 executarão operações simples (também chamados de \emph{busy loops}), como
 implementado também por \citeonline{dinda2000realistic}.
+
+Finalmente, serão avaliados diferentes valores em parâmetros utilizados
+pelo sistema a ser implementado, a saber:
+
+\begin{itemize}
+  \item no caso de $k$-NN, o valor de $k$ será alterado, seguindo as
+        recomendações de \citeonline{hall2008choice};
+   \item o tamanho da janela usada para treinamento e predição, como sugerido
+        por \citeonline{frank2001time};
+   \item no caso de SVM, o parâmetros $c$, como descrito por \citeonline{ben2010user};
+   \item no caso de simulação sem ambiente completo, o número de hospedeiros disponíveis;
+   \item a quantidade de faixas dividindo o percentual de uso de CPU para
+         uso no atributo categórico da etapa de classificação;
+% o que mais?
+\end{itemize}
+
+% FIXME não sei que técnicas usar aqui
+% A mudança no valor destes parâmetros serão avaliados por meio das seguintes
+% métricas:
+% \begin{itemize}
+%   \item
+%   \item bar
+% \end{itemize}
+
+E os resultados para cada combinação de parâmetros serão considerados
+aceitáveis ou não de acordo com a aderência aos seguintes o
+objetivos/questionamentos:
+\begin{itemize}
+  \item Em momentos de baixo uso de tempo de CPU, foi possível manter as
+        máquinas virtuais em um conjunto menor de hospedeiros? (Permitindo
+        assim que estas máquinas entrem em estados de menor consumo de
+        energia e menor gasto com manutenção.)
+  \item Em momentos de alto uso de CPU, as máquinas virtuais mais ativas
+        foram migradas para hospedeiros mais ociosos? (Evitando assim a
+        degradação do desempenho em outros processos.)
+\end{itemize}
