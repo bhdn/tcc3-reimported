@@ -213,10 +213,11 @@ software. As classes são a grosso modo um mapeamento dos processos
 apresentados na figura \ref{fig:contexto1}, com excessão da classe
 \texttt{InterfaceMMV}, que significa \emph{Interface para Monitor de
 Máquinas Virtuais}, tem como propósito centralizar o acesso à \libvirt{},
-facilitando a manutenção em caso de mudança de interface ou porte para
-outra biblioteca. À excessão de \texttt{InterfaceMMV}, todas estas classes
-são abstratas, pois devem ainda ser especializadas para cada uma das
-técnicas de aprendizado que serão implementadas no projeto.
+facilitando a manutenção em caso de mudança de interface, porte para outra
+biblioteca ou a simulação de valores (que é descrita na seção
+\ref{sec:validacao}). À excessão de \texttt{InterfaceMMV}, todas estas
+classes são abstratas, pois devem ainda ser especializadas para cada uma
+das técnicas de aprendizado que serão implementadas no projeto.
 
 % diagrama de classes
 
@@ -300,3 +301,34 @@ classe selecionada, e $-1$ a não-seleção dela.
 % variar o tamanho das janelas de histórico
 % utilizar uma instância do classificador para todas as VMs, versus
 % utilizar uma instância nova para cada VM
+
+Para avaliar o desempenho do projeto a ser implementado, serão lidos os
+valores de uso de CPU de um conjunto de máquinas que fazem parte do
+ambiente de compilação de software que é utilizado no projeto
+\emph{Mandriva Linux}. Tais valores serão lidos por um período de 30 dias,
+com o intuito de cobrir as diferentes taxas de uso de CPU naquele período.
+
+Este ambiente de compilação é composto por $6$ máquinas que recebem
+comandos de compilação de pacotes de software, fazem download códigos fonte
+compactados, os descompactam, compilam (que na maioria dos casos são em
+linguagem C ou C++) e então os binários e arquivos documentação gerados são
+arquivados no formato RPM~\cite{ewing1996rpm}. Estas etapas apresentam
+momentos com forte acesso à mídias de armazenamento (\emph{I/O-bound}) bem
+como momentos de intenso uso de CPU (\emph{CPU-bound}).
+
+\begin{figure}[htp]
+\centering
+\includegraphics{img-diagrama-classes2.pdf}
+\figinfo{Diagrama com classes especializada para simulação e acesso à
+\libvirt{}}{autoria própria}
+\label{fig:diagramaclasses2}
+\end{figure}
+
+A leitura destes valores será feita a cada minuto utilizando o utilitário
+\emph{top}, que coleta estatísticas de uso de recursos por processos e no
+sistema operacional como um todo~\cite{andresen2004monitoring}. Para utilizar
+os valores coletados no ambiente de compilação, será criada uma especialização
+para a classe \texttt{InterfaceMMV}, como descrito na figura
+\ref{fig:diagramaclasses2}, que lerá os arquivos com o histórico de acesso às
+máquinas e então entegará estes valores ao módulo de aprendizado.
+
