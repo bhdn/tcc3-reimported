@@ -295,6 +295,25 @@ são apresentados os vetores de características que são usados para treinar
 o uso de CPU. Para este exemplo há 4 classes, o valor $1$ representa a
 classe selecionada, e $-1$ a não-seleção dela.
 
+\subsection{Predição e migração}
+
+Para a etapa de predição, serão utilizados os métodos de classificação das
+técnicas de aprendizado de máquina que foram selecionadas. O resultado da
+classificação, para cada máquina virtual, consitirá em uma faixa de
+percentual de uso de CPU para. Esta faixa então será usada para calcular o
+potencial uso total de CPU para o próximo intervalo de tempo (intervalo
+este que será diferente durante os testes) e então será aplicada a técnica
+de \emph{first-fit}~\cite{yao1980new} decidir se uma determinada máquina
+virtual deve permanecer ou ser migrada para outra disponível. Opta-se por
+utilizar esta técnica de empacotamento em razão desta ser mais conservadora
+se comparada a \emph{first-fit decreasing} ou outras técnicas, pois
+reordenar a lista de máquinas virtuais pode resultar em desnecessárias
+migrações entre hospedeiros.
+
+Após o empacotamento das previsões na lista de hospedeiros, aquelas
+máquinas virtuais que não estiverem mais em seus hospedeiros originais
+serão efetivamente migrados utilizando a \libvirt{}.
+
 \section{Avaliação de desempenho}\label{sec:desemp}
 
 % utilizar SVM, K-NN, AR(16) (se for fácil de implementar)
