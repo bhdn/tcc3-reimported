@@ -21,17 +21,17 @@ executando em um computador para outro ou mesmo mudar sua configuração,
 como quantidade de memória RAM, sem que este processo resulte na
 interrupção do serviço disponibilizado.
 
-Produtos como VMWare\footnote{http://www.vmware.com},
-Xen\footnote{http://xensource.com/},
-Virtualbox\footnote{http://virtualbox.org/} e
-KVM\footnote{http://linux-kvm.org/} (desenvolvidos por VMWare,
+Produtos como \emph{VMWare}\footnote{http://www.vmware.com},
+\emph{Xen}\footnote{http://xensource.com/},
+\emph{Virtualbox}\footnote{http://virtualbox.org/} e
+\emph{KVM}\footnote{http://linux-kvm.org/} (desenvolvidos por VMWare,
 Citrix, Oracle e Red Hat, respectivamente) oferecem ferramentas para a
 execução e manutenção de máquinas virtuais. Além disso, esses produtos
 proveem APIs (Application Programming Interface, Interface para Programação
 de Aplicações) que permitem que terceiros desenvolvam aplicações
 específicas que gerenciem essas máquinas virtuais ou coletem informações a
 respeito das mesmas. Para abstrair as diferenças entre cada API de cada
-fornecedor, a biblioteca libVirt oferece uma API uniforme para gerenciar
+fornecedor, a biblioteca \libvirt{} oferece uma API uniforme para gerenciar
 máquinas virtuais independente de qual produto de virtualização é
 utilizado.
 
@@ -53,8 +53,12 @@ que está executando dentro dessas máquinas. Porém, o caso mais comum em
 ambientes comerciais trata-se de servidores de aplicações web e banco de
 dados.} em um mesmo computador. 
 
-Para a análise e predição do comportamento das máquinas virtuais, é
-possível utilizar os estudos das áreas de sistemas distribuídos e sistemas
-operacionais que, por exemplo, tentam prever o comportamento de processos
-para tentar deixar dados que potencialmente serão utilizados em
-dispositivos de memória de mais baixa latência.
+Assim, este trabalho propõe uma metodologia baseada em técnicas de
+aprendizado de máquina para tentar prever o comportamento de máquinas
+virtuais em um ambiente de virtualização baseado em \libvirt{}, tendo como
+objetivo a minimização do uso de recursos usados em parque computacional,
+quando possível. Serão avaliadas as técnicas de Máquinas de Vetores de
+Suporte e $k$-NN para a predição e a técnia de \emph{first-fit} para a
+alocação. Para avaliar a metodologia será utilizado um histórico de uso de
+CPU em um ambiente de compilação de software que faz parte do projeto
+\emph{Mandriva Linux}.
