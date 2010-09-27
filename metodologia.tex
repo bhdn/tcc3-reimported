@@ -111,7 +111,10 @@ Com isso, o software que será desenvolvido a partir deste projeto atuará
 tentando prever o comportamento destas máquinas virtuais e requisitando à
 ferramenta de virtualização que migre aquelas que apresentarem perspectiva
 de uso intensivo de CPU para um hospedeiro que tenha condições de tratar
-aquela demanda.
+aquela demanda. Ele executará como um processo separado, na forma de um
+\emph{daemon} (que estará executando como serviço do sistema). Este poderá
+estar instalado em qualquer uma das máquinas hospedeiras ou até mesmo em
+uma máquina separada (providas as credenciais de acesso para a \libvirt{}).
 
 \begin{figure}[htp]
 \centering
