@@ -77,7 +77,8 @@ O objetivo de uma técnica de aprendizado de máquina é obter uma função $f(\
 % (como avaliar o desempenho de alguma técnica de AM) já foram (acima) ou serão
 % (em classificação de textos).
 
-\section{Aprendizado estatístico}\label{sec:aprendizado}
+% latex não sabe deixar o í maiúsculo, então...
+\section{Aprendizado estatÍstico}\label{sec:aprendizado}
 
 Sendo $f$ um classificador e $F$ o conjunto dos classificadores possíveis gerados pelo algoritmo de aprendizado, pode-se descrever o aprendizado como a busca por um classificador $\hat{f}$ que melhor aproxime os resultados aos dos exemplos $T$. Para descobrir qual é o melhor classificador do conjunto $F$, utiliza-se uma \emph{medida de discrepância} ou perda, que indica o quanto de erro houve com um classificador $f$ em relação aos exemplos conhecidos \cite{vapnik1998statistical}. Para problemas de classificação binária, emprega-se a função de custo descrita na equação \ref{eq:custo_binario}, que retorna $1$ quando classificado corretamente e $0$ quando erra.
 \begin{equation}\label{eq:custo_binario}
