@@ -4,4 +4,55 @@
 
 \chapter{Introdução}
 
-Esta é a introdução.
+Com a crescente disponibilização de aplicações por meio da Internet, ter
+recursos computacionais (processamento, armazenamento, etc) resilientes
+para prover as mesmas é cada vez mais um requisito. Assim, empresas que
+oferecem esses recursos como forma de serviço (geralmente empresas de
+hosting de websites e aplicações) precisam adotar tecnologias de
+alta-disponibilidade em seus ambientes computacionais.
+
+Nesse contexto, as tecnologias de virtualização possibilitam que um ou mais
+sistemas computacionais sejam executados dentro de um outro sistema,
+permitindo assim que o estado destes possa ser controlado por uma aplicação
+externa, chamada também de hypervisor, que pode prover serviços de
+alta-disponibilidade desses sistemas (geralmente chamados de máquinas
+virtuais). Pode-se, por exemplo, migrar uma máquina virtual que está
+executando em um computador para outro ou mesmo mudar sua configuração,
+como quantidade de memória RAM, sem que este processo resulte na
+interrupção do serviço disponibilizado.
+
+Produtos como VMWare\footnote{http://www.vmware.com},
+Xen\footnote{http://xensource.com/},
+Virtualbox\footnote{http://virtualbox.org/} e
+KVM\footnote{http://linux-kvm.org/} (desenvolvidos por VMWare,
+Citrix, Oracle e Red Hat, respectivamente) oferecem ferramentas para a
+execução e manutenção de máquinas virtuais. Além disso, esses produtos
+proveem APIs (Application Programming Interface, Interface para Programação
+de Aplicações) que permitem que terceiros desenvolvam aplicações
+específicas que gerenciem essas máquinas virtuais ou coletem informações a
+respeito das mesmas. Para abstrair as diferenças entre cada API de cada
+fornecedor, a biblioteca libVirt oferece uma API uniforme para gerenciar
+máquinas virtuais independente de qual produto de virtualização é
+utilizado.
+
+Tendo alta-disponibilidade, esses provedores de recursos computacionais
+precisam também tentar fazer bom uso de seu parque de computadores
+disponíveis de maneira a  minimizar custos de manutenção e energia elétrica
+sem degradar a qualidade do que é provido aos clientes. Mantendo mais
+máquinas virtuais em um mesmo hypervisor diminui custos de energia e
+manutenção porém ao risco de degradar o desempenho pois as unidades de
+processamento (CPUs) e barramentos de dados são utilizadas concorrentemente
+entre as máquinas virtuais.
+
+Com isso, fica evidente o potencial de aproveitar as ferramentas e APIs de
+virtualização para observar o comportamento de máquinas virtuais de maneira
+a tentar prever quando é mais adequado separar máquinas virtuais ou
+agrupá-las em um mesmo computador. Entende-se agrupamento simplesmente por
+executar máquinas virtuais em um mesmo computador, independente do software
+que está executando dentro dessas máquinas.
+
+Para a análise e predição do comportamento das máquinas virtuais, é
+possível utilizar os estudos das áreas de sistemas distribuídos e sistemas
+operacionais que, por exemplo, tentam prever o comportamento de processos
+para tentar deixar dados que potencialmente serão utilizados em
+dispositivos de memória de mais baixa latência.
