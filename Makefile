@@ -3,6 +3,7 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	cronograma.tex \
 	aprendizado.tex \
 	definicoes.tex \
+	glossario.tex \
 	img-met-contexto-0.pdf \
 	img-met-contexto-1.pdf \
 	img-host-guests1.pdf \
