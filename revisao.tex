@@ -14,13 +14,15 @@ original, de maneira a permitir que qualquer sistema operacional compatível
 possa executar também neste ambiente.  Atribui-se ao sistema \emph{OS/360} a
 introdução do conceito de virtualização, que neste caso era limitada a apenas
 uma instância de uma \emph{máquina virtual} para os processos
-não-privilegiados. Com o passar do tempo isto foi aprimorado com a introdução
-dos \emph{Monitores de Máquinas Virtuais}, que eram softwares especializados em
-executar um conjunto de instruções de alguma arquitetura e que permitiam então,
-por estar não relacionado a um serviço de sistema operacional, executar
-múltiplas máquinas virtuais, permitindo assim que o custo computacional com a
-execução simulada das instruções fosse compensado com a execução de muitas
-máquinas virtuais, aproveitando assim o tempo de CPU~\cite{goldberg1974survey}.
+não-privilegiados. Com o passar do tempo isto foi aprimorado com o
+desenvolvimento dos \emph{Monitores de Máquinas Virtuais} (também
+conhecidos como hipervisores ou \emph{hypervisors}), que eram softwares
+especializados em executar um conjunto de instruções de alguma arquitetura
+e que permitiam então, por estar não relacionado a um serviço de sistema
+operacional, executar múltiplas máquinas virtuais, permitindo assim que o
+custo computacional com a execução simulada das instruções fosse compensado
+com a execução de muitas máquinas virtuais, aproveitando assim o tempo de
+CPU~\cite{goldberg1974survey}.
 
 Com a popularização da internet e o barateamento do hardware, a
 virtualização começou a ser utilizada com o intuito de facilitar a
@@ -28,7 +30,18 @@ manutenção em ambiente de servidores. A facilidade da criação e
 configuração permitiu que serviços executem em máquinas (virtuais)
 dedicadas, aumentando a segurança (por meio do isolamento) e facilitando a
 manutenção com menor risco de comprometimento de outros
-serviços~\cite{peter2005resource}.
+serviços~\cite{smith2005architecture}.
+
+É importante apresentar alguns conceitos que são amplamente utilizados ao
+tratar de virtualização, como apresentado por
+\citeonline{peter2005resource}:
+\begin{description}
+  \item[hóspede] refere-se à máquina virtual;
+  \item[hospedeiro] refere-se ao Monitor de Máquinas Virtuais;
+  \item[paravirtualização] conjunto de técnicas no qual o hóspede oferece
+        serviços ao hospedeiro, que por sua vez possui suporte explícito a
+        eles;
+\end{description}
 
 % introdução
 % terminologia (host, guest, hypervisor, cloud)
