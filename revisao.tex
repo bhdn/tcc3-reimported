@@ -9,19 +9,26 @@
 \chapter{Virtualização}\label{sec:virt}
 
 O conceito clássico de virtualização consiste na execução simulada de cada
-instrução de uma determinada arquitetura bem como a emulação de seu hardware
-original, de maneira a permitir que qualquer sistema operacional compatível
-possa executar também neste ambiente.  Atribui-se ao sistema \emph{OS/360} a
-introdução do conceito de virtualização, que neste caso era limitada a apenas
-uma instância de uma \emph{máquina virtual} para os processos
-não-privilegiados. Com o passar do tempo isto foi aprimorado com o
-desenvolvimento dos \emph{Monitores de Máquinas Virtuais} (também
-conhecidos como hipervisores ou \emph{hypervisors}), que eram softwares
-especializados em executar um conjunto de instruções de alguma arquitetura
-e que permitiam então, por estar não relacionado a um serviço de sistema
-operacional, executar múltiplas máquinas virtuais, permitindo assim que o
-custo computacional com a execução simulada das instruções fosse compensado
-com a execução de muitas máquinas virtuais, aproveitando assim o tempo de
+instrução de uma determinada arquitetura bem como a emulação de seu
+hardware original, de maneira a permitir que qualquer sistema operacional
+compatível possa executar também neste ambiente~\cite{goldberg1974survey}.
+Diferentemente do que se observa na arquitetura clássica de computadores,
+aonde cada componente provê uma abstração os componentes mais próximos do
+usuário, a virtualização multiplexa os serviços de hardware para
+componentes virtuais, que possam ser utilizandos por sistemas operacionais
+sem adaptações XXX. % FIXME citar os br da 'revisao de virtualizacao'
+
+Atribui-se ao sistema \emph{OS/360} a introdução do conceito de
+virtualização, que neste caso era limitada a apenas uma instância de uma
+\emph{máquina virtual} para os processos não-privilegiados. Com o passar do
+tempo isto foi aprimorado com o desenvolvimento dos \emph{Monitores de
+Máquinas Virtuais} (também conhecidos como hipervisores ou
+\emph{hypervisors}), que eram softwares especializados em executar um
+conjunto de instruções de alguma arquitetura e que permitiam então, por
+estar não relacionado a um serviço de sistema operacional, executar
+múltiplas máquinas virtuais, permitindo assim que o custo computacional com
+a execução simulada das instruções fosse compensado com a execução de
+muitas máquinas virtuais, aproveitando assim o tempo de
 CPU~\cite{goldberg1974survey}.
 
 Com a popularização da internet e o barateamento do hardware, a
@@ -32,6 +39,12 @@ dedicadas, aumentando a segurança (por meio do isolamento) e facilitando a
 manutenção com menor risco de comprometimento de outros
 serviços~\cite{smith2005architecture}.
 
+% FIXME citar aqui introdução do conceito de cloudcomputing
+
+% FIXME começar a descrever tolerância a faltas, e então descrever migração
+% e as tais técnicas de sincronização de blabla
+
+% FIXME remover essa porcaria
 É importante apresentar alguns conceitos que são amplamente utilizados ao
 tratar de virtualização, como apresentado por
 \citeonline{peter2005resource}:
@@ -50,10 +63,22 @@ tratar de virtualização, como apresentado por
 
 \section{Ferramentas}
 
+Atualmente existe uma grande diversidade de ferramentas que atuam como
+monitores de máquinas virtuais. Algumas utilizam implementações de
+virtualização utilizando técnicas mais simples e com maior custo
+computacional, ao passo que outras são mais sofisticadas, além do uso de
+recursos de virtualização disponíveis em CPUs modernas.
+
+A família de produtos oferecida pela empresa VMWare está entre as mais
+populares ferramentas de virtualização utilizadas atualmente.
+
+Além disso, uma outra ferramenta muito popular para virtualização é a
+VirtualBox.
+
+% mais ferramentas interessantes: bochs, denali, ibm rhype, virtualbox
+
 % introdução
-% terminologia (host, guest, hypervisor, cloud)
 % ferramentas
-% utilizar descrição de: http://libvirt.org/goals.html
 
 % descrição de medidas de carga de CPU: loadavg e percentual de uso de CPU
 
