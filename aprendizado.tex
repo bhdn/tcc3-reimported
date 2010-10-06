@@ -68,7 +68,7 @@ probabilidade é escolhida como rótulo para o elemento desconhecido.
 
 As \emph{Redes Neurais Artificiais} (RNAs) são modelos matemáticos baseados no neurônio biológico, têm a capacidade computacional adquirida por meio de aprendizado e generalização, são capazes de resolver problemas de aproximação, predição, classificação e otimização. A aprendizagem de uma rede neural ocorre a partir dos exemplos e tende a melhorar seu desempenho conforme a qualidade dos exemplos, já a generalização surge como consequência do aprendizado. O processamento das informações pode ser feito de forma paralela e distribuída, através dos neurônios da rede neural artificial, onde cada neurônio é um elemento processador.~\cite{rezende2003sistemas}
 
-A técnica de \emph{Support Vector Machines} é foco deste trabalho e descrita em detalhe na se\c{c}ão \ref{sec:svm}.
+\emph{Support Vector Machines} é uma técnica modelada como um problema de otimização que tenta encontrar, no espaço do conjunto de exemplos, um hiperplano que separe com maior margem os exemplos de cada uma das duas classes. Em razão da aplicação desta técnica em parte da metodologia proposta neste trabalho, será feita uma apresentação mais detalhada a partir da seção \ref{sec:svm}) (página \pageref{sec:svm}). Antes disso, as seções a seguir buscam apresentar os conceitos e terminologia comumente utilizados na apresentação das SVMs.
 
 \subsection{Formalização do aprendizado supervisionado}
 
@@ -154,7 +154,7 @@ Com isso, é possível estabelecer o limite descrito pela equa\c{c}ão \ref{eq:r
 %   - SVM com margens flexíveis (E_i)
 %   - kernels (RBF gaussiano etc)
 
-A técnica de aprendizado de máquina supervisionado conhecida como \emph{Support Vector Machine} (SVM), ou \emph{Máquinas de Vetores de Suporte} foi introduzida por Boser, Guyon e Vapnik em 1992 com a publica\c{c}ão de \emph{A training algorithm for optimal margin classifiers}\nocite{boser1992training}. Ela basei-se no trabalho da teoria do aprendizado estatístico desenvolvida por Vapnik et al. desde a década de 1960.
+A técnica de aprendizado de máquina supervisionado conhecida como \emph{Support Vector Machine} (SVM), ou \emph{Máquinas de Vetores de Suporte} foi introduzida por Boser, Guyon e Vapnik em 1992 com a publica\c{c}ão de \emph{A training algorithm for optimal margin classifiers}\nocite{boser1992training}. Esta baseia-se no trabalho da teoria do aprendizado estatístico desenvolvida por Vapnik et al. desde a década de 1960.
 
 SVMs usam o princípio de que quanto mais largas as margens de um hiperplano separador de uma fun\c{c}ão, que foi explicado na se\c{c}ão \ref{sec:aprendizado} por meio do conceito de minimiza\c{c}ão do risco estrutural, maiores são as chances de que ele possa prover uma boa generaliza\c{c}ão dos dados que estão sendo usados como exemplo \cite{chapelle2002choosing}. Então, SVMs buscam encontrar um hiperplano descrito por $f(\vect{x}) = \vect{w}\cdot\vect{x} + b = 0$ que tenha maior margem entre as classes e menor complexidade estrutural por meio da resolu\c{c}ão de um problema de otimiza\c{c}ão.
 
