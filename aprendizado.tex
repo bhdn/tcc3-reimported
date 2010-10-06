@@ -47,7 +47,7 @@ O aprendizado supervisionado é aquele em que há exemplos pré-existentes e est
 No aprendizado não-supervisionado, não há rótulos para atribuir aos exemplos, pois o objetivo do algoritmo é encontrar grupos de exemplos que possuam semelhança entre eles. As técnicas deste modelo são referenciadas como sendo \emph{técnicas de agrupamento} ou \emph{clustering}~\cite{rezende2003sistemas}.
 %FIXME terminar não-supervisionado (dar uma olhada no livro do Luger)
 
-\section{Técnicas de aprendizado supervisionado}
+\subsection{Técnicas de aprendizado supervisionado}
 
 Dentre as técnicas de aprendizado supervisionado mais populares estão Redes Neurais, Máquinas de Vetores de Suporte (\emph{Support Vector Machines} --- SVMs), $k$ Vizinhos Mais Próximos ($k$-NN) e \emph{Naïve Bayes}.
 
@@ -70,7 +70,7 @@ As \emph{Redes Neurais Artificiais} (RNAs) são modelos matemáticos baseados no
 
 A técnica de \emph{Support Vector Machines} é foco deste trabalho e descrita em detalhe na se\c{c}ão \ref{sec:svm}.
 
-\section{Formalização do aprendizado supervisionado}
+\subsection{Formalização do aprendizado supervisionado}
 
 Como já brevemente apresentado, no problema de aprendizado supervisionado existe a figura de um professor que indica qual é o rótulo correto para cada exemplo \apud{haykin1994neural}{lorena2003introducaoas}. Sendo assim, cada exemplo pode ser descrito na forma $(\vect{x}_i, y_i)$, aonde $\vect{x}_i$ denota um exemplo e $y_i$ seria a classe ou rótulo. Também, após o processo de treinamento, pode-se descrever o classificador como uma função $f(\vect{x}) = y$, sendo que $\vect{x}$ não é necessariamente um dos valores de $\vect{x}_i$.
 
@@ -85,7 +85,7 @@ O objetivo de uma técnica de aprendizado de máquina é obter uma função $f(\
 % (em classificação de textos).
 
 % latex não sabe deixar o í maiúsculo, então...
-\section{Aprendizado estatÍstico}\label{sec:aprendizado}
+\subsection{Aprendizado estatístico}\label{sec:aprendizado}
 
 Sendo $f$ um classificador e $F$ o conjunto dos classificadores possíveis gerados pelo algoritmo de aprendizado, pode-se descrever o aprendizado como a busca por um classificador $\hat{f}$ que melhor aproxime os resultados aos dos exemplos $T$. Para descobrir qual é o melhor classificador do conjunto $F$, utiliza-se uma \emph{medida de discrepância} ou perda, que indica o quanto de erro houve com um classificador $f$ em relação aos exemplos conhecidos \cite{vapnik1998statistical}. Para problemas de classificação binária, emprega-se a função de custo descrita na equação \ref{eq:custo_binario}, que retorna $1$ quando classificado corretamente e $0$ quando erra.
 \begin{equation}\label{eq:custo_binario}
@@ -145,7 +145,7 @@ Com isso, é possível estabelecer o limite descrito pela equa\c{c}ão \ref{eq:r
 
 % FIXME adicionar alguma conclusão aqui amarrando tudo, algoc como: assim, o conceito de minimização do risco estrutural demonstra uma maneira de melhorar a capacidade de generalização de um algoritmo de aprendizado.
 
-\section{Support Vector Machines --- \it{SVMs}}\label{sec:svm}
+\subsection{Support Vector Machines --- \it{SVMs}}\label{sec:svm}
 %
 %   - problema primal
 %   - problema dual (e teoria "dos lagrangianos")
@@ -252,7 +252,7 @@ Finalmente, obtém-se a seguinte função classificadora:
                 \right)
 \end{equation}
 
-\subsection{Margens suaves}
+\subsubsection{Margens suaves}
 
 % seção está incompleta, não explica bem como o erro é tratado em si
 
@@ -274,7 +274,7 @@ A constante $C$ impõe uma penalização à violação das restrições \ref{eq:
 % FIXME descrever o método de busca em grade de ben2010user, pois é o que
 % usamos
 
-\subsection{Classificação não-linear}\label{sec:naolinear}
+\subsubsection{Classificação não-linear}\label{sec:naolinear}
 
 Segundo o teorema de \citeonline{cover1965geometrical}, as chances de que um conjunto de exemplos não linearmente separável possa ser separado por um hiperplano é grande quando este é disposto em um espaço de maior dimensionalidade. Assim, a implementação das máquinas de vetores de suporte utiliza esta técnica para conseguir separar dados ainda de maneira \emph{linear} \cite{burges1998tutorial}.
 
@@ -296,7 +296,7 @@ Sigmoidal & $\tanh(\delta(\vect{x}_i\cdot\vect{x}_j)+\kappa)$ & $\delta$ e $\kap
 \quadro{Funções de kernel comumente usadas}\label{quadro:kernels}
 \end{table}
 
-\subsection{Classificação multiclasses}\label{sec:svmmulti}
+\subsubsection{Classificação multiclasses}\label{sec:svmmulti}
 
 % hsu2002comparison
 
@@ -309,10 +309,10 @@ Na técnica de classificação \emph{um contra um}, ou também chamado de \emph{
 % TODO há mais técnicas interessantes (as baseadas em árvore de decisão e
 % all-together), talvez apontar desempenho delas etc etc
 
-%%\subsubsection{Complexidade computacional}
+%%\subsubsubsection{Complexidade computacional}
 %% tratar
 
-%%\subsubsection{Implementações}
+%%\subsubsubsection{Implementações}
 % abandonada por falta de tempo, vamos citar apenas a libsvm na metodologia
 % libsvm 
 % PyML
