@@ -90,10 +90,13 @@ que precisam privilégio por instruções que transferem o controle para si, de
 maneira que ele possa emular estas instruções
 privilegiadas~\cite{ung2000machine}.
 
-As técnicas mais primitivas de tradução binárias exigiam que a arquitetura do
-sistema hospedeiro fosse a mesma do sistema hóspede. A ferramenta QEMU
-tornou-se popular por prover uma técnica de tradução dinâmica binária entre
-arquiteturas diferentes de maneira eficiente.
+As técnicas mais primitivas de tradução binárias exigiam que a arquitetura
+do sistema hospedeiro fosse a mesma do sistema hóspede. A ferramenta
+QEMU\footnote{http://qemu.org/} tornou-se popular por prover uma técnica de
+tradução dinâmica binária entre arquiteturas diferentes de maneira
+eficiente. Esta tradução é feita aproveitando todo o trabalho que já foi
+feito por outras pessoas implementando um compilador para a arquitetura do
+sistema hóspede.
 
 Além disso, uma outra ferramenta muito popular para virtualização é a
 VirtualBox.
