@@ -79,6 +79,22 @@ produto, chamado \emph{VMWare Workstation}, foi lançado em
 1999~\cite{vmwareMilestones} e tornou-se popular em razão de seu bom
 desempenho resultante do uso de técnicas de tradução binária dinâmica.
 
+Tradução binária dinâmica é uma técnica que visa fazer com que o processador
+execute diretamente as instruções de uma máquina virtual, evitando assim o
+custo computacional de uma emulação por parte do MMV. Porém, a máquina virtual
+não terá permissão para executar todas as instruções, pois o monitor de
+máquinas virtuais é um processo não-privivilegiado no sistema hospedeiro, e o
+\emph{kernel} do sistema hóspede certamente terá a necessidade de utilizar tais
+instruções privilegiadas. Assim, é necessário que o MMV substitua as instruções
+que precisam privilégio por instruções que transferem o controle para si, de
+maneira que ele possa emular estas instruções
+privilegiadas~\cite{ung2000machine}.
+
+As técnicas mais primitivas de tradução binárias exigiam que a arquitetura do
+sistema hospedeiro fosse a mesma do sistema hóspede. A ferramenta QEMU
+tornou-se popular por prover uma técnica de tradução dinâmica binária entre
+arquiteturas diferentes de maneira eficiente.
+
 Além disso, uma outra ferramenta muito popular para virtualização é a
 VirtualBox.
 
