@@ -48,3 +48,13 @@ n representa o lag, ou atraso temporal do vetor v. Dessa forma, o
 comportamento de processos é representado conforme a equação 5.3, onde v é
 vetor de tamanho n no instante x, e ek é o k-ésimo estado de execução,
 agrupado pela rede neural ART-2A.
+
+= Revisão das propostas =
+
+- questão de DFD/Diagrama de contexto,
+- tentar esclarecer a criação do vetor de características
+- explicar melhor porque usar SVM, tentar explicar que a SVM vai realmente
+  se ajustar ao modelo (usar aqueles trabalhos de análise de séries
+  financeiras, e algum outro trabalho brasileiro que faz algo parecido.
+- uma melhor explicação de porque serão testadas algumas faixas de valores
+- descrever na revisão da literatura o que é "first-fit decreasing"
