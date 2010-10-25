@@ -280,7 +280,7 @@ Segundo o teorema de \citeonline{cover1965geometrical}, as chances de que um con
 
 Com isso, os dois vetores $\vect{x}$ e $\vect{x}_i$, que são utilizados na função de decisão \ref{eq:classificadora}, são convertidos para o espaço de maior dimensão por um mapeamento $\vect{\Phi}: X \rightarrow \Im$, aonde $X$ é o espaço de entrada e $\Im$ o \emph{espaço de características}.
 
-Adicionalmente, o produto entre os vetores $\vect{x}$ e $\vect{x}_i$ é representado como uma função $K(\vect{x}_i, \vect{x}_j) = \vect{\Phi}(\vect{x}_i)\cdot\vect{\Phi}(\vect{x}_j)$. Esta função é chamada de \emph{função kernel} e tem por finalidade permitir o uso de funções que atentem às condições definidas pelo teorema de Mercer \cite[p. 141]{burges1998tutorial}. Esta forma de representação permite que use-se estas funções de kernel dentro da implementação de uma SVM sem a necessidade de conhecimento dos detalhes internos das mesmas. O quadro \ref{quadro:kernels} apresenta alguns dos kernels mais populares utilizados com SVMs~\cite{lorena2003introducaoas}.
+Adicionalmente, o produto entre os vetores $\vect{x}$ e $\vect{x}_i$ é representado como uma função $K(\vect{x}_i, \vect{x}_j) = \vect{\Phi}(\vect{x}_i)\cdot\vect{\Phi}(\vect{x}_j)$. Esta função é chamada de \emph{função kernel} e tem por finalidade permitir o uso de funções que atentem às condições definidas pelo teorema de Mercer \cite[p. 141]{burges1998tutorial}. Esta forma de representação permite que se use estas funções de kernel dentro da implementação de uma SVM sem a necessidade de conhecimento dos detalhes internos das mesmas. O quadro \ref{quadro:kernels} apresenta alguns dos kernels mais populares utilizados com SVMs~\cite{lorena2003introducaoas}.
 
 \begin{table}
 \centering
