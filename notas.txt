@@ -58,3 +58,6 @@ agrupado pela rede neural ART-2A.
   financeiras, e algum outro trabalho brasileiro que faz algo parecido.
 - uma melhor explicação de porque serão testadas algumas faixas de valores
 - descrever na revisão da literatura o que é "first-fit decreasing"
+- detalhar cada valor (ou faixa) dos testes usados, “passar valores pode
+  deixar mais claro que é uma detalhação dos testes”
+
