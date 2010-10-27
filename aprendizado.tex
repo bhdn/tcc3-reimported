@@ -84,67 +84,6 @@ O objetivo de uma técnica de aprendizado de máquina é obter uma função $f(\
 % (como avaliar o desempenho de alguma técnica de AM) já foram (acima) ou serão
 % (em classificação de textos).
 
-% latex não sabe deixar o í maiúsculo, então...
-\subsection{Aprendizado estatístico}\label{sec:aprendizado}
-
-Sendo $f$ um classificador e $F$ o conjunto dos classificadores possíveis gerados pelo algoritmo de aprendizado, pode-se descrever o aprendizado como a busca por um classificador $\hat{f}$ que melhor aproxime os resultados aos dos exemplos $T$. Para descobrir qual é o melhor classificador do conjunto $F$, utiliza-se uma \emph{medida de discrepância} ou perda, que indica o quanto de erro houve com um classificador $f$ em relação aos exemplos conhecidos \cite{vapnik1998statistical}. Para problemas de classificação binária, emprega-se a função de custo descrita na equação \ref{eq:custo_binario}, que retorna $1$ quando classificado corretamente e $0$ quando erra.
-\begin{equation}\label{eq:custo_binario}
-  c(f(\vect{x}), y) = \frac{1}{2} | y - f(\vect{x})|
-\end{equation}
-
-Quando a distribuição $P(\vect{x},y)$ é conhecida, pode-se calcular o risco esperado de um classificador com a equação \ref{eq:risco_funcional}. Porém, como a distribuição dos exemplos não é conhecida, é necessário induzir um classificador $\hat{f}$ a partir dos exemplos disponíveis de maneira que seja possível diminuir o erro sobre os dados \cite{scholkopf2002learning}. 
-\begin{equation}\label{eq:risco_funcional}
-  R(f) = \int{ c(f(\vect{x})dP(\vect{x}, y) }
-\end{equation}
-
-É possível medir o risco do classificador $\hat{f}$ avaliando-se o \emph{risco empírico}, que é descrito na equação \ref{eq:risco_empirico}.
-\begin{equation}\label{eq:risco_empirico}
-  R_{emp}(f) = \frac{1}{n}\sum_{i=1}^n{c(f(\vect{x}_i),y_i)}
-\end{equation}
-
-A partir da lei dos grandes números, pode-se observar que o risco empírico aproxima-se do risco esperado quando o número de amostras tende para infinito \apud{vapnik1998statistical}{osuna1997support}. Porém, para exemplos pequenos não é possível garantir que o risco empírico aproxime-se do risco esperado. No trabalho de \citeonline{lorena2003introducaoas} é exemplificada esta situa\c{c}ão com o caso de um classificador que aprende um conjunto de exemplos mas classifica casos novos aleatoriamente, no qual o risco empírico seria 0, mas o risco esperado seria 0,5. Além disso, a simples minimiza\c{c}ão do risco empírico não é ideal para um algoritmo de aprendizado porque o classificador resultante poderia estar sobreajustado ao conjunto de exemplos.
-
-Com o objetivo de dificultar a possibilidade de que haja sobreajuste do classificador, \citeonline{vapnik2000nature} define um limite no risco empírico baseado na complexidade do conjunto de fun\c{c}ões de classificadores $F$. A inequa\c{c}ão \ref{eq:minrisco} apresenta este limite, onde o risco empírico está associado também a um \emph{termo de capacidade} e onde $h$ representa a complexidade do conjunto de classificadores que está sendo avaliado.
-\begin{equation}\label{eq:minrisco}
-  R(f) \leqslant R_{emp}(f) + \sqrt{\frac{h(\ln(\frac{2n}{h})+1)-\ln(\frac{\phi}{4})}{n}}
-\end{equation}
-
-Essa medida $h$, é conhecida também como \emph{dimensão VC} (de Vapnik-Chervonenkis) e representa a quantidade de exemplos do treinamento que podem ser separados com um determinado conjunto de fun\c{c}ões classificadoras de $F$. Estes conjuntos $F_k$ são subconjuntos de $F$ e são ordenados de acordo com seus valores de $k$, de maneira que podem ser representados na forma $F_0\subset F_1 \subset \dotsb \subset F_q \subset F$.
-
-Como o risco empírico diminui à medida que o valor de $h$ aumenta, pode-se com isso encontrar um valor ótimo, ou em outras palavras um conjunto $F_k$, que represente um compromisso aceitável entre o valor do risco empírico (sendo este sempre o menor dentre todas as fun\c{c}ões de $F_k$) e a complexidade da fun\c{c}ão que representa o classificador. Porém, o cálculo da dimensão VC nem sempre é definido ou seu valor é infinito. A escolha da melhor fun\c{c}ão de $F_k$ representa o principal conceito da \emph{mimiza\c{c}ão do risco empírico} \apud{muller2001introduction}{lorena2003introducaoas}. A figura \ref{fig:minimizacao} apresenta este conceito.
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.5\textwidth]{img/fig-minimizacao.png}
-  \figinfox{Princípio da minimização do risco estrutural e dimensões VC}{LORENA, 2003}
-  \label{fig:minimizacao}
-\end{figure}
-
-Para o caso de classificadores lineares $f(\vect{x}) = \vect{x}\cdot\vect{w} + b$, é possível melhorar a qualidade da classifica\c{c}ão introduzindo o conceito de \emph{margem} entre os exemplos e o hiperplano separador definido por $f(x)$ \cite{smola2000advances}. Para o caso de problemas binários com classifica\c{c}ão $y_i$ sendo $y_i \in {-1, +1}$, é possível definir esta margem (que é negativa em caso de classifica\c{c}ão incorreta, por meio da defini\c{c}ão de $\varrho(f(\vect{x}_i,y_i))$ na equa\c{c}ão \ref{eq:margemlinear}.
-\begin{equation}\label{eq:margemlinear}
-  \varrho(f(\vect{x}_i),y_i) = y_i f(\vect{x}_i)
-\end{equation}
-
-Sendo que $I(q) = 1$ se $q$ é verdadeiro e $I(q) = 0$ se $q$ é falso.
-
-Tendo a defini\c{c}ão de erro de classifica\c{c}ão baseado em uma margem até o hiperplano separado, é possível então estabelecer uma medida para a qualidade da separa\c{c}ão de um dado classificador $f(\vect{x})$ por meio da equa\c{c}ão \ref{eq:errorho}.
-\begin{equation}\label{eq:errorho}
-  R_\rho(f) = \frac{1}{n}\sum^{n}_{i=1}{I(y_i f(\vect{x}_i) < \rho))}
-\end{equation}
-
-Com isso, é possível estabelecer o limite descrito pela equa\c{c}ão \ref{eq:riscoestrutural}. Nela, tem-se $c$ com probabilidade $1 - \theta \in [0,1]$, para $\rho > 0$ e $F$ sendo uma fun\c{c}ão linear, com $\norma{\vect{x}} \le R$ e $\norma{\vect{w}} \le 1$. Esse limite constitui a \emph{minimiza\c{c}ão do risco estrutural}, introduzido por \cite{vapnik1998statistical}.
-\begin{equation}\label{eq:riscoestrutural}
-  R(f) \leqslant R_\rho(f) + \sqrt{
-        \frac{c}{n}
-        \left(
-          \frac{R^2}{\rho^2}
-          \log^2\left(\frac{n}{\rho}\right) +
-          \log\left(\frac{1}{\theta}\right) \right)
-       }%sqrt
-\end{equation}
-
-% FIXME adicionar alguma conclusão aqui amarrando tudo, algoc como: assim, o conceito de minimização do risco estrutural demonstra uma maneira de melhorar a capacidade de generalização de um algoritmo de aprendizado.
-
 \subsection{Support Vector Machines --- \it{SVMs}}\label{sec:svm}
 %
 %   - problema primal
