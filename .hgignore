@@ -12,4 +12,6 @@ syntax: glob
 *.snm
 *.toc
 *.swp
+*.pdf
+*.eps
 *~
