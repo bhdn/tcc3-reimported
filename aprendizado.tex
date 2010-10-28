@@ -36,7 +36,7 @@ Um dos comportamentos mais característicos de sistemas computacionais que possa
 
 Nem sempre é possível obter um resultado ótimo para novas situações, pois na maioria dos casos não é possível apresentar a um sistema a quantidade de exemplos (ou experiências anteriores) necessárias para representar todos os casos possíveis. Por isso, as técnicas de aprendizado fazem uso da inferência indutiva, que consiste em prever novas situações baseando-se em um conjunto particular de exemplos~\cite{luger2004inteligencia}.
 
-A construção da hipótese no aprendizado indutivo ocorre por meio da exposição de exemplos ao algoritmo de indução, e este processo é chamado de \emph{treinamento}. O processo de atribuir rótulos ou classes a novos exemplos é chamado de \emph{classificação}.
+A construção da hipótese no aprendizado indutivo ocorre por meio da exposição de exemplos ao algoritmo de indução, e este processo é chamado de treinamento. O processo de atribuir rótulos ou classes a novos exemplos é chamado de classificação.
 
 Porém, se o conjunto de exemplos usado para a indução for muito pequeno ou pouco representativo, há o risco de que as hipóteses escolhidas não descrevam corretamente novas situações e o sistema inteligente traga resultados incorretos~\cite[p. 90]{rezende2003sistemas}.
 
@@ -44,7 +44,7 @@ Sistemas de aprendizado de máquina podem ser divididos em dois tipos de acordo 
 
 O aprendizado supervisionado é aquele em que há exemplos pré-existentes e estes já possuem rótulos. Estes rótulos podem ter sido atribuídos por um especialista no domínio ou representam resultados de experiências anteriores do sistema. Um classificador baseado em aprendizado supervisionado deve tentar estabelecer uma hipótese que seja genérica a ponto de que o algoritmo possa classificar corretamente novos casos. Uma hipótese muito genérica pode resultar em uma classificação inadequada (\emph{underfitting} --- sub-ajuste), ao passo que uma hipótese que descreva corretamente apenas os exemplos que foram usados para o treinamento pode ter um desempenho inadequado em casos novos (\emph{overfitting} --- sobre-ajuste).
 
-No aprendizado não-supervisionado, não há rótulos para atribuir aos exemplos, pois o objetivo do algoritmo é encontrar grupos de exemplos que possuam semelhança entre eles. As técnicas deste modelo são referenciadas como sendo \emph{técnicas de agrupamento} ou \emph{clustering}~\cite{rezende2003sistemas}.
+No aprendizado não-supervisionado, não há rótulos para atribuir aos exemplos, pois o objetivo do algoritmo é encontrar grupos de exemplos que possuam semelhança entre eles. As técnicas deste modelo são referenciadas como sendo ``técnicas de agrupamento'' ou \emph{clustering}~\cite{rezende2003sistemas}.
 %FIXME terminar não-supervisionado (dar uma olhada no livro do Luger)
 
 \subsection{Técnicas de aprendizado supervisionado}
@@ -66,7 +66,7 @@ calculada a probabilidade de todas as classes e a classe com maior
 probabilidade é escolhida como rótulo para o elemento desconhecido.
 ~\cite{pardo2002aprendizado}
 
-As \emph{Redes Neurais Artificiais} (RNAs) são modelos matemáticos baseados no neurônio biológico, têm a capacidade computacional adquirida por meio de aprendizado e generalização, são capazes de resolver problemas de aproximação, predição, classificação e otimização. A aprendizagem de uma rede neural ocorre a partir dos exemplos e tende a melhorar seu desempenho conforme a qualidade dos exemplos, já a generalização surge como consequência do aprendizado. O processamento das informações pode ser feito de forma paralela e distribuída, através dos neurônios da rede neural artificial, onde cada neurônio é um elemento processador.~\cite{rezende2003sistemas}
+As Redes Neurais Artificiais (RNAs) são modelos matemáticos baseados no neurônio biológico, têm a capacidade computacional adquirida por meio de aprendizado e generalização, são capazes de resolver problemas de aproximação, predição, classificação e otimização. A aprendizagem de uma rede neural ocorre a partir dos exemplos e tende a melhorar seu desempenho conforme a qualidade dos exemplos, já a generalização surge como consequência do aprendizado. O processamento das informações pode ser feito de forma paralela e distribuída, através dos neurônios da rede neural artificial, onde cada neurônio é um elemento processador.~\cite{rezende2003sistemas}
 
 \emph{Support Vector Machines} é uma técnica modelada como um problema de otimização que tenta encontrar, no espaço do conjunto de exemplos, um hiperplano que separe com maior margem os exemplos de cada uma das duas classes. Em razão da aplicação desta técnica em parte da metodologia proposta neste trabalho, será feita uma apresentação mais detalhada a partir da seção \ref{sec:svm}) (página \pageref{sec:svm}). Antes disso, as seções a seguir buscam apresentar os conceitos e terminologia comumente utilizados na apresentação das SVMs.
 
@@ -74,11 +74,11 @@ As \emph{Redes Neurais Artificiais} (RNAs) são modelos matemáticos baseados no
 
 Como já brevemente apresentado, no problema de aprendizado supervisionado existe a figura de um professor que indica qual é o rótulo correto para cada exemplo \apud{haykin1994neural}{lorena2003introducaoas}. Sendo assim, cada exemplo pode ser descrito na forma $(\vect{x}_i, y_i)$, aonde $\vect{x}_i$ denota um exemplo e $y_i$ seria a classe ou rótulo. Também, após o processo de treinamento, pode-se descrever o classificador como uma função $f(\vect{x}) = y$, sendo que $\vect{x}$ não é necessariamente um dos valores de $\vect{x}_i$.
 
-Os valores dos rótulos que os exemplos podem assumir podem ser discretos ou contínuos. Para o caso dos contínuos assume-se que é possível obter $1,\dotsc,k$ valores. Quando $k = 2$, o problema é denominado como sendo de \emph{classificação binária}. Quando $k > 2$ denomina-se como sendo um problemas de \emph{classificação multiclasses}.
+Os valores dos rótulos que os exemplos podem assumir podem ser discretos ou contínuos. Para o caso dos contínuos assume-se que é possível obter $1,\dotsc,k$ valores. Quando $k = 2$, o problema é denominado como sendo de ``classificação binária''. Quando $k > 2$ denomina-se como sendo um problemas de ``classificação multiclasses''.
 
-Os exemplos $\vect{x}_i$, são representados por vetores com as \emph{características} (também denominadas \emph{atributos}) de cada exemplo. Cada exemplo $\vect{x}_i$ possui $m$ atributos e também pode ser representado como $\vect{x}_i = (x_{i1},\dotsc,x_{im})$. Os atributos podem assumir dois tipos de valores: nominais ou contínuos. Os atributos nominais assumem valores que não possuem ordem entre si e sua representação tem função simbólica (por exemplo: segunda-feira, azul, não). Os atributos contínuos possuem ordem entre si e comumente representam valores dos domínios $\mathbb{Z}$ e $\mathbb{R}$.
+Os exemplos $\vect{x}_i$, são representados por vetores com as características (também denominadas atributos) de cada exemplo. Cada exemplo $\vect{x}_i$ possui $m$ atributos e também pode ser representado como $\vect{x}_i = (x_{i1},\dotsc,x_{im})$. Os atributos podem assumir dois tipos de valores: nominais ou contínuos. Os atributos nominais assumem valores que não possuem ordem entre si e sua representação tem função simbólica (por exemplo: segunda-feira, azul, não). Os atributos contínuos possuem ordem entre si e comumente representam valores dos domínios $\mathbb{Z}$ e $\mathbb{R}$.
 
-O objetivo de uma técnica de aprendizado de máquina é obter uma função $f(\vect{x}) = y$ que obtenha um $y$ adequado aos exemplos que foram apresentados pelo \emph{professor} por meio de indução~\cite{osuna1997support}.
+O objetivo de uma técnica de aprendizado de máquina é obter uma função $f(\vect{x}) = y$ que obtenha um $y$ adequado aos exemplos que foram apresentados pelo professor por meio de indução~\cite{osuna1997support}.
 
 % parece ser muito pouco conteúdo, porém mais detalhes como (overfitting) ou
 % (como avaliar o desempenho de alguma técnica de AM) já foram (acima) ou serão
@@ -93,7 +93,7 @@ O objetivo de uma técnica de aprendizado de máquina é obter uma função $f(\
 %   - SVM com margens flexíveis (E_i)
 %   - kernels (RBF gaussiano etc)
 
-A técnica de aprendizado de máquina supervisionado conhecida como \emph{Support Vector Machine} (SVM), ou \emph{Máquinas de Vetores de Suporte} foi introduzida por Boser, Guyon e Vapnik em 1992 com a publica\c{c}ão de \emph{A training algorithm for optimal margin classifiers}\nocite{boser1992training}. Esta baseia-se no trabalho da teoria do aprendizado estatístico desenvolvida por Vapnik et al. desde a década de 1960~\cite{antos2003data}.
+A técnica de aprendizado de máquina supervisionado conhecida como \emph{Support Vector Machine} (SVM) ou Máquinas de Vetores de Suporte, foi introduzida por Boser, Guyon e Vapnik em 1992 com a publica\c{c}ão de \emph{A training algorithm for optimal margin classifiers}\nocite{boser1992training}. Esta baseia-se no trabalho da teoria do aprendizado estatístico desenvolvida por Vapnik et al. desde a década de 1960~\cite{antos2003data}.
 
 SVMs usam o princípio de que quanto mais largas as margens de um hiperplano separador de uma fun\c{c}ão, que foi explicado na se\c{c}ão \ref{sec:aprendizado} por meio do conceito de minimiza\c{c}ão do risco estrutural, maiores são as chances de que ele possa prover uma boa generaliza\c{c}ão dos dados que estão sendo usados como exemplo \cite{chapelle2002choosing}. Então, SVMs buscam encontrar um hiperplano descrito por $f(\vect{x}) = \vect{w}\cdot\vect{x} + b = 0$ que tenha maior margem entre as classes e menor complexidade estrutural por meio da resolu\c{c}ão de um problema de otimiza\c{c}ão.
 
@@ -168,7 +168,7 @@ Assim, substituindo equações \ref{eq:lagsum0} e \ref{eq:lagsum1}, é possível
 \end{array}
 \end{eqnarray}
 
-A equação \ref{eq:maxalpha} é denominada a \emph{forma dual} do problema, ao passo que a formulação original na equação \ref{eq:min_w0} é denominada a \emph{forma primal}, baseada no trabalho de \apudonline{fletcher1987practical}{burges1998tutorial}.
+A equação \ref{eq:maxalpha} é denominada a forma dual do problema, ao passo que a formulação original na equação \ref{eq:min_w0} é denominada a forma primal, baseada no trabalho de \apudonline{fletcher1987practical}{burges1998tutorial}.
 
 % TODO REV Marcio pg16, "o que é forma primal e forma dual?"
 % TODO REV Marcio pg16, "quais são as condições [de KKT]"
@@ -178,7 +178,7 @@ A equação \ref{eq:maxalpha} é denominada a \emph{forma dual} do problema, ao 
   \alpha_i^*(y_i(\vect{w^*}\cdot\vect{x}_i+b^*) - 1) = 0, \forall{i}=1,\dotsc,n
 \end{equation}
 
-Nesta equação $\alpha_i^*$ é diferente de zero apenas para os valores que tocam a borda das margens do hiperplano de decisão ($H_1$ e $H_2$). Assim, esses dados são chamados de \emph{vetores de suporte}, pois são os dados mais significativos para a localização de hiperplano $\vect{w}\cdot\vect{x} + b = 0$.
+Nesta equação $\alpha_i^*$ é diferente de zero apenas para os valores que tocam a borda das margens do hiperplano de decisão ($H_1$ e $H_2$). Assim, esses dados são chamados de ``vetores de suporte'', pois são os dados mais significativos para a localização de hiperplano $\vect{w}\cdot\vect{x} + b = 0$.
 
 E para calcular $b^*$, de acordo com \ref{eq:dualalpha}:
 \begin{equation}\nonumber
@@ -220,9 +220,9 @@ A constante $C$ impõe uma penalização à violação das restrições \ref{eq:
 
 \subsubsection{Classificação não-linear}\label{sec:naolinear}
 
-Segundo o teorema de \citeonline{cover1965geometrical}, as chances de que um conjunto de exemplos não linearmente separável possa ser separado por um hiperplano é grande quando este é disposto em um espaço de maior dimensionalidade. Assim, a implementação das máquinas de vetores de suporte utiliza esta técnica para conseguir separar dados ainda de maneira \emph{linear} \cite{burges1998tutorial}.
+Segundo o teorema de \citeonline{cover1965geometrical}, as chances de que um conjunto de exemplos não linearmente separável possa ser separado por um hiperplano é grande quando este é disposto em um espaço de maior dimensionalidade. Assim, a implementação das máquinas de vetores de suporte utiliza esta técnica para conseguir separar dados ainda de maneira linear~\cite{burges1998tutorial}.
 
-Com isso, os dois vetores $\vect{x}$ e $\vect{x}_i$, que são utilizados na função de decisão \ref{eq:classificadora}, são convertidos para o espaço de maior dimensão por um mapeamento $\vect{\Phi}: X \rightarrow \Im$, aonde $X$ é o espaço de entrada e $\Im$ o \emph{espaço de características}.
+Com isso, os dois vetores $\vect{x}$ e $\vect{x}_i$, que são utilizados na função de decisão \ref{eq:classificadora}, são convertidos para o espaço de maior dimensão por um mapeamento $\vect{\Phi}: X \rightarrow \Im$, aonde $X$ é o espaço de entrada e $\Im$ o espaço de características.
 
 Adicionalmente, o produto entre os vetores $\vect{x}$ e $\vect{x}_i$ é representado como uma função $K(\vect{x}_i, \vect{x}_j) = \vect{\Phi}(\vect{x}_i)\cdot\vect{\Phi}(\vect{x}_j)$. Esta função é chamada de \emph{função kernel} e tem por finalidade permitir o uso de funções que atentem às condições definidas pelo teorema de Mercer \cite[p. 141]{burges1998tutorial}. Esta forma de representação permite que se use estas funções de kernel dentro da implementação de uma SVM sem a necessidade de conhecimento dos detalhes internos das mesmas. O quadro \ref{quadro:kernels} apresenta alguns dos kernels mais populares utilizados com SVMs~\cite{lorena2003introducaoas}.
 
@@ -244,11 +244,11 @@ Sigmoidal & $\tanh(\delta(\vect{x}_i\cdot\vect{x}_j)+\kappa)$ & $\delta$ e $\kap
 
 % hsu2002comparison
 
-Como SVMs fazem classificação binária, é necessário o uso de alguma técnica para adaptar problemas de classificação multiclasses. As mais populares são \emph{um contra todos} (\emph{one-against-all}) e \emph{um contra um} (\emph{one-against-one}).
+Como SVMs fazem classificação binária, é necessário o uso de alguma técnica para adaptar problemas de classificação multiclasses. As mais populares são um contra todos (\emph{one-against-all}) e um contra um (\emph{one-against-one}).
 
-Na técnica \emph{um contra todos}, é treinada uma SVM para cada classe contra todas as outra classes ao mesmo tempo. \citeonline{vapnik1998statistical} propôs uma extensão a esta técnica para utilizar os valores contínuos de cada SVM (ao invés do retornado por $\operatorname{sinal}$) e ordenar as classes descendentemente de acordo com o módulo da classificação de cada uma~\cite{abe2003analysis}.
+Na técnica um contra todos, é treinada uma SVM para cada classe contra todas as outra classes ao mesmo tempo. \citeonline{vapnik1998statistical} propôs uma extensão a esta técnica para utilizar os valores contínuos de cada SVM (ao invés do retornado por $\operatorname{sinal}$) e ordenar as classes descendentemente de acordo com o módulo da classificação de cada uma~\cite{abe2003analysis}.
 
-Na técnica de classificação \emph{um contra um}, ou também chamado de \emph{pairwise}, cada classe é treinada contra outra classe do problema; a classe selecionada é a que foi selecionada mais vezes nas classificações contra todas as outras classes. Isso resulta, em um problema de classificação de $n$ classes, em $n(n - 1)/2$ SVMs \cite{kressel1999pairwise}.
+Na técnica de classificação um contra um, ou também chamado de \emph{pairwise}, cada classe é treinada contra outra classe do problema; a classe selecionada é a que foi selecionada mais vezes nas classificações contra todas as outras classes. Isso resulta, em um problema de classificação de $n$ classes, em $n(n - 1)/2$ SVMs \cite{kressel1999pairwise}.
 
 % TODO há mais técnicas interessantes (as baseadas em árvore de decisão e
 % all-together), talvez apontar desempenho delas etc etc
