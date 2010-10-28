@@ -236,10 +236,8 @@ estar mal implementada, como indicado por \citeonline{joachims1998text} e
 
 Assim, das classes que foram apresentadas na seção \ref{sec:modelagem},
 serão especializações para cada tipo de técnica de aprendizado. O diagrama
-é apresentado na figura \ref{fig:diagramaclasses1}.  Para o caso de SVMs, será
-usada a técnica de um-contra-todos (descrita na seção \ref{sec:svmmulti}), que
-consiste na criação múltiplas instâncias de SVM, representando a identificação
-de uma classe.
+representando estas especializações é apresentado na figura
+\ref{fig:diagramaclasses1}.
 
 \begin{figure}[htp]
 \centering
@@ -248,6 +246,27 @@ de uma classe.
 utilizado}
 \label{fig:diagramaclasses1}
 \end{figure}
+
+% Para o caso de SVMs, será usada a técnica de um-contra-todos (descrita na seção
+% \ref{sec:svmmulti}), que consiste na criação múltiplas instâncias de SVM,
+% representando a identificação de uma classe.
+
+Para o caso de SVMs, este trabalho seguirá a metodologia proposta
+por~\citeonline{hsu2003practical} para a avaliação dos parâmetros que serão
+utilizados no sistema. Esta consiste na execução nos seguintes passos:
+\begin{enumerate}
+  \item processar os dados coletados para transformar no formato da biblioteca
+        que será utilizada (no caso, a \emph{libsvm});
+  \item normalizar os dados;
+  \item avaliar o desempenho do uso da função \emph{kernel} RBF
+        ($\exp(-\sigma\norma{\vect{x}_i-\vect{x}_j}^2)$);
+  \item fazer busca em grade: dos valores do espaço de busca, crescendo os
+	 parâmetros da SVM e da função de kernel ($C$ e $\sigma$,
+         respectivamente) exponencialmente;
+  \item executar testes de validação cruzada (intercalando elementos do conjunto
+        de testes com o de treinamento);
+ \item avaliar o desempenho na base de dados completa;
+\end{enumerate}
 
 \subsection{Treinamento}
 
