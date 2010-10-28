@@ -45,7 +45,7 @@ dados e aplicações Web.
 \end{figure}
 
 Se o indivíduo que criou este ambiente esperava que as aplicações que
-executam dentro das máquinas virtuais tenham um \emph{bom desempenho},
+executam dentro das máquinas virtuais tenham um desempenho aceitável,
 então ele deve ter estudado os usos de processador, memória e entrada/saída
 dessas aplicações e dimensionado o ambiente de tal maneira que uma máquina
 virtual não degrade o desempenho de outra a ponto de torná-lo inaceitável.
@@ -170,8 +170,8 @@ projeto proposto}
 \label{fig:contexto1}
 \end{figure}
 
-Como o projeto será implementado utilizando o conceito de \emph{orientação a
-objetos}~\cite{ricarte2001programacao}, a figura \ref{fig:contexto1} maximiza o
+Como o projeto será implementado utilizando o conceito de orientação a
+objetos~\cite{ricarte2001programacao}, a figura \ref{fig:contexto1} maximiza o
 processo \texttt{Projeto} utilizando um diagrama de
 classes~\cite{bezerra2002principios} descrevendo quais são os processos que
 fazem parte do software proposto. O fluxo \texttt{uso de CPU máq. virtuais}
@@ -182,7 +182,7 @@ base. O processo \texttt{Treinamento} será executado periodicamente e
 consistirá na execução da fase de treinamento para as técnicas de AM
 (aprendizado de máquina). O depósito de dados \texttt{base ``treinada''}
 representa uma base de dados com os parâmetros utilizados para representar o
-\emph{conhecimento} dos algoritmos de AM (o conteúdo em si desta base depende
+conhecimento dos algoritmos de AM (o conteúdo em si desta base depende
 da técnica utilizada; SVMs, por exemplo, guardam alguns exemplos da base de
 treinamento, já $k$-NN não guarda coisa alguma além dos exemplos). O processo
 \texttt{Predição} recebe dois fluxos de dados, o primeiro é o das informações
@@ -211,8 +211,8 @@ chamados apenas quando a classe \texttt{Projeto} considerar conveniente,
 fazendo com que assim esta classe tenha um papel de escalonador do
 software. As classes são a grosso modo um mapeamento dos processos
 apresentados na figura \ref{fig:contexto1}, com excessão da classe
-\texttt{InterfaceMMV}, que significa \emph{Interface para Monitor de
-Máquinas Virtuais}, tem como propósito centralizar o acesso à \libvirt{},
+\texttt{InterfaceMMV}, que significa Interface para Monitor de
+Máquinas Virtuais, tem como propósito centralizar o acesso à \libvirt{},
 facilitando a manutenção em caso de mudança de interface, porte para outra
 biblioteca ou a simulação de valores (que é descrita na seção
 \ref{sec:desemp}). À excessão de \texttt{InterfaceMMV}, todas estas
@@ -237,7 +237,7 @@ estar mal implementada, como indicado por \citeonline{joachims1998text} e
 Assim, das classes que foram apresentadas na seção \ref{sec:modelagem},
 serão especializações para cada tipo de técnica de aprendizado. O diagrama
 é apresentado na figura \ref{fig:diagramaclasses1}. Para o caso de SVMs,
-será usada a técnica de \emph{um-contra-todos} (descrita na seção
+será usada a técnica de um-contra-todos (descrita na seção
 \ref{sec:svmmulti}), que consiste na criação múltiplas instâncias de SVM,
 representando a identificação de uma classe.
 
@@ -252,7 +252,7 @@ utilizado}
 \subsection{Treinamento}
 
 Para a etapa de treinamento, e subsequente uso pela etapa de predição, o
-vetor de características usado será constituído de uma \emph{janela}
+vetor de características usado será constituído de uma janela
 formada por um determinado número de leituras anteriores do uso de CPU para
 cada máquina virtual controlada naquele domínio. Como estes valores são
 percentuais de uso de CPU, a normalização destes será feita com uma divisão
@@ -271,7 +271,7 @@ características}
 \label{fig:vetor0}
 \end{figure}
 
-Na figura \ref{fig:vetor0}, o item \emph{(a)} apresenta uma \emph{janela}
+Na figura \ref{fig:vetor0}, o item \emph{(a)} apresenta uma janela
 formada por valores lidos da série para uma máquina virtual. Em \emph{(b)}
 são apresentados os vetores de características que são usados para treinar
 (para os testes que usarão SVMs) cada uma das SVMs usadas para categorizar
