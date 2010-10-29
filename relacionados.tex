@@ -37,6 +37,15 @@ Benchmark, com esqueletos de tempo de execução variando de 0,5 a 10 segundos.
 Com exceção do esqueleto de 0,5 segundos, os outros tiveram uma taxa de erro de
 predição média de 6,7\%. 
 
+\citeonline{wolski2000predicting} compara duas medidas amplamente disponíveis
+em sistemas Unix para avaliação de uso de CPU, a \emph{vmstat} que provê
+informações de tempo gasto com processamento em kernel space e user space e a
+medida \emph{load average}, que é a contagem do número de processos que estavam
+na fila de execução do escalonador no último minuto. Foram feitas predições
+utilizando o \emph{Network Weather Service} \cite{wolski1999network} para a
+avaliação dessas medidas. As avaliações demonstraram que ambas tem baixo erro
+para previsões de curto (10 segundos) e médio (5 minutos) prazo.
+
 % tese do eugeni
 % dinda (análise de comportamento dos hosts, virtuoso)
 % skeletons
