@@ -15,12 +15,16 @@ Os trabalhos de Dinda (2000)\nocite{dinda2000host} e de Dinda
 CPU em um conjunto formado por 38 computadores de diferentes tipos que
 pertenciam ao \emph{Carnegie Mellon University} e também no \emph{Pittsburgh
 Supercomputing Center}, nos Estados Unidos, pelo período de pouco mais que uma
-semana. Com estas informações de uso de CPU ele fez uma análise deste conjunto
-de dados e avaliou algumas técnicas de modelagem de séries temporais, e
+semana. Com estas informações de uso de CPU foi feita uma análise deste conjunto
+de dados e avaliou-se algumas técnicas de modelagem de séries temporais, e
 finalmente sugere que seja usado o modelo AR(16) (\emph{Autoregressive model},
 modelo auto-regressivo, com 16 coeficientes) para a predição de comportamento
-de CPUs. 
-
+de CPUs. Este modelo consiste em uma representação na forma
+$x_t = \phi_{1}x_{t-1} + \phi_{2}x_{t-2}+\dotsc,\phi_{p}x{t-p}+e_t$, aonde a
+$\phi_p$ correspondem aos parâmetros do modelo (sendo $p$ a ordem do mesmo) e
+$e_t$ representa um ruído no modelo. Utilizando a técnica de Yule-Walker é
+possível conhecer os parâmetros $\phi_p$ do modelo e assim prever itens na
+série calculando-se $x_{t+1}$~\cite{baddour2005autoregressive}.
 
 % tese do eugeni
 % dinda (análise de comportamento dos hosts, virtuoso)
