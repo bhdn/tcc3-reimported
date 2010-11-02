@@ -168,9 +168,8 @@ Assim, substituindo equações \ref{eq:lagsum0} e \ref{eq:lagsum1}, é possível
 \end{array}
 \end{eqnarray}
 
-A equação \ref{eq:maxalpha} é denominada a forma dual do problema, ao passo que a formulação original na equação \ref{eq:min_w0} é denominada a forma primal, baseada no trabalho de \apudonline{fletcher1987practical}{burges1998tutorial}.
+A equação \ref{eq:maxalpha} é denominada a forma dual do problema, ao passo que a formulação original na equação \ref{eq:min_w0} é denominada a forma primal, baseada no trabalho de \apudonline{fletcher1987practical}{burges1998tutorial}. Chama-se de forma dual a disposição do problema de otimização que envolve os mesmos coeficientes, mas são dispostos de maneira diferente do problema original (chamada de primal), formando um problema que tem ponto ótimo próximo ao da formulação original~\cite{puccini1990introducao}.
 
-% TODO REV Marcio pg16, "o que é forma primal e forma dual?"
 % TODO REV Marcio pg16, "quais são as condições [de KKT]"
 
 É possível utilizar as condições KKT (de Karush-Kuhn-Tucker), descritas em \citeonline[proposição 3.3.1]{bertsekas-nonlinear}, visto que o problema de otimização \ref{eq:maxalpha} possui restrições lineares e a função objetivo é convexa \cite{burges1998tutorial}. Assim, segundo essas condições, é possível encontrar $\vect{w^*}$ e $b^*$ que podem ser considerados solução ótima para o problema a partir da solução do problema dual ao encontrar $\alpha_i^*$:
