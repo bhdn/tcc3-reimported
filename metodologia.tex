@@ -99,13 +99,13 @@ No exemplo da figura \ref{fig:hostguests4}, a máquina virtual
 \texttt{vm-11} está executando algum processo que está exigindo muito tempo
 de CPU. Este tipo de situação pode ocorrer quando há este processo é
 \emph{CPU-bound} (que faz uso intensivo do processador), o que geralmente
-pode ser uma tarefa rotineira de backup (compressão, descompressão ou
-sincronização de árvores) ou o rotinas aritméticas. Neste caso fica claro
-que seria melhor ter esta máquina executando no hospedeiro \texttt{host1},
-pois o uso típico de CPU das máquinas virtuais que já estão lá ainda pode
-acomodar \texttt{vm-11}. A dificuldade neste modelo está no fato de que
-este uso de CPU pode ser sazonal, e que outras máquinas virtuais além de
-\texttt{vm-11} podem ter situações de demanda abrupta.
+pode ser uma tarefa rotineira de \emph{backup} (compressão, descompressão ou
+sincronização de árvores) ou o rotinas aritméticas. Neste caso fica claro que
+seria melhor ter esta máquina executando no hospedeiro \texttt{host1}, pois o
+uso típico de CPU das máquinas virtuais que já estão lá ainda pode acomodar
+\texttt{vm-11}. A dificuldade neste modelo está no fato de que este uso de CPU
+pode ser sazonal, e que outras máquinas virtuais além de \texttt{vm-11} podem
+ter situações de demanda abrupta.
 
 Com isso, o software que será desenvolvido a partir deste projeto atuará
 tentando prever o comportamento destas máquinas virtuais e requisitando à
@@ -190,7 +190,7 @@ de treinamento da \texttt{base ``treinada''}, o segundo é das mesmas
 informações de CPU que vieram da etapa \texttt{Coleta}; este processo utiliza o
 algoritmo de aprendizado para saber se alguma das máquinas virtuais que estão
 sendo monitoradas tem possibilidade de saturar os recursos de processador das
-máquinas hospeiras; é esse processo que envia os comandos necessários à
+máquinas hospedeiras; é esse processo que envia os comandos necessários à
 \libvirt{} visando migrar máquinas para outro hospedeiro que possa acomodá-lo.
 
 % FIXME explicar esse tal pré-processamento
@@ -210,12 +210,12 @@ destas classes possui apenas um método público, para que estes sejam
 chamados apenas quando a classe \texttt{Projeto} considerar conveniente,
 fazendo com que assim esta classe tenha um papel de escalonador do
 software. As classes são a grosso modo um mapeamento dos processos
-apresentados na figura \ref{fig:contexto1}, com excessão da classe
+apresentados na figura \ref{fig:contexto1}, com exceção da classe
 \texttt{InterfaceMMV}, que significa Interface para Monitor de
 Máquinas Virtuais, tem como propósito centralizar o acesso à \libvirt{},
 facilitando a manutenção em caso de mudança de interface, porte para outra
 biblioteca ou a simulação de valores (que é descrita na seção
-\ref{sec:desemp}). À excessão de \texttt{InterfaceMMV}, todas estas
+\ref{sec:desemp}). À exceção de \texttt{InterfaceMMV}, todas estas
 classes são abstratas, pois devem ainda ser especializadas para cada uma
 das técnicas de aprendizado que serão implementadas no projeto.
 
@@ -306,7 +306,7 @@ virtuais.
 
 Para a etapa de predição, serão utilizados os métodos de classificação das
 técnicas de aprendizado de máquina que foram selecionadas. O resultado da
-classificação, para cada máquina virtual, consitirá em uma faixa de
+classificação, para cada máquina virtual, irá consistir em uma faixa de
 percentual de uso de CPU para. Esta faixa então será usada para calcular o
 potencial uso total de CPU para o próximo intervalo de tempo (intervalo
 este que será diferente durante os testes) e então será aplicada a técnica
@@ -356,7 +356,7 @@ sistema operacional como um todo~\cite{andresen2004monitoring}. Para utilizar
 os valores coletados no ambiente de compilação, será criada uma especialização
 para a classe \texttt{InterfaceMMV}, como descrito na figura
 \ref{fig:diagramaclasses2}, que lerá os arquivos com o histórico de acesso às
-máquinas e então entegará estes valores ao módulo de aprendizado.
+máquinas e então entregará estes valores ao módulo de aprendizado.
 
 Além disso, o software implementado será testado em um ambiente de
 virtualização real, onde cada máquina virtual estará executando pequenos
