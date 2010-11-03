@@ -143,12 +143,12 @@ configuração e acesso a máquinas virtuais por meio de
 por meio da chamada de sistema \emph{ioctl} para o kernel ou especificamente o
 \emph{driver} de algum dispositivo representado por aquele arquivo.
 
-Além desta interface, a \emph{Qumranet} desenvolveu a ferramenta \textbb{kvm},
+Além desta interface, a \emph{Qumranet} desenvolveu a ferramenta \textbf{kvm},
 que é um monitor de máquinas virtuais que utiliza a interface KVM. Para a
 emulação de dispositivos e a interação com o usuário, ela utiliza uma grande
 porção do código da ferramenta QEMU~\cite{kerneltrap2007avi}.
 
-Em versões mais recentes, a ferramenta \texttt{kvm} recebeu o suporte a
+Em versões mais recentes, a ferramenta \textbf{kvm} recebeu o suporte a
 paravirtualização com a introdução dos \emph{drivers} para dispositivos do tipo
 \emph{virtio}. Cada interface \emph{virtio} é uma pequena camada genérica para
 acesso a algum subsistema, que pode ser implementada por qualquer MMV e também
