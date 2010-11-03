@@ -118,6 +118,17 @@ apenas \emph{ring 0} e \emph{ring 3}, deixando o nível 1 disponível para uso
 pelo \emph{VirtualBox}. Para a tradução de instruções, é utilizada uma porção
 de código da ferramenta QEMU para tal fim.~\cite{virtualboxTech}
 
+A ferramenta \emph{Xen}\footnote{http://www.xen.org/} popularizou o conceito de
+paravirtualização ao prover um sistema composto por um \emph{kernel} com papel
+de “hipervisor”, outro específico para ser executado como hóspede e ferramentas
+de gerenciamento. Diferentemente do conceito básico de virtualização
+apresentado anteriormente, no caso da paravirtualização, tanto o hospedeiro
+quanto o hóspede são ajustados para serem virtualizados, de maneira a prover
+mais escalabilidade e melhor desempenho do sistema como um
+todo~\cite{whitaker2002denali}. Tal abordagem permitiu que a ferramenta
+\emph{Xen} apresentasse melhor desempenho de execução se comparado a
+\emph{VMware}\cite{barham2003xen}.
+
 % mais ferramentas interessantes: bochs, denali, ibm rhype, virtualbox,
 % virtualpc (ms)
 
