@@ -116,6 +116,11 @@ aquela demanda. Ele executará como um processo separado, na forma de um
 estar instalado em qualquer uma das máquinas hospedeiras ou até mesmo em
 uma máquina separada (providas as credenciais de acesso para a \libvirt{}).
 
+Como dados de entrada, o software receberá as leituras de uso de CPU de cada
+uma das máquinas virtuais executando no ambiente. Entende-se que a saída
+observável do software é uma série de comandos de migração que devem ser
+enviados à \libvirt{}.
+
 \begin{figure}[htp]
 \centering
 \includegraphics{img-libvirt-contexto0.pdf}
