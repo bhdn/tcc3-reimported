@@ -206,4 +206,17 @@ aplicação para ambiente \emph{desktop}.
 
 \subsubsection{Interface de programação}\label{sec:libvirtapi}
 
-\emph{Trecho ainda não concluído}.
+Todo o ambiente gerenciado pela \libvirt{} é representado na
+API\footnote{\url{http://libvirt.org/api.html}} por meio de cinco tipos de
+objetos: conexão, domínio, rede, \emph{pool} de armazenamento, e volume de
+armazenamento. Cada um destes objetos é representado, respectivamente, pelas
+estruturas de dados \emph{virConnectPtr}, \emph{virDomainPtr},
+\emph{virNetworkPtr}, \emph{virStoragePoolPtr} e \emph{virStorageVolPtr}. Uma
+conexão representa o estado da comunicação entre o cliente e a
+\textbf{libvirtd}, incluindo informações de autenticação deste acesso. Um
+domínio representa um sistema hóspede executando em algum
+hospedeiro/hipervisor. Uma rede representa uma rede no ambiente de
+virtualização, com a \libvirt{} é possível adicionar regras de filtragem de
+pacote e roteamento entre essas redes, por exemplo. \emph{Pools} e volumes de
+armazenamento representam unidades de armazenamento que podem ser alocadas e
+manipuladas para algum domínio~\cite{libvirtapi}.
