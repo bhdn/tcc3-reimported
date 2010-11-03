@@ -17,7 +17,7 @@ compatível possa executar também neste ambiente~\cite{goldberg1974survey}.
 Diferentemente do que se observa na arquitetura clássica de computadores,
 aonde cada componente provê uma abstração os componentes mais próximos do
 usuário, a virtualização multiplexa os serviços de hardware para
-componentes virtuais, que possam ser utilizandos por sistemas operacionais
+componentes virtuais, que possam ser utilizados por sistemas operacionais
 sem adaptações~\cite{dutra2009a}.
 
 % FIXME colocar aqui uma figura mostrando uma arquitetura com virtualização
@@ -60,7 +60,7 @@ tratar de virtualização, como apresentado por
         eles;
   \item[migração] ocorre quando todo o estado de um hóspede
        (memória, registradores, dispositivos) que está executando em um
-       determinado hospedeiro é transfeirido para outro, de maneira que a
+       determinado hospedeiro é transferido para outro, de maneira que a
        execução do hóspede prossegue, sem que software executando dentro
        desta note diferença.
 \end{description}
@@ -85,7 +85,7 @@ Tradução binária dinâmica é uma técnica que visa fazer com que o processad
 execute diretamente as instruções de uma máquina virtual, evitando assim o
 custo computacional de uma emulação por parte do MMV. Porém, a máquina virtual
 não terá permissão para executar todas as instruções, pois o monitor de
-máquinas virtuais é um processo não-privivilegiado no sistema hospedeiro, e o
+máquinas virtuais é um processo não-privilegiado no sistema hospedeiro, e o
 \emph{kernel} do sistema hóspede certamente terá a necessidade de utilizar tais
 instruções privilegiadas. Assim, é necessário que o MMV substitua as instruções
 que precisam privilégio por instruções que transferem o controle para si, de
