@@ -77,7 +77,9 @@ A família de produtos oferecida pela empresa VMware está entre as mais
 populares ferramentas de virtualização utilizadas atualmente. Seu primeiro
 produto, chamado \emph{VMware Workstation}, foi lançado em
 1999~\cite{vmwareMilestones} e tornou-se popular em razão de seu bom
-desempenho resultante do uso de técnicas de tradução binária dinâmica.
+desempenho resultante do uso de técnicas de tradução binária dinâmica e também
+pela facilidade de uso e disponibilização de recursos para integração entre
+ambientes \emph{desktop} de hóspede e hospedeiro~\cite{nieh2000examining}.
 
 Tradução binária dinâmica é uma técnica que visa fazer com que o processador
 execute diretamente as instruções de uma máquina virtual, evitando assim o
@@ -102,8 +104,19 @@ também é feita em linguagem C, permitindo assim o aproveitamento de todo o
 trabalho expendido ao implementar um compilador C para a arquitetura do
 hóspede~\cite{bellard2005qemu}.
 
-Além disso, uma outra ferramenta muito popular para virtualização é a
-VirtualBox.
+Além disso, outra ferramenta muito popular para virtualização é a
+\emph{VirtualBox}\footnote{http://www.virtualbox.org/}, que tornou-se conhecida
+em razão de ter seu código disponibilizado sob a licença
+GPL~\cite{watson2008virtualbox}. Assim como \emph{VMware}, a implementação de
+virtualização em \emph{VirtualBox} executa diretamente no processador do
+hospedeiro todas as instruções não privilegiadas. Porém, para as instruções
+privilegiadas ele difere do \emph{VMware} ao executar as instruções
+privilegiadas no chamado \emph{ring 1}, que é um dos níveis de execução de
+instruções disponíveis nas arquiteturas de processadores da família
+\emph{x86}~\cite{uhlig2005intel}. Os sistemas operacionais populares utilizam
+apenas \emph{ring 0} e \emph{ring 3}, deixando o nível 1 disponível para uso
+pelo \emph{VirtualBox}. Para a tradução de instruções, é utilizada uma porção
+de código da ferramenta QEMU para tal fim.~\cite{virtualboxTech}
 
 % mais ferramentas interessantes: bochs, denali, ibm rhype, virtualbox,
 % virtualpc (ms)
