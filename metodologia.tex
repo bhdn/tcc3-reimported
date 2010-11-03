@@ -344,11 +344,19 @@ serão efetivamente migrados utilizando a \libvirt{}.
 % utilizar uma instância do classificador para todas as VMs, versus
 % utilizar uma instância nova para cada VM
 
-Para avaliar o desempenho do projeto a ser implementado, serão lidos os
-valores de uso de CPU de um conjunto de máquinas que fazem parte do
-ambiente de compilação de software que é utilizado no projeto
-\emph{Mandriva Linux}. Tais valores serão lidos por um período de 30 dias,
-com o intuito de cobrir as diferentes taxas de uso de CPU naquele período.
+O processo de validação será constituído de duas etapas. A primeira trata de
+avaliar o desempenho de apenas o sistema de predição, utilizando dados reais de
+CPU que serão coletados. A segunda etapa irá avaliar o desempenho do sistema
+completo em um ambiente utilizando virtualização. Além disso, na primeira etapa
+serão ajustados os parâmetros (descritos mais adiante) das técnicas de extração
+e treinamento, ao passo que na segunda etapa somente os parâmetros com melhor
+desempenho serão utilizados.
+
+Os valores de uso de CPU serão provenientes de um conjunto de máquinas que
+fazem parte do ambiente de compilação de software que é utilizado no projeto
+\emph{Mandriva Linux}. Tais valores serão lidos por um período de 30 dias, com
+o intuito de cobrir as diferentes taxas de uso de CPU que pode-se observar
+durante dias úteis e finais de semana.
 
 Este ambiente de compilação é composto por $6$ máquinas que recebem
 comandos de compilação de pacotes de software, fazem download códigos fonte
