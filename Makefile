@@ -12,6 +12,7 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-host-guests3.pdf \
 	img-host-guests4.pdf \
 	img-vetor0.pdf \
+	img-vetor-janela.pdf \
 	img-diagrama-classes0.pdf \
 	img-diagrama-classes1.pdf \
 	img-diagrama-classes2.pdf \
