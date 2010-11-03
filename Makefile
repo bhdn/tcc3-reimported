@@ -15,7 +15,8 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-diagrama-classes0.pdf \
 	img-diagrama-classes1.pdf \
 	img-diagrama-classes2.pdf \
-	img-libvirt-contexto0.pdf
+	img-libvirt-contexto0.pdf \
+	img-libvirt-contexto1.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
 img-%.eps: img-%.dia

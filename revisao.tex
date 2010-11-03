@@ -176,6 +176,34 @@ ferramenta \emph{Xen}), porém teve seu nome alterado para \libvirt{} em
 2006, de maneira a refletir o interesse em suportar mais ferramentas de
 virtualização \apud{gitlibvirt}{eriksson2009virtualization}.
 
+\begin{figure}[htp]
+\centering
+\includegraphics{img-libvirt-contexto1.pdf}
+\figinfox{Funcionamento da \libvirt{}}{BOLTE, 2010}
+\label{fig:libvirtcontexto1}
+\end{figure}
+
+A figura \ref{fig:libvirtcontexto1} apresenta o funcionamento básico da
+\libvirt{} e a interação entre ela e outros componentes do ambiente. A
+interface de programação, a \libvirt{} propriamente dita, é executada por meio
+de chamadas de funções, que então são convertidas em comandos e enviadas até a
+\emph{libvirtd}, que é um serviço de sistema (ou \emph{daemon}) que, de acordo
+com a configuração do ambiente de virtualização, irá então converter esses
+comandos para a ferramenta de virtualização utilizada (hipervisor \textbf{kvm}
+no caso)~\cite{bolte2010non}.
+
+Como a interface de acesso desta ferramenta é por meio de uma interface
+programática, então para que o administrador do sistema hospedeiro precisa
+utilizar alguma ferramenta de gerenciamento para ter controle do hipervisor. A
+ferramenta de administração que é distribuída junto com a \libvirt{} é a
+\emph{virsh}, que possui uma interface textual e permite acesso a todas as
+funcionalidades disponíveis~\cite{virsh2008asilva}. Além disso, existem outras
+ferramentas que permitem o gerenciamento outras interfaces: a
+\emph{oVirt}\footnote{\url{http://ovirt.fedorahosted.org/}} permite o
+gerenciamento por meio de uma interface \emph{web}, ao passo que a
+\emph{virt-manager}\footnote{\url{http://virt-manager.et.redhat.com/}} é uma
+aplicação para ambiente \emph{desktop}.
+
 \subsubsection{Interface de programação}\label{sec:libvirtapi}
 
 \emph{Trecho ainda não concluído}.
