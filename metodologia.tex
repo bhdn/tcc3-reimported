@@ -165,33 +165,33 @@ software a ser implementado decidir.
 \begin{figure}[htp]
 \centering
 \includegraphics{img-met-contexto-1.pdf}
-\figinfo{Diagrama de contexto, nível 1, interação entre os processos do
+\figinfo{Diagrama de contexto, interação entre os processos do
 projeto proposto}
 \label{fig:contexto1}
 \end{figure}
 
 Como o projeto será implementado utilizando o conceito de orientação a
-objetos~\cite{ricarte2001programacao}, a figura \ref{fig:contexto1} maximiza o
-processo \texttt{Projeto} utilizando um diagrama de
-classes~\cite{bezerra2002principios} descrevendo quais são os processos que
-fazem parte do software proposto. O fluxo \texttt{uso de CPU máq. virtuais}
-(também abreviado como \texttt{usos de CPU}) indica os valores que serão lidos
-periodicamente de cada máquina virtual.  O processo \texttt{Coleta} trata da
-consulta à instância da \libvirt{} e o pré-processamento dos dados para envio à
-base. O processo \texttt{Treinamento} será executado periodicamente e
-consistirá na execução da fase de treinamento para as técnicas de AM
-(aprendizado de máquina). O depósito de dados \texttt{base ``treinada''}
-representa uma base de dados com os parâmetros utilizados para representar o
-conhecimento dos algoritmos de AM (o conteúdo em si desta base depende
-da técnica utilizada; SVMs, por exemplo, guardam alguns exemplos da base de
-treinamento, já $k$-NN não guarda coisa alguma além dos exemplos). O processo
-\texttt{Predição} recebe dois fluxos de dados, o primeiro é o das informações
-de treinamento da \texttt{base ``treinada''}, o segundo é das mesmas
-informações de CPU que vieram da etapa \texttt{Coleta}; este processo utiliza o
-algoritmo de aprendizado para saber se alguma das máquinas virtuais que estão
-sendo monitoradas tem possibilidade de saturar os recursos de processador das
-máquinas hospedeiras; é esse processo que envia os comandos necessários à
-\libvirt{} visando migrar máquinas para outro hospedeiro que possa acomodá-lo.
+objetos~\cite{ricarte2001programacao}, a figura \ref{fig:contexto1} apresenta
+de maneira mais detalhada, na forma de um diagrama de contexo, como é a
+interação entre os módulos que serão implementados no projeto. O fluxo
+\texttt{uso de CPU máq. virtuais} (também abreviado como \texttt{usos de CPU})
+indica os valores que serão lidos periodicamente de cada máquina virtual.  O
+processo \texttt{Coleta} trata da consulta à instância da \libvirt{} e o
+pré-processamento dos dados para envio à base. O processo \texttt{Treinamento}
+será executado periodicamente e consistirá na execução da fase de treinamento
+para as técnicas de AM (aprendizado de máquina). O depósito de dados
+\texttt{base ``treinada''} representa uma base de dados com os parâmetros
+utilizados para representar o conhecimento dos algoritmos de AM (o conteúdo em
+si desta base depende da técnica utilizada; SVMs, por exemplo, guardam alguns
+exemplos da base de treinamento, já $k$-NN não guarda coisa alguma além dos
+exemplos). O processo \texttt{Predição} recebe dois fluxos de dados, o primeiro
+é o das informações de treinamento da \texttt{base ``treinada''}, o segundo é
+das mesmas informações de CPU que vieram da etapa \texttt{Coleta}; este
+processo utiliza o algoritmo de aprendizado para saber se alguma das máquinas
+virtuais que estão sendo monitoradas tem possibilidade de saturar os recursos
+de processador das máquinas hospedeiras; é esse processo que envia os comandos
+necessários à \libvirt{} visando migrar máquinas para outro hospedeiro que
+possa acomodá-lo.
 
 % FIXME explicar esse tal pré-processamento
 
