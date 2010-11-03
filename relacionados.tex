@@ -48,6 +48,18 @@ previsão de séries temporais, para a avaliação dessas medidas. As avaliaçõ
 demonstraram que ambas tem baixo erro para previsões de curto (10 segundos) e
 médio (5 minutos) prazo.
 
+O trabalho de \citeonline{dodonov2006adaptive} apresenta uma metodologia para a
+previsão do comportamento de processo em ambiente de computação distribuída, de
+maneira a permitir que o escalonador de tal ambiente possa saber quando as
+aplicações irão precisar acessar dados que não estão próximos, de maneira a
+trazê-las para unidades de processamento que estejam acessíveis com menor
+latência. Utilizando a ferramenta \emph{GridBox}~\cite{dodonov2004gridbox} os
+processos do ambiente distribuído têm suas chamadas de sistema e padrões de
+acesso a rede observados e agrupados por meio de uma técnica de agrupamento
+originalmente aplicada a textos~\cite{de2005automatic}, de maneira a reduzir a
+dimensionalidade. Após isso são utilizadas as redes TDNN (\emph{Time-delay
+Neural Network}) para o treinamento e predição do comportamento dos processos.
+
 % tese do eugeni
 % dinda (análise de comportamento dos hosts, virtuoso)
 % skeletons
