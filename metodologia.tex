@@ -322,14 +322,15 @@ Para a etapa de predição, serão utilizados os métodos de classificação das
 técnicas de aprendizado de máquina que foram descritas acima. O resultado da
 classificação, para cada máquina virtual, irá consistir em uma faixa de
 percentual de uso de CPU. Esta faixa então será usada para calcular o
-potencial uso total de CPU para o próximo intervalo de tempo (intervalo
-este que será diferente durante os testes) e então será aplicada a técnica
-de \emph{first-fit}~\cite{yao1980new} decidir se uma determinada máquina
-virtual deve permanecer ou ser migrada para outra disponível. Opta-se por
-utilizar esta técnica de empacotamento em razão desta ser mais conservadora
-se comparada a \emph{first-fit decreasing} ou outras técnicas, pois
-reordenar a lista de máquinas virtuais pode resultar em desnecessárias
-migrações entre hospedeiros.
+potencial uso total de CPU para o próximo intervalo de tempo (intervalo este
+que será diferente durante os testes) e então deve-se decidir se cada máquina
+virtual deve permanecer no mesmo hospedeiro ou ser migrada para outra com maior
+disponibilidade. Para esta decisão será utilizada a estratégia de \emph{first
+fit}, que procura alocar novos objetos no primeiro espaço mais próximo do
+começo do espaço disponível~\cite{yao1980new}. Opta-se por utilizar esta
+técnica de empacotamento em razão desta ser mais conservadora se comparada a
+\emph{first fit decreasing} ou outras técnicas, pois reordenar a lista de
+máquinas virtuais pode resultar em desnecessárias migrações entre hospedeiros.
 
 Após o empacotamento das previsões na lista de hospedeiros, aquelas
 máquinas virtuais que não estiverem mais em seus hospedeiros originais
