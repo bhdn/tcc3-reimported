@@ -24,6 +24,9 @@ img-%.eps: img-%.dia
 	dia --export=$@ $<
 apresentacao.pdf: apresentacao.tex
 	pdflatex $<
+	bibtex apresentacao
+	pdflatex $<
+	pdflatex $<
 %.pdf: %.tex xunxos-utp.sty biblio.bib Makefile
 	pdflatex $<
 	bibtex $*
