@@ -20,16 +20,19 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-libvirt-contexto1.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
-imgi-%.png: imgi-%.svg
-	inkscape -d 300 --export-png=$@ $<
+imgi-%.pdf: imgi-%.svg
+	inkscape -D --export-dpi=90 --export-pdf=$@ $<
 img-%.eps: img-%.dia
 	dia --export=$@ $<
 apresentacao.pdf: apresentacao.tex \
 		img-smith2005cla.png \
 		img-smith2005vir.png \
-		imgi-logos.png \
-		imgi-amb0.png \
-		imgi-amb1.png
+		imgi-logos.pdf \
+		imgi-amb0.pdf \
+		imgi-amb1.pdf \
+		imgi-amb-usocpu.pdf \
+		imgi-amb-migracao.pdf \
+		imgi-amb-projeto.pdf
 	pdflatex $<
 	bibtex apresentacao
 	pdflatex $<
