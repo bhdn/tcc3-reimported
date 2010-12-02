@@ -27,6 +27,8 @@ img-%.eps: img-%.dia
 apresentacao.pdf: apresentacao.tex \
 		img-smith2005cla.png \
 		img-smith2005vir.png \
+		img-met-contexto-1.pdf \
+		img-vetor-janela.pdf \
 		imgi-logos.pdf \
 		imgi-amb0.pdf \
 		imgi-amb1.pdf \
@@ -35,6 +37,7 @@ apresentacao.pdf: apresentacao.tex \
 		imgi-amb-projeto.pdf
 	pdflatex $<
 	bibtex apresentacao
+	pdflatex $<
 	pdflatex $<
 %.pdf: %.tex xunxos-utp.sty biblio.bib Makefile
 	pdflatex $<
