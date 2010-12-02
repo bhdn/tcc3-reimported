@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
 \usepackage{hyperref}
+\usepackage{amssymb,amsmath}
 
 \usetheme{Warsaw}
 \bibliographystyle{abnt-alf}
@@ -20,6 +21,8 @@ virtuais para a otimização de uso de parque computacional}
   \end{beamercolorbox}}%
   \vskip0pt%
 }
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\norma}[1]{| #1 |}
 
 \begin{document}
 
@@ -43,6 +46,9 @@ arquitetura bem como a emulação de seu hardware original, de maneira a
 permitir que qualquer sistema operacional compatível possa também executar
 neste ambiente.\cite{goldberg1974survey}
 \end{block}
+\begin{itemize}
+\item com auxílio de um \emph{software de virtualização}
+\end{itemize}
 \end{frame}
 
 %% \begin{columns}[c]
@@ -66,6 +72,10 @@ neste ambiente.\cite{goldberg1974survey}
 \includegraphics[height=5cm]{img/img-smith2005vir.png}
 \end{figure}
 \tiny{Fonte: \cite{smith2005architecture}}
+\begin{itemize}
+\item software de virtualização: \emph{monitor de máquinas virtuais}
+\item máquina virtual: arquitetura + componentes de hardware simulados
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Monitores de Máquinas Virtuais}
@@ -166,7 +176,46 @@ Serão avaliadas duas técnicas:
 dual
   \item aplicada com sucesso em: categorização de textos, reconhecimento de
 voz e escrita à mão\cite{bennett2000support}
-\item $k$-Nearest Neighbours ($k$-NN)
+\end{itemize}
+
+\begin{eqnarray}
+& \label{eq:max_w0}\operatorname{Maximizar} & \frac{2}{\norma{\vect{w}}} \\
+& \label{eq:max_w1} \operatorname{sujeito\;a} & y_i(\vect{w}\cdot\vect{x}_i + b) - 1 \ge 0 \quad i = 1,\dotsc,n.
+\end{eqnarray}
+
+\end{frame}
+
+\begin{frame}{Support Vector Machines}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{img/fig-hiperplanos.png}
+\end{figure}
+\tiny{Fonte: \cite{lorena2003introducaoas}.}
+\end{frame}
+
+\begin{frame}{Vetor de características para SVM}
+\begin{figure}
+\centering
+\includegraphics[height=3cm]{img-vetor0.pdf}
+\end{figure}
+\begin{itemize}
+\item valor contínuo é convertido em \textbf{categórico}
+\item cada classe categórica resulta em uma SVM
+\item classificação com várias SVMs: \emph{todos-contra-todos}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Avaliação de desempenho}
+Primera etapa:
+\begin{itemize}
+\item usos de CPU lidos de 6 máquinas a cada segundo durante um mês,
+\item este histórico será usado para avaliar o desempenho do previsor.
+\end{itemize}
+Então:
+\begin{itemize}
+\item com os melhores parâmetros para SVM e tamanho de janela, o histórico
+será reproduzido em um conjunto de máquinas virtuais
+\item reprodução do histórico será feita com \emph{busy loops}
 \end{itemize}
 \end{frame}
 
@@ -175,7 +224,8 @@ voz e escrita à mão\cite{bennett2000support}
   \item O título \textbf{Avaliação de técnicas de predição de comportamento
         de máquinas virtuais para a otimização de uso de parque computacional} é
         inadequado.
-  \item 
+  \item descrição de porquê utilizar uma técnica baseada em janelas para
+        predição
 \end{itemize}
 \end{frame}
 

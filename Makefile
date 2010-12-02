@@ -25,8 +25,9 @@ imgi-%.pdf: imgi-%.svg
 img-%.eps: img-%.dia
 	dia --export=$@ $<
 apresentacao.pdf: apresentacao.tex \
-		img-smith2005cla.png \
-		img-smith2005vir.png \
+		img/img-smith2005cla.png \
+		img/img-smith2005vir.png \
+		img/fig-hiperplanos.png \
 		img-met-contexto-1.pdf \
 		img-vetor-janela.pdf \
 		imgi-logos.pdf \
@@ -34,7 +35,8 @@ apresentacao.pdf: apresentacao.tex \
 		imgi-amb1.pdf \
 		imgi-amb-usocpu.pdf \
 		imgi-amb-migracao.pdf \
-		imgi-amb-projeto.pdf
+		imgi-amb-projeto.pdf \
+		img-vetor0.pdf
 	pdflatex $<
 	bibtex apresentacao
 	pdflatex $<
