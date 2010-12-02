@@ -22,7 +22,10 @@ img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
 img-%.eps: img-%.dia
 	dia --export=$@ $<
-apresentacao.pdf: apresentacao.tex
+apresentacao.pdf: apresentacao.tex \
+		img-host-guests1.pdf \
+		img-smith2005cla.png \
+		img-smith2005vir.png
 	pdflatex $<
 	bibtex apresentacao
 	pdflatex $<
