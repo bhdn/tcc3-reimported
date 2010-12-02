@@ -20,16 +20,18 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-libvirt-contexto1.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
+imgi-%.png: imgi-%.svg
+	inkscape -d 300 --export-png=$@ $<
 img-%.eps: img-%.dia
 	dia --export=$@ $<
 apresentacao.pdf: apresentacao.tex \
-		img-host-guests1.pdf \
 		img-smith2005cla.png \
 		img-smith2005vir.png \
-		img-logos.pdf
+		imgi-logos.png \
+		imgi-amb0.png \
+		imgi-amb1.png
 	pdflatex $<
 	bibtex apresentacao
-	pdflatex $<
 	pdflatex $<
 %.pdf: %.tex xunxos-utp.sty biblio.bib Makefile
 	pdflatex $<
