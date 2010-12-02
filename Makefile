@@ -25,7 +25,8 @@ img-%.eps: img-%.dia
 apresentacao.pdf: apresentacao.tex \
 		img-host-guests1.pdf \
 		img-smith2005cla.png \
-		img-smith2005vir.png
+		img-smith2005vir.png \
+		img-logos.pdf
 	pdflatex $<
 	bibtex apresentacao
 	pdflatex $<
