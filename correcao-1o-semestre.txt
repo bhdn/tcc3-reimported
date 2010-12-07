@@ -1,0 +1,29 @@
+======================================
+Notas da correção do primeiro semestre
+======================================
+
+Correção Neusa
+==============
+
+- No resumo adicionou a nota:
+
+   "O resumo deve dar noção do que o leitor encontrará pela frente em termos
+   de conteúdo e não em termos cronológicos de assuntos."
+
+- Indicou que Palavras-chave deve estar em negrito
+
+  - Na página 41 da versão impressa das normas há um exemplo e nele não é
+    utilizado negrito (provavelmente porque as grandiosas normas da ABNT foram
+    feitas para máquina de escrever, e negrito não estava disponível!!!)
+- Indicou que as palavras-chave devem estar separadas por vírgula ao invés
+  de ponto e vírgula.
+
+  - O exemplo de Palavras-chave das normas da UTP, na mesma página 41,
+    também usa ponto e vírgula
+- Pediu para colocar lista de quadros e siglas
+- Pediu para mover o cronograma para dentro da metodologia
+- Disse que achava que o “Glossário” não era numerado
+
+  - Já que vai ser eliminado mesmo, então tanto faz.
+
+.. vim:ft=rst:ai:spell:
