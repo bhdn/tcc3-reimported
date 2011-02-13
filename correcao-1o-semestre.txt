@@ -25,5 +25,10 @@ Correção Neusa
 - Disse que achava que o “Glossário” não era numerado
 
   - Já que vai ser eliminado mesmo, então tanto faz.
+- Indica, na página 6, que a contagem está errada.
+
+  - Nas normas, página 32, é dito que a contagem das páginas inicia apenas
+    depois da folha de rosto. A página que segue a capa é a “falsa folha de
+    rosto”.
 
 .. vim:ft=rst:ai:spell:spelllang=pt:
