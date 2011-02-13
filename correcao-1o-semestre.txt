@@ -26,4 +26,4 @@ Correção Neusa
 
   - Já que vai ser eliminado mesmo, então tanto faz.
 
-.. vim:ft=rst:ai:spell:
+.. vim:ft=rst:ai:spell:spelllang=pt:
