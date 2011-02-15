@@ -45,6 +45,8 @@ Correção Neusa
   - Tamanho da janela: a recomendação de 5/4 valores, que observei nos
     slides, “parece estranha, provavelmente precisa mais”
 
+  - Tentar usar normalização sigmoidal
+
 
 Correção Islenho
 ================
