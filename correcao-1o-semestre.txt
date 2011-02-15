@@ -47,6 +47,8 @@ Correção Neusa
 
   - Tentar usar normalização sigmoidal
 
+  - Dividir treinamento e teste em 80%/20%, respectivamente
+
 
 Correção Islenho
 ================
