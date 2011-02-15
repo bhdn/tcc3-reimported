@@ -36,4 +36,13 @@ Correção Neusa
     virtualização, criar uma classe comum para elas não seria claro para
     fins de documentação.
 
+- Além disso, durante a defesa da proposta, fez algumas observações que não
+  estão anotadas no texto:
+
+  - Não utilizar predição z+1, pois isso introduz
+    /esqueciotermoprecisorevisar/ na predição.
+
+  - Tamanho da janela: a recomendação de 5/4 valores, que observei nos
+    slides, “parece estranha, provavelmente precisa mais”
+
 .. vim:ft=rst:ai:spell:spelllang=pt:
