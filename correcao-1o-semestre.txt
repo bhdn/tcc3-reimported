@@ -55,5 +55,11 @@ Correção Islenho
 
 - Colocar nota de rodapé descrevendo o OS/360
 
+Correção Diógenes
+=================
+
+- Trocar os verbos indicando futuro da metodologia, pois em TCC-2 todas as
+  características do sistema já deverão estar implementadas
+
 
 .. vim:ft=rst:ai:spell:spelllang=pt:
