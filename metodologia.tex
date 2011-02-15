@@ -14,10 +14,12 @@
 
 \section{Introdução}
 
+% FIXME rev Neusa: “Deves escrever algo para introduzir o capítulo, não começar
+% falando da figura 3”
 A figura \ref{fig:hostguests1} apresenta um ambiente de virtualização
 mínimo, onde tem-se um computador, denominado \texttt{host}, que está
-hospedando três máquinas virtuais \texttt{mv-1}, \texttt{mv-2} e
-\texttt{mv-3}. Estas máquinas virtuais estão sendo gerenciadas por qualquer
+hospedando três máquinas virtuais \texttt{vm-1}, \texttt{vm-2} e
+\texttt{vm-3}. Estas máquinas virtuais estão sendo gerenciadas por qualquer
 uma das ferramentas que são suportadas pela \libvirt{}, e cada uma delas
 pode estar executando qualquer sistema operacional, e nestes podem estar
 executando qualquer tipo de software, mais comumente servidores de banco de
@@ -30,18 +32,11 @@ dados e aplicações Web.
 \label{fig:hostguests1}
 \end{figure}
 
-Se o indivíduo que criou este ambiente esperava que as aplicações que
+Se o administrador deste ambiente esperava que as aplicações que
 executam dentro das máquinas virtuais tenham um desempenho aceitável,
-então ele deve ter estudado os usos de processador, memória e entrada/saída
+então ele conhece os usos de processador, memória e entrada/saída
 dessas aplicações e dimensionado o ambiente de tal maneira que uma máquina
 virtual não degrade o desempenho de outra a ponto de torná-lo inaceitável.
-
-\begin{figure}[htp]
-\centering
-\includegraphics{img-host-guests2.pdf}
-\figinfo{Ambiente com vários hospedeiros e hóspedes}
-\label{fig:hostguests2}
-\end{figure}
 
 Porém, à medida que mais máquinas virtuais forem necessárias, como é
 apresentado na figura \ref{fig:hostguests2}, novas máquinas físicas terão
@@ -53,9 +48,9 @@ executando neste ambiente.
 
 \begin{figure}[htp]
 \centering
-\includegraphics{img-host-guests3.pdf}
-\figinfo{Dois hospedeiros e carga de CPU aceitável das MVs}
-\label{fig:hostguests3}
+\includegraphics{img-host-guests2.pdf}
+\figinfo{Ambiente com vários hospedeiros e hóspedes}
+\label{fig:hostguests2}
 \end{figure}
 
 Na figura \ref{fig:hostguests3}, a máquina \texttt{host3} possui cinco máquinas
@@ -66,6 +61,13 @@ vida deste ambiente, a única mudança necessária seria de talvez desligar
 este hospedeiro ainda tem aproximadamente 43\% de tempo de processamento
 sendo desperdiçado. Sendo \texttt{host1} desligada, haveria menos custos
 com energia e manutenção.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{img-host-guests3.pdf}
+\figinfo{Dois hospedeiros e carga de CPU aceitável das MVs}
+\label{fig:hostguests3}
+\end{figure}
 
 Porém, os serviços que executam nestas máquinas virtuais podem sofrer um
 abrupto aumento de demanda, o que é mais ainda provável em aplicações que
