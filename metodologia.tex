@@ -252,14 +252,15 @@ utilizados no sistema. Esta consiste na execução nos seguintes passos:
 \begin{enumerate}
   \item Processar os dados coletados para transformar no formato da biblioteca
         que será utilizada (no caso, a \emph{libsvm});
-  \item Normalizar os dados;
-  \item Avaliar o desempenho do uso da função \emph{kernel} RBF
-        ($\exp(-\sigma\norma{\vect{x}_i-\vect{x}_j}^2)$);
+  \item Normalizar os dados (descrita a seguir);
+  \item Avaliar o desempenho do uso da função \emph{kernel} RBF 
+        ($\exp(-\sigma\norma{\vect{x}_i-\vect{x}_j}^2)$, seção
+         \ref{sec:naolinear});
   \item Fazer busca em grade: dos valores do espaço de busca, crescendo os
-	 parâmetros da SVM e da função de kernel ($C$ e $\sigma$,
+	 parâmetros da SVM e da função de \emph{kernel} ($C$ e $\sigma$,
          respectivamente) exponencialmente;
-  \item Executar testes de validação cruzada (intercalando elementos do conjunto
-        de testes com o de treinamento);
+  \item Executar testes de validação cruzada, intercalando elementos do conjunto
+        de testes com o de treinamento;
   \item Avaliar o desempenho na base de dados completa;
 \end{enumerate}
 
@@ -269,10 +270,10 @@ Para a etapa de treinamento, e subsequente uso pela etapa de predição, o
 vetor de características usado será constituído de uma janela
 formada por um determinado número de leituras anteriores do uso de CPU para
 cada máquina virtual controlada naquele domínio. Como estes valores são
-percentuais de uso de CPU, a normalização destes será feita com uma divisão
+percentuAIS DE USo de CPU, a normalização destes será feita com uma divisão
 de cada valor por $100$. Na figura \ref{fig:vetorjanela} é apresentada uma
 série de leituras de uso de CPU e também como é a configuração da janela
-extraída da mesma. Os valores marcados com linhas serrilhadas indicam o valor
+extraída da mesma. Os valores marcados com linhas tracejadas indicam o valor
 que será usado como classe utilizada para o treinamento.
 
 \begin{figure}[htp]
@@ -418,9 +419,10 @@ objetivos/questionamentos:
 
 \section{Detalhes de implementação}
 
-O projeto será implementado na linguagem \emph{Python} \cite{rossum1995python}.
-Esta possui tipagem dinâmica, suporta o paradigma de orientação a objetos e com
-isso facilita a prototipagem de projetos \cite{lutz2006programming}.
+O projeto será implementado na linguagem \emph{Python}
+\cite{rossum1995python}.  Esta possui tipagem dinâmica, suporta o paradigma
+de orientação a objetos, facilitando a prototipagem de projetos
+\cite{lutz2006programming}.
 
 O ambiente de desenvolvimento será baseado no sistema operacional Linux
 \cite{morimoto2004entendendo}, que é a plataforma principal de
