@@ -118,7 +118,7 @@ variedade de ferramentas que a mesma suporta, como descrito na seção
 \ref{sec:libvirt}. A figura \ref{fig:libvirtcontexto0} descreve de maneira
 superficial como será a interação entre o software a ser implementado e a
 \libvirt{}. O software estará periodicamente coletando informações a respeito
-de uso de CPU das máquinas virtuais sendo gerenciadas (1). Com essas
+do uso de CPU das máquinas virtuais sendo gerenciadas (1). Com essas
 informações, o software fará predições a respeito do comportamento destas
 máquinas virtuais e, então, enviará comandos por meio da API (\emph{Application
 Programming Interface}, Interface de Programação de Aplicação) da \libvirt{}
@@ -166,13 +166,13 @@ indica os valores que serão lidos periodicamente de cada máquina virtual.  O
 processo Coleta trata da consulta à instância da \libvirt{} e o
 pré-processamento dos dados para envio à base. O processo Treinamento
 será executado periodicamente e consistirá na execução da fase de treinamento
-para as técnicas de AM (aprendizado de máquina). O depósito de dados
-base ``treinada'' representa uma base de dados com os parâmetros
-utilizados para representar o conhecimento dos algoritmos de AM (o conteúdo em
+para as técnicas de AM (Aprendizado de Máquina). O depósito de dados
+``base treinada'' representa uma base de dados com os parâmetros
+utilizados para representar o conhecimento dos algoritmos de AM. O conteúdo em
 si desta base depende da técnica utilizada; SVMs, por exemplo, guardam alguns
-exemplos da base de treinamento, já $k$-NN não guarda coisa alguma além dos
-exemplos). O processo Predição recebe dois fluxos de dados, o primeiro
-é o das informações de treinamento da base ``treinada'', o segundo é
+exemplos da base de treinamento, já $k$-NN guarda apenas os
+exemplos. O processo Predição recebe dois fluxos de dados, o primeiro
+é o das informações de treinamento de ``base treinada'', o segundo é
 das mesmas informações de CPU que vieram da etapa Coleta; este
 processo utiliza o algoritmo de aprendizado para saber se alguma das máquinas
 virtuais que estão sendo monitoradas tem possibilidade de saturar os recursos
@@ -190,19 +190,19 @@ projeto proposto}
 
 % FIXME explicar esse tal pré-processamento
 
-Na figura \ref{fig:diagramaclasses0} é apresentado um diagrama com as
+A figura \ref{fig:diagramaclasses0} apresenta um diagrama com as
 principais classes do software. A classe Projeto representa uma
 instância de todo o projeto e também é responsável pelo controle do ciclo
 de vida das classes que fazem coleta, aprendizado e predição. Cada uma
 destas classes possui apenas um método público, para que estes sejam
 chamados apenas quando a classe Projeto considerar conveniente,
-fazendo com que assim esta classe tenha um papel de escalonador do
+fazendo com que esta classe tenha um papel de escalonador do
 software. As classes são a grosso modo um mapeamento dos processos
 apresentados na figura \ref{fig:contexto1}, com exceção da classe
 InterfaceMMV, que significa Interface para Monitor de
-Máquinas Virtuais, tem como propósito centralizar o acesso à \libvirt{},
+Máquinas Virtuais, a qual tem como propósito centralizar o acesso à \libvirt{},
 facilitando a manutenção em caso de mudança de interface, porte para outra
-biblioteca ou a simulação de valores (que é descrita na seção
+biblioteca ou a simulação de valores (descrita na seção
 \ref{sec:desemp}). À exceção de InterfaceMMV, todas estas
 classes são abstratas, pois devem ainda ser especializadas para cada uma
 das técnicas de aprendizado que serão implementadas no projeto.
@@ -220,14 +220,14 @@ das técnicas de aprendizado que serão implementadas no projeto.
 
 Para as etapas de aprendizado e predição, serão utilizados os métodos de
 aprendizado de máquina \emph{Support Vector Machines} (Máquinas de Vetores
-de Suporte) e $k$-NN ($k$-\emph{Nearest Neighbors}). A primeira em razão de seu
-bom desempenho em diversos tipos de problemas de aprendizado, como em
-detecção de escrita, reconhecimento de faces, categorização de texto, e
-outras~\cite{bennett2000support}. $k$-NN foi escolhido por se tratar de uma
-técnica, que em alguns casos, pode ter desempenho melhor que técnicas
-sofisticadas, servindo como base e indicação de quando uma técnica pode
-estar mal implementada, como indicado por \citeonline{joachims1998text} e
-\citeonline{hafner2007comparison}.
+de Suporte) e $k$-NN ($k$-\emph{Nearest Neighbors}). O SVM foi escolhido em
+razão de seu bom desempenho em diversos tipos de problemas de aprendizado,
+como em detecção de escrita, reconhecimento de faces, categorização de
+texto, e outras~\cite{bennett2000support}. $k$-NN foi escolhido por se
+tratar de uma técnica, que em alguns casos, pode ter desempenho melhor que
+técnicas sofisticadas, servindo como base e indicação de quando uma técnica
+pode estar mal implementada, como indicado por
+\citeonline{joachims1998text} e \citeonline{hafner2007comparison}.
 
 Assim, das classes que foram apresentadas na seção \ref{sec:modelagem},
 serão especializações para cada tipo de técnica de aprendizado. O diagrama
@@ -250,17 +250,17 @@ Para o caso de SVMs, este trabalho seguirá a metodologia proposta
 por~\citeonline{hsu2003practical} para a avaliação dos parâmetros que serão
 utilizados no sistema. Esta consiste na execução nos seguintes passos:
 \begin{enumerate}
-  \item processar os dados coletados para transformar no formato da biblioteca
+  \item Processar os dados coletados para transformar no formato da biblioteca
         que será utilizada (no caso, a \emph{libsvm});
-  \item normalizar os dados;
-  \item avaliar o desempenho do uso da função \emph{kernel} RBF
+  \item Normalizar os dados;
+  \item Avaliar o desempenho do uso da função \emph{kernel} RBF
         ($\exp(-\sigma\norma{\vect{x}_i-\vect{x}_j}^2)$);
-  \item fazer busca em grade: dos valores do espaço de busca, crescendo os
+  \item Fazer busca em grade: dos valores do espaço de busca, crescendo os
 	 parâmetros da SVM e da função de kernel ($C$ e $\sigma$,
          respectivamente) exponencialmente;
-  \item executar testes de validação cruzada (intercalando elementos do conjunto
+  \item Executar testes de validação cruzada (intercalando elementos do conjunto
         de testes com o de treinamento);
- \item avaliar o desempenho na base de dados completa;
+  \item Avaliar o desempenho na base de dados completa;
 \end{enumerate}
 
 \subsection{Treinamento}
