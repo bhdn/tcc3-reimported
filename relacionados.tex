@@ -1,7 +1,6 @@
 %
 % Trabalhos relacionados
 %
-
 \chapter{Trabalhos relacionados}
 
 Pode-se observar que a área que possui uma grande quantidade de artigos
@@ -10,28 +9,31 @@ distribuídos. Isso se deve ao fato de que em certos tipos de sistemas
 distribuídos, é necessário que tarefas sejam despachadas para execução por
 unidades de processamento que, preferencialmente, estejam ociosas~\cite{zhang2007cpu}.
 
-Os trabalhos de Dinda (2000)\nocite{dinda2000host} e de Dinda
-(2002)\nocite{dinda2002evaluation} efetuam a coleta de informações de uso de
+Os trabalhos Dinda (2000, 2002)\nocite{dinda2000host}
+\nocite{dinda2002evaluation} efetuam a coleta de informações de uso de
 CPU em um conjunto formado por 38 computadores de diferentes tipos que
-pertenciam ao \emph{Carnegie Mellon University} e também no \emph{Pittsburgh
+pertenciam ao \emph{Carnegie Mellon University} e ao \emph{Pittsburgh
 Supercomputing Center}, nos Estados Unidos, pelo período de pouco mais que uma
 semana. Com estas informações de uso de CPU foi feita uma análise deste conjunto
 de dados e avaliou-se algumas técnicas de modelagem de séries temporais, e
-finalmente sugere que seja usado o modelo AR(16) (\emph{Autoregressive model},
+sugerindo que seja usado o modelo AR(16) (\emph{Autoregressive model},
 modelo auto-regressivo, com 16 coeficientes) para a predição de comportamento
-de CPUs. Este modelo consiste em uma representação na forma
+de CPUs.
+
+O modelo AR(16) consiste em uma representação na forma
 $x_t = \phi_{1}x_{t-1} + \phi_{2}x_{t-2}+\dotsc,\phi_{p}x_{t-p}+e_t$, aonde a
-$\phi_p$ correspondem aos parâmetros do modelo (sendo $p$ a ordem do mesmo) e
+$\phi_p$ correspondem aos parâmetros do modelo, sendo $p$ a ordem do mesmo, e
 $e_t$ representa um ruído no modelo. Utilizando a técnica de Yule-Walker é
 possível conhecer os parâmetros $\phi_p$ do modelo e assim prever itens na
 série calculando-se $x_{t+1}$~\cite{baddour2005autoregressive}.
+% FIXME rev Neusa, que modelo é Yule-Walker? Ao menos uma referência
 
 O trabalho de~\citeonline{sodhi2008performance} apresenta uma técnica de
 predição de comportamento de processos baseando-se na execução de uma pequena
-aplicação que tenta representar aspectos significativos de uma aplicação que
+aplicação, a qual tenta representar aspectos significativos de uma aplicação que
 tem alto custo computacional de execução. A ferramenta apresentada coleta
-informações a respeito do software que está sendo analisado e então geral um
-“esqueleto” da mesma, que então será executado em um ambiente que será
+informações a respeito do software que está sendo analisado e, então, gera um
+“esqueleto” da mesma, o qual será executado em um ambiente que será
 avaliado. Para avaliação de desempenho foram usadas ferramentas do conjunto NAS
 Benchmark, com esqueletos de tempo de execução variando de 0,5 a 10 segundos.
 Com exceção do esqueleto de 0,5 segundos, os outros tiveram uma taxa de erro de
@@ -56,9 +58,44 @@ trazê-las para unidades de processamento que estejam acessíveis com menor
 latência. Utilizando a ferramenta \emph{GridBox}~\cite{dodonov2004gridbox} os
 processos do ambiente distribuído têm suas chamadas de sistema e padrões de
 acesso a rede observados e agrupados por meio de uma técnica de agrupamento
-originalmente aplicada a textos~\cite{de2005automatic}, de maneira a reduzir a
+originalmente aplicada a textos~\cite{de2005automatic}, reduzindo a
 dimensionalidade. Após isso são utilizadas as redes TDNN (\emph{Time-delay
 Neural Network}) para o treinamento e predição do comportamento dos processos.
+
+\section{Quadro comparativo de trabalhos relacionados}
+
+\begin{table}
+\centering
+\hspace{-2cm} % FIXME arrumar no template
+\quadro{Comparativo entre trabalhos relacionados}\label{quadro:relacionados}
+\begin{tabular}{| m{5cm} | c | c | c |}
+\hline
+Técnica & Distrbuído & Externo & Políticas de migração \\
+\hline
+Adaptive technique for automatic communication access pattern discovery applied
+to data prefetching in distributed applications using neural networks and
+stochastic models \cite{dodonov2006adaptive} & Sim & Sim & Sim \\
+\hline
+Host Load Prediction Using Linear Models \cite{dinda2000host}
+e \cite{dinda2002evaluation} & Não & Sim & Não \\
+\hline
+Prediction the CPU Availability Of Time-shared Unix System on The Computational
+Grid \cite{wolski2000predicting} & Não & Sim & Não \\
+\hline
+Performance Prediction With Skeletons \cite{sodhi2008performance} & Sim & Não & Não \\
+\hline
+
+\end{tabular}
+\end{table}
+
+Todos os trabalhos descritos no quadro \ref{quadro:relacionados} tratam de
+predição, assim é desnecessária uma coluna dedicada para indicar este aspecto.
+A coluna Externo indica se a leitura de informações de CPU pode ser feita
+externamente, sem executar software dentro do sistema observado, o que permite
+a aplicação em sistemas de virtualização, atendendo a proposta deste trabalho.
+A coluna Políticas de migração indica se o trabalho discute políticas que podem
+ser usadas para migrar processos entre uma máquina e outra, o que é aplicável à
+proposta do trabalho de migrar máquinas virtuais entre computadores diferentes.
 
 % tese do eugeni
 % dinda (análise de comportamento dos hosts, virtuoso)
