@@ -14,10 +14,12 @@
 
 \section{Introdução}
 
+% FIXME rev Neusa: “Deves escrever algo para introduzir o capítulo, não começar
+% falando da figura 3”
 A figura \ref{fig:hostguests1} apresenta um ambiente de virtualização
-mínimo, onde tem-se um computador, denominado \texttt{host}, que está
-hospedando três máquinas virtuais \texttt{mv-1}, \texttt{mv-2} e
-\texttt{mv-3}. Estas máquinas virtuais estão sendo gerenciadas por qualquer
+mínimo, onde tem-se um computador, denominado \emph{host}, que está
+hospedando três máquinas virtuais vm-1, vm-2 e
+vm-3. Estas máquinas virtuais estão sendo gerenciadas por qualquer
 uma das ferramentas que são suportadas pela \libvirt{}, e cada uma delas
 pode estar executando qualquer sistema operacional, e nestes podem estar
 executando qualquer tipo de software, mais comumente servidores de banco de
@@ -30,18 +32,11 @@ dados e aplicações Web.
 \label{fig:hostguests1}
 \end{figure}
 
-Se o indivíduo que criou este ambiente esperava que as aplicações que
+Se o administrador deste ambiente esperava que as aplicações que
 executam dentro das máquinas virtuais tenham um desempenho aceitável,
-então ele deve ter estudado os usos de processador, memória e entrada/saída
-dessas aplicações e dimensionado o ambiente de tal maneira que uma máquina
+então ele conhece os usos de processador, memória e entrada/saída
+dessas aplicações e dimensiona o ambiente de tal maneira que uma máquina
 virtual não degrade o desempenho de outra a ponto de torná-lo inaceitável.
-
-\begin{figure}[htp]
-\centering
-\includegraphics{img-host-guests2.pdf}
-\figinfo{Ambiente com vários hospedeiros e hóspedes}
-\label{fig:hostguests2}
-\end{figure}
 
 Porém, à medida que mais máquinas virtuais forem necessárias, como é
 apresentado na figura \ref{fig:hostguests2}, novas máquinas físicas terão
@@ -53,19 +48,26 @@ executando neste ambiente.
 
 \begin{figure}[htp]
 \centering
+\includegraphics{img-host-guests2.pdf}
+\figinfo{Ambiente com vários hospedeiros e hóspedes}
+\label{fig:hostguests2}
+\end{figure}
+
+Na figura \ref{fig:hostguests3}, a máquina host3 possui cinco máquinas
+virtuais que ocupam, ao todo, 57\% do tempo de processamento. Se estas
+máquinas virtuais mantiverem o mesmo comportamento no decorrer do tempo de
+vida deste ambiente, a única mudança necessária seria de talvez desligar
+host1 e migrar estas máquinas virtuais para host3, já que
+este hospedeiro ainda tem aproximadamente 43\% de tempo de processamento
+sendo desperdiçado. Sendo host1 desligada, haveria menos custos
+com energia e manutenção.
+
+\begin{figure}[htp]
+\centering
 \includegraphics{img-host-guests3.pdf}
 \figinfo{Dois hospedeiros e carga de CPU aceitável das MVs}
 \label{fig:hostguests3}
 \end{figure}
-
-Na figura \ref{fig:hostguests3}, a máquina \texttt{host3} possui cinco máquinas
-virtuais que ocupam, ao todo, 57\% do tempo de processamento. Se estas
-máquinas virtuais mantiverem o mesmo comportamento no decorrer do tempo de
-vida deste ambiente, a única mudança necessária seria de talvez desligar
-\texttt{host1} e migrar estas máquinas virtuais para \texttt{host3}, já que
-este hospedeiro ainda tem aproximadamente 43\% de tempo de processamento
-sendo desperdiçado. Sendo \texttt{host1} desligada, haveria menos custos
-com energia e manutenção.
 
 Porém, os serviços que executam nestas máquinas virtuais podem sofrer um
 abrupto aumento de demanda, o que é mais ainda provável em aplicações que
@@ -83,37 +85,31 @@ disponibilização do serviço.
 \end{figure}
 
 No exemplo da figura \ref{fig:hostguests4}, a máquina virtual
-\texttt{vm-11} está executando algum processo que está exigindo muito tempo
-de CPU. Este tipo de situação pode ocorrer quando este processo é
-\emph{CPU-bound} (que faz uso intensivo do processador), o que geralmente
+vm-11 está executando algum processo que está exigindo muito tempo
+de CPU. Este tipo de situação pode ocorrer quando este processo faz uso intenso
+de CPU (é CPU-\emph{bound}) (que faz uso intensivo do processador), o que
+geralmente
 pode ser uma tarefa rotineira de \emph{backup} (compressão, descompressão ou
 sincronização de árvores) ou rotinas aritméticas. Neste caso fica claro que
-seria melhor ter esta máquina executando no hospedeiro \texttt{host1}, pois o
-uso típico de CPU das máquinas virtuais que já estão lá ainda pode acomodar
-\texttt{vm-11}. A dificuldade neste modelo está no fato de que este uso de CPU
-pode ser sazonal, e que outras máquinas virtuais além de \texttt{vm-11} podem
-ter situações de demanda abrupta.
+seria melhor ter esta máquina executando no hospedeiro host1, pois o
+uso típico de CPU das máquinas virtuais que já estão executando em host1 ainda
+pode acomodar vm-11. A dificuldade neste modelo está no fato de que este uso de
+CPU pode ser sazonal, e que outras máquinas virtuais além de vm-11 podem ter
+situações de demanda abrupta.
 
 Com isso, o software que será desenvolvido a partir deste projeto atuará
 tentando prever o comportamento destas máquinas virtuais e requisitando à
 ferramenta de virtualização que migre aquelas que apresentarem perspectiva
 de uso intensivo de CPU para um hospedeiro que tenha condições de tratar
-aquela demanda. Ele executará como um processo separado, na forma de um
-\emph{daemon} (que estará executando como serviço do sistema). Este poderá
+aquela demanda. Este software executará como um processo separado, na forma de um
+\emph{daemon}, ou seja, que executará como um serviço do sistema. Este poderá
 estar instalado em qualquer uma das máquinas hospedeiras ou até mesmo em
-uma máquina separada (providas as credenciais de acesso para a \libvirt{}).
+uma máquina separada, providas as credenciais de acesso para a \libvirt{}.
 
 Como dados de entrada, o software receberá as leituras de uso de CPU de cada
 uma das máquinas virtuais executando no ambiente. Entende-se que a saída
 observável do software é uma série de comandos de migração que devem ser
 enviados à \libvirt{}.
-
-\begin{figure}[htp]
-\centering
-\includegraphics{img-libvirt-contexto0.pdf}
-\figinfo{Interação entre \libvirt{} e projeto}
-\label{fig:libvirtcontexto0}
-\end{figure}
 
 De maneira a ser útil para o maior número de usuários de ferramentas de
 virtualização, este projeto utilizará a ferramenta \libvirt{} como interface
@@ -122,20 +118,36 @@ variedade de ferramentas que a mesma suporta, como descrito na seção
 \ref{sec:libvirt}. A figura \ref{fig:libvirtcontexto0} descreve de maneira
 superficial como será a interação entre o software a ser implementado e a
 \libvirt{}. O software estará periodicamente coletando informações a respeito
-de uso de CPU das máquinas virtuais sendo gerenciadas (1). E com essas
+de uso de CPU das máquinas virtuais sendo gerenciadas (1). Com essas
 informações, o software fará predições a respeito do comportamento destas
-máquinas virtuais e então enviará comandos por meio da API (\emph{Application
+máquinas virtuais e, então, enviará comandos por meio da API (\emph{Application
 Programming Interface}, Interface de Programação de Aplicação) da \libvirt{}
 (2), comandos estes indicando qual máquina virtual deve migrar para qual
 máquina hospedeira. A \libvirt{} por sua vez comunicará a ferramenta de
-virtualização (3) que então executará a migração entre um hospedeiro e outro
+virtualização (3), que então executará a migração entre um hospedeiro e outro
 (4).
+
+\begin{figure}[htp]
+\centering
+\includegraphics{img-libvirt-contexto0.pdf}
+\figinfo{Interação entre \libvirt{} e projeto}
+\label{fig:libvirtcontexto0}
+\end{figure}
 
 % colocar aqui um ou mais diagramas descrevendo as máquinas virtuais que
 % estão em um ambiente "folgado" e então indicar uma situação em que uma
 % máquina virtual precisa ser migrada e daí migrar para outra máquina.
 
 \section{Modelagem do software}\label{sec:modelagem}
+
+A figura \ref{fig:contexto0} apresenta o diagrama de contexto,
+indicando a relação entre o projeto que será desenvolvido e a biblioteca
+\libvirt{}. O fluxo estatísticas das máq. virtuais indica as
+informações a respeito de uso de CPU que são providas pela libVirt,
+enquanto que cmds. de migração indica os comandos, transmitidos
+por meio da API (introduzida na seção \ref{sec:libvirtapi}), que são enviadas
+à \libvirt{} para a migração das máquinas virtuais, de acordo com o que o
+software a ser implementado decidir.
 
 \begin{figure}[htp]
 \centering
@@ -145,14 +157,28 @@ sistema}
 \label{fig:contexto0}
 \end{figure}
 
-A figura \ref{fig:contexto0} apresenta um diagrama de contexto,
-indicando a relação entre o projeto que será desenvolvido e a biblioteca
-\libvirt{}. O fluxo \texttt{estatísticas das máq. virtuais} indica as
-informações a respeito de uso de CPU que são providas pela libVirt,
-enquanto que \texttt{cmds. de migração} indica os comandos, transmitidos
-por meio da API (introduzida na seção \ref{sec:libvirtapi}), que são enviadas
-à \libvirt{} para a migração das máquinas virtuais, de acordo com o que o
-software a ser implementado decidir.
+Como o projeto será implementado utilizando o conceito de orientação a
+objetos, a figura \ref{fig:contexto1} apresenta
+de maneira mais detalhada, na forma de um diagrama de contexto, como é a
+interação entre os módulos que serão implementados no projeto. O fluxo
+“uso de CPU máq. virtuais” (também abreviado como “usos de CPU”)
+indica os valores que serão lidos periodicamente de cada máquina virtual.  O
+processo Coleta trata da consulta à instância da \libvirt{} e o
+pré-processamento dos dados para envio à base. O processo Treinamento
+será executado periodicamente e consistirá na execução da fase de treinamento
+para as técnicas de AM (aprendizado de máquina). O depósito de dados
+base ``treinada'' representa uma base de dados com os parâmetros
+utilizados para representar o conhecimento dos algoritmos de AM (o conteúdo em
+si desta base depende da técnica utilizada; SVMs, por exemplo, guardam alguns
+exemplos da base de treinamento, já $k$-NN não guarda coisa alguma além dos
+exemplos). O processo Predição recebe dois fluxos de dados, o primeiro
+é o das informações de treinamento da base ``treinada'', o segundo é
+das mesmas informações de CPU que vieram da etapa Coleta; este
+processo utiliza o algoritmo de aprendizado para saber se alguma das máquinas
+virtuais que estão sendo monitoradas tem possibilidade de saturar os recursos
+de processador das máquinas hospedeiras; é esse processo que envia os comandos
+necessários à \libvirt{}, visando migrar máquinas para outro hospedeiro que
+possa acomodá-las.
 
 \begin{figure}[htp]
 \centering
@@ -162,30 +188,24 @@ projeto proposto}
 \label{fig:contexto1}
 \end{figure}
 
-Como o projeto será implementado utilizando o conceito de orientação a
-objetos~\cite{ricarte2001programacao}, a figura \ref{fig:contexto1} apresenta
-de maneira mais detalhada, na forma de um diagrama de contexto, como é a
-interação entre os módulos que serão implementados no projeto. O fluxo
-\texttt{uso de CPU máq. virtuais} (também abreviado como \texttt{usos de CPU})
-indica os valores que serão lidos periodicamente de cada máquina virtual.  O
-processo \texttt{Coleta} trata da consulta à instância da \libvirt{} e o
-pré-processamento dos dados para envio à base. O processo \texttt{Treinamento}
-será executado periodicamente e consistirá na execução da fase de treinamento
-para as técnicas de AM (aprendizado de máquina). O depósito de dados
-\texttt{base ``treinada''} representa uma base de dados com os parâmetros
-utilizados para representar o conhecimento dos algoritmos de AM (o conteúdo em
-si desta base depende da técnica utilizada; SVMs, por exemplo, guardam alguns
-exemplos da base de treinamento, já $k$-NN não guarda coisa alguma além dos
-exemplos). O processo \texttt{Predição} recebe dois fluxos de dados, o primeiro
-é o das informações de treinamento da \texttt{base ``treinada''}, o segundo é
-das mesmas informações de CPU que vieram da etapa \texttt{Coleta}; este
-processo utiliza o algoritmo de aprendizado para saber se alguma das máquinas
-virtuais que estão sendo monitoradas tem possibilidade de saturar os recursos
-de processador das máquinas hospedeiras; é esse processo que envia os comandos
-necessários à \libvirt{} visando migrar máquinas para outro hospedeiro que
-possa acomodá-las.
-
 % FIXME explicar esse tal pré-processamento
+
+Na figura \ref{fig:diagramaclasses0} é apresentado um diagrama com as
+principais classes do software. A classe Projeto representa uma
+instância de todo o projeto e também é responsável pelo controle do ciclo
+de vida das classes que fazem coleta, aprendizado e predição. Cada uma
+destas classes possui apenas um método público, para que estes sejam
+chamados apenas quando a classe Projeto considerar conveniente,
+fazendo com que assim esta classe tenha um papel de escalonador do
+software. As classes são a grosso modo um mapeamento dos processos
+apresentados na figura \ref{fig:contexto1}, com exceção da classe
+InterfaceMMV, que significa Interface para Monitor de
+Máquinas Virtuais, tem como propósito centralizar o acesso à \libvirt{},
+facilitando a manutenção em caso de mudança de interface, porte para outra
+biblioteca ou a simulação de valores (que é descrita na seção
+\ref{sec:desemp}). À exceção de InterfaceMMV, todas estas
+classes são abstratas, pois devem ainda ser especializadas para cada uma
+das técnicas de aprendizado que serão implementadas no projeto.
 
 \begin{figure}[htp]
 \centering
@@ -193,23 +213,6 @@ possa acomodá-las.
 \figinfo{Diagrama das principais classes do software proposto}
 \label{fig:diagramaclasses0}
 \end{figure}
-
-Na figura \ref{fig:diagramaclasses0} é apresentado um diagrama com as
-principais classes do software. A classe \texttt{Projeto} representa uma
-instância de todo o projeto e também é responsável pelo controle do ciclo
-de vida das classes que fazem coleta, aprendizado e predição. Cada uma
-destas classes possui apenas um método público, para que estes sejam
-chamados apenas quando a classe \texttt{Projeto} considerar conveniente,
-fazendo com que assim esta classe tenha um papel de escalonador do
-software. As classes são a grosso modo um mapeamento dos processos
-apresentados na figura \ref{fig:contexto1}, com exceção da classe
-\texttt{InterfaceMMV}, que significa Interface para Monitor de
-Máquinas Virtuais, tem como propósito centralizar o acesso à \libvirt{},
-facilitando a manutenção em caso de mudança de interface, porte para outra
-biblioteca ou a simulação de valores (que é descrita na seção
-\ref{sec:desemp}). À exceção de \texttt{InterfaceMMV}, todas estas
-classes são abstratas, pois devem ainda ser especializadas para cada uma
-das técnicas de aprendizado que serão implementadas no projeto.
 
 % diagrama de classes
 
@@ -282,7 +285,7 @@ que será usado como classe utilizada para o treinamento.
 Para a classe usada em cada exemplo do treinamento, serão utilizados
 valores categóricos. Cada classe representará uma faixa de valor do
 percentual de uso de CPU. Por exemplo, a faixa 0--24\% seria a classe
-\texttt{A}, 25--49\% a classe \texttt{B}, e assim por diante.
+A, 25--49\% a classe B, e assim por diante.
 
 \begin{figure}[htp]
 \centering
@@ -351,7 +354,7 @@ compactados, os descompactam, compilam (que na maioria dos casos são em
 linguagem C ou C++) e então os binários e arquivos documentação gerados são
 arquivados no formato RPM~\cite{ewing1996rpm}. Estas etapas apresentam
 momentos com forte acesso à mídias de armazenamento (\emph{I/O-bound}) bem
-como momentos de intenso uso de CPU (\emph{CPU-bound}).
+como momentos de processamento CPU-\emph{bound}.
 
 \begin{figure}[htp]
 \centering
@@ -365,7 +368,7 @@ A leitura destes valores será feita a cada minuto utilizando o utilitário
 \emph{top}, que coleta estatísticas de uso de recursos por processos e no
 sistema operacional como um todo~\cite{andresen2004monitoring}. Para utilizar
 os valores coletados no ambiente de compilação, será criada uma especialização
-para a classe \texttt{InterfaceMMV}, como descrito na figura
+para a classe InterfaceMMV, como descrito na figura
 \ref{fig:diagramaclasses2}, que lerá os arquivos com o histórico de acesso às
 máquinas e então entregará estes valores ao módulo de aprendizado.
 
@@ -427,7 +430,7 @@ desenvolvimento diminui a probabilidade de encontrar incompatibilidade
 entre ferramentas durante a fase de implementação. A distribuição Linux
 utilizada será \emph{Mandriva Linux}\footnote{http://www.mandriva.com/},
 que possui em sua base de pacotes todas as ferramentas necessárias para a
-implementação. O pacote \texttt{python-libvirt} será utilizado para acessar
+implementação. O pacote python-libvirt será utilizado para acessar
 os módulos da \libvirt{}.
 
 Para o monitor de máquinas virtuais será utilizado o

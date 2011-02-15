@@ -30,5 +30,10 @@ Correção Neusa
   - Nas normas, página 32, é dito que a contagem das páginas inicia apenas
     depois da folha de rosto. A página que segue a capa é a “falsa folha de
     rosto”.
+- Na página 32, indica atributos repetidos nas classes Coletor e Predictor
+  
+  - Mas é isso mesmo. Ambos precisam ter acesso à base de e ao sistema de
+    virtualização, criar uma classe comum para elas não seria claro para
+    fins de documentação.
 
 .. vim:ft=rst:ai:spell:spelllang=pt:
