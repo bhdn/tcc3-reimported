@@ -53,5 +53,7 @@ Correção Neusa
 Correção Islenho
 ================
 
+- Colocar nota de rodapé descrevendo o OS/360
+
 
 .. vim:ft=rst:ai:spell:spelllang=pt:
