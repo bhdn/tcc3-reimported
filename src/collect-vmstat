@@ -1,0 +1,6 @@
+#!/bin/bash
+FREQ=${FREQ:-30}
+DB=${DB:-/var/log/vmstat.log}
+
+echo "==== `date`" >> "$DB"
+vmstat -n $FREQ | sed -u 1,3d >> "$DB"
