@@ -1,0 +1,19 @@
+#!/usr/bin/python
+from tcc3.command import TCC3Command, CliError
+
+class Collect(TCC3Command):
+
+    descr = "Collects information for one given machine"
+    usage = "%prog --hostname NAME files.."
+
+    def init_parser(self, parser):
+        super(Collect, self).init_parser(parser)
+        parser.add_option("-H", "--hostname", type="string", 
+                help="The hostname whose information is from")
+
+    def run(self):
+        if self.opts.hostname is None:
+            raise CliError, "you must supply the hostname"
+        self.tcc3.collect(self.args, hostname=self.hostname)
+
+Collect().main()
