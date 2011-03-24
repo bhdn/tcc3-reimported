@@ -1,0 +1,11 @@
+#!/usr/bin/python
+from tcc3.command import TCC3Command
+
+class Showrc(TCC3Command):
+
+    descr = "Dumps configuration values"
+
+    def run(self):
+        print repr(self.config)
+
+Showrc().main()

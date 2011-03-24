@@ -15,3 +15,5 @@ syntax: glob
 *.pdf
 *.eps
 *~
+*.pyc
+*.pyo
