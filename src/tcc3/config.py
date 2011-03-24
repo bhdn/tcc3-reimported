@@ -99,12 +99,4 @@ class Config:
 
 
 class TCC3Config(Config):
-
-    def targets(self):
-        # looks for [target somename] sections
-        for name in self._config.sections():
-            fields = name.split()
-            if len(fields) > 1 and fields[0] == "target":
-                targetconf = self.get_section(name, "any target")
-                targetconf.target_name = fields[1]
-                yield (fields[1], targetconf)
+    pass
