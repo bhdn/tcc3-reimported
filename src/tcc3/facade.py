@@ -1,10 +1,10 @@
-from tcc3 import base, collector
+from tcc3 import database, collector
 
 class TCC3Facade:
 
     def __init__(self, config):
-        self.base = base.get_base(config.tcc3)
-        self.collector = collector.get_collector(config, base)
+        self.database = base.get_database(config.tcc3)
+        self.collector = collector.get_collector(config, database)
 
     def collect(self, files, hostname):
         raise NotImplementedError
