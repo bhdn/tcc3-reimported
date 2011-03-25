@@ -1,4 +1,8 @@
+import os
+import logging
 import csv
+
+logger = logging.getLogger("tcc3.database")
 
 class Database(object):
 
@@ -11,11 +15,28 @@ class Database(object):
     def destroy(self):
         raise NotImplementedError
 
-class TextDatabase(Database):
-    
+class DatabaseManager(object):
+
+    target_class = Database
+
     def __init__(self, config):
-        self.topdir = config
-        self.file = None
+        self.config = config
+
+    def get_database(self, name):
+        return self.target_class(name, self.config)
+
+class CSVDatabase(Database):
+    
+    def __init__(self, name, config):
+        self.name = name
+        self.topdir = os.path.join(config.databases_dir, name)
+        self.files = {}
+        self._create_dirs()
+
+    def _create_dirs(self):
+        if not os.path.exists(self.topdir):
+            logger.debug("creating directory %s" % (self.topdir))
+            os.mkdir(self.topdir)
 
     def _base_path(self, machine):
         name = machine.replace("/", "_")
@@ -37,6 +58,7 @@ class TextDatabase(Database):
             return f
 
     def add(self, info, machine):
+        # just too lazy to implement something better now
         f = self._open_base(machine, write=True)
         line = ";".join(info) + "\n"
         f.write(line)
@@ -46,6 +68,12 @@ class TextDatabase(Database):
         csv = self._open_base(machine)
         return iter(csv)
 
-def get_database(config):
-    # TODO use Registry
-    return TextDatabase(config)
+class CSVDatabaseManager(DatabaseManager):
+
+    target_class = CSVDatabase
+
+database_manager = Registry()
+database_manager.register("csv", CSVDatabaseManager)
+
+def get_database_manager(config):
+    return databases.get_instance(config.database_type, config)

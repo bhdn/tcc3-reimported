@@ -14,6 +14,7 @@ class Collect(TCC3Command):
     def run(self):
         if self.opts.hostname is None:
             raise CliError, "you must supply the hostname"
-        self.tcc3.collect(self.args, hostname=self.hostname)
+        for arg in self.args:
+            self.tcc3.collect(arg, hostname=self.opts.hostname)
 
 Collect().main()
