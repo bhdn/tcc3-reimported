@@ -21,7 +21,6 @@ class KNNMethod(Method):
 
 methods = Registry()
 methods.register("knn", KNNMethod)
-methods.register("svm", SVMMethod)
 
 def get_method(config):
     return methods.get_instance(config.learning_method, config)

@@ -2,6 +2,8 @@ import os
 import logging
 import csv
 
+from tcc3.registry import Registry
+
 logger = logging.getLogger("tcc3.database")
 
 class Database(object):
@@ -36,7 +38,7 @@ class CSVDatabase(Database):
     def _create_dirs(self):
         if not os.path.exists(self.topdir):
             logger.debug("creating directory %s" % (self.topdir))
-            os.mkdir(self.topdir)
+            os.makedirs(self.topdir)
 
     def _base_path(self, machine):
         name = machine.replace("/", "_")
@@ -72,8 +74,8 @@ class CSVDatabaseManager(DatabaseManager):
 
     target_class = CSVDatabase
 
-database_manager = Registry()
-database_manager.register("csv", CSVDatabaseManager)
+database_managers = Registry()
+database_managers.register("csv", CSVDatabaseManager)
 
 def get_database_manager(config):
-    return databases.get_instance(config.database_type, config)
+    return database_managers.get_instance(config.database_type, config)
