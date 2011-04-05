@@ -5,9 +5,6 @@ class DumpDB(TCC3Command):
 
     descr = "Dumps all data from all machines in text form"
 
-    def init_parser(self, parser):
-        super(DumpDB, self).init_parser(parser)
-
     def run(self):
         for dbname, itemsgen in self.tcc3.dump_databases():
             print dbname + ":"
