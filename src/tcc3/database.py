@@ -6,6 +6,11 @@ from tcc3.registry import Registry
 
 logger = logging.getLogger("tcc3.database")
 
+def list_valid_names(dir):
+    for name in os.listdir(dir):
+        if not name.startswith(".") or name.endswith("~"):
+            yield name
+
 class Database(object):
 
     def add(self, info, machine):
@@ -23,6 +28,10 @@ class DatabaseManager(object):
 
     def __init__(self, config):
         self.config = config
+        self.topdir = config.databases_dir
+
+    def list_databases(self):
+        raise NotImplementedError
 
     def get_database(self, name):
         return self.target_class(name, self.config)
@@ -51,28 +60,35 @@ class CSVDatabase(Database):
             path = self._base_path(machine)
             mode = "r"
             if write:
-                mode = "w"
+                mode = "a"
             f = open(path, mode)
             if write:
-                csv = csv.writer(f)
+                obj = f
             else:
-                csv = csv.reader(f)
-            return f
+                obj = csv.reader(f)
+            self.files[machine] = obj
+            return obj
 
     def add(self, info, machine):
         # just too lazy to implement something better now
         f = self._open_base(machine, write=True)
-        line = ";".join(info) + "\n"
+        line = ";".join(str(x) for x in info) + "\n"
         f.write(line)
         # notice the file is not closed
 
-    def __iter__(self):
+    def values(self, machine):
         csv = self._open_base(machine)
         return iter(csv)
+
+    def list_machines(self):
+        return list_valid_names(self.topdir)
 
 class CSVDatabaseManager(DatabaseManager):
 
     target_class = CSVDatabase
+
+    def list_databases(self):
+        return list_valid_names(self.topdir)
 
 database_managers = Registry()
 database_managers.register("csv", CSVDatabaseManager)

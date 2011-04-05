@@ -14,10 +14,10 @@ class Collect(TCC3Command):
     def run(self):
         if self.opts.hostname is None:
             raise CliError, "you must supply the hostname"
+        if not self.args:
+            raise CliError, "no input file provided"
         for arg in self.args:
             self.tcc3.collect(arg, hostname=self.opts.hostname)
-        else:
-            raise CliError, "no input file provided"
 
 
 Collect().main()

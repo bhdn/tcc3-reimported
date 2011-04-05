@@ -1,0 +1,21 @@
+#!/usr/bin/python
+from tcc3.command import TCC3Command, CliError
+
+class DumpDB(TCC3Command):
+
+    descr = "Dumps all data from all machines in text form"
+
+    def init_parser(self, parser):
+        super(DumpDB, self).init_parser(parser)
+
+    def run(self):
+        for dbname, itemsgen in self.tcc3.dump_databases():
+            print dbname + ":"
+            for machine, entries in itemsgen:
+                print "  -", machine + ":"
+                for info in entries:
+                    print "    - [%s]" % (",".join(info))
+
+DumpDB().main()
+
+# vim:ts=4:sw=4:et
