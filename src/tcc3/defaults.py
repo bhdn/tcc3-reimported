@@ -11,6 +11,9 @@ learning-method = knn
 
 knn-number-neighbours = 5
 
+cpu-usage-ranges = 3
+max-cpu-value = 100
+
 [conf]
 path-environment = TCC3_CONF
 user-file = .tcc3.conf

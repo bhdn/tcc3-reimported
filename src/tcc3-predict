@@ -1,0 +1,27 @@
+#!/usr/bin/python
+from tcc3.command import TCC3Command, CliError
+
+class Predict(TCC3Command):
+
+    descr = "Tried to predict the value for a window and a host"
+    usage = "%prog --hostname NAME VALUES..."
+
+    def init_parser(self, parser):
+        super(Predict, self).init_parser(parser)
+        parser.add_option("-H", "--hostname", type="string",
+                help="The hostname whose information is from")
+
+    def run(self):
+        if self.opts.hostname is None:
+            raise CliError, "you must supply the hostname"
+        if not self.args:
+            raise CliError, "no values for the window provided"
+        try:
+            values = [int(rawval) for rawval in self.args]
+        except ValueError:
+            raise CliError, "values must be only integer"
+        print self.tcc3.predict(values, hostname=self.opts.hostname)
+
+Predict().main()
+
+# vim:ts=4:sw=4:et

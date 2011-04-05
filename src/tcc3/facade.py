@@ -8,9 +8,8 @@ class TCC3Facade(object):
         self.trainedname = config.tcc3.trained_database_name
         self.maindb = self.dbmanager.get_database(self.mainname)
         self.traindb = self.dbmanager.get_database(self.trainedname)
-        self.method = method.get_method(config.tcc3)
-        self.learner = self.method.get_learner(self.maindb)
-        self.predictor = self.method.get_predictor(self.traindb)
+        self.method = method.get_method(config.tcc3, self.maindb,
+                self.traindb)
         self.collector = collector.get_collector(config.tcc3, self.maindb)
 
     def collect(self, sourcedef, hostname):
@@ -22,3 +21,6 @@ class TCC3Facade(object):
                 yield name, db.values(name)
         yield self.mainname, dbit(self.maindb)
         yield self.trainedname, dbit(self.traindb)
+
+    def predict(self, values, hostname):
+        return self.method.predict(hostname, values)
