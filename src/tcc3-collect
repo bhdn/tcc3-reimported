@@ -16,5 +16,10 @@ class Collect(TCC3Command):
             raise CliError, "you must supply the hostname"
         for arg in self.args:
             self.tcc3.collect(arg, hostname=self.opts.hostname)
+        else:
+            raise CliError, "no input file provided"
+
 
 Collect().main()
+
+# vim:ts=4:sw=4:et
