@@ -79,21 +79,19 @@ class KNNMethod(Method):
     def predict(self, machine, window):
         winsize = len(window)
         candidates = []
-        max = -1
-        allcands = []
         for candidate, class_ in self._get_examples(machine, winsize):
             dist = self._distance(candidate, window)
-            allcands.append((dist, candidate, class_))
             info = (-dist, class_)
-            if len(candidates) < winsize:
+            if len(candidates) < self.neighbours:
+                # grow the neighbours list up to its size
                 heapq.heappush(candidates, info)
-                max = candidates[0][0]
-            elif dist < -candidates[0][0]:
+            elif dist <= -candidates[0][0]:
+                # replace candidates which have distance smaller than the
+                # most distant in the selected neighbours
                 heapq.heappushpop(candidates, info)
-        print "candidates:", candidates
-        for x in sorted(allcands)[:10]:
-            print x
-        raise NotImplementedError
+        self.logger.debug("candidates: %r", candidates)
+        count = collections.Counter(class_ for dist, class_ in candidates)
+        return count.most_common()[0][0]
 
 methods = Registry()
 methods.register("knn", KNNMethod)

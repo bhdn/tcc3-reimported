@@ -9,7 +9,7 @@ trained-database-name = trained
 databases-dir = ./databases
 learning-method = knn
 
-knn-number-neighbours = 5
+knn-number-neighbours = 10
 
 cpu-usage-ranges = 3
 max-cpu-value = 100
