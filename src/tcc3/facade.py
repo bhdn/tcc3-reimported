@@ -24,3 +24,6 @@ class TCC3Facade(object):
 
     def predict(self, values, hostname):
         return self.method.predict(hostname, values)
+
+    def train(self, hostname):
+        self.method.train(hostname)
