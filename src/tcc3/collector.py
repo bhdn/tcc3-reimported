@@ -24,7 +24,8 @@ class VMStatCollector(Collector):
         @hostname: the host whose data is related to
         """
         for n, line in enumerate(open(sourcedef)):
-            if line.startswith("procs ") or line.startswith(" r "):
+            if (line.startswith("procs ") or line.startswith(" r ")
+                    or line.startswith("===")):
                 continue
             fields = line.split()
             lineno = n + 1
