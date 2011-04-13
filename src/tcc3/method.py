@@ -3,8 +3,10 @@ import collections
 import logging
 import itertools
 import math
+import shlex
 from tcc3 import Error
 from tcc3.registry import Registry
+from tcc3.util import system_command
 
 logger = logging.getLogger("tcc3.method")
 
@@ -15,6 +17,11 @@ class SVMError(MethodError):
     pass
 
 class Method(object):
+
+    def __init__(self, config, maindb, traindb):
+        self.config = config
+        self.maindb = maindb
+        self.traindb = traindb
 
     def train(self, machine):
         raise NotImplementedError
@@ -67,11 +74,10 @@ class WindowGeneratorMixIn(object):
 class KNNMethod(Method, WindowGeneratorMixIn):
 
     def __init__(self, config, maindb, traindb):
+        super(KNNMethod, self).__init___(config, maindb, traindb)
         self.neighbours = int(config.knn_number_neighbours)
         self.nranges = int(config.cpu_usage_ranges)
         self.maxcpuval = float(config.max_cpu_value)
-        self.maindb = maindb
-        self.traindb = traindb
         self.logger = logging.getLogger("tcc3.method.knn")
         self.logger.debug("created KNN instance with N = %d",
                 self.neighbours)
@@ -103,20 +109,30 @@ class KNNMethod(Method, WindowGeneratorMixIn):
         count = collections.Counter(class_ for dist, class_ in candidates)
         return count.most_common()[0][0]
 
-class SVMMethod(Method, WindowGeneratorMixIn):
+class SVMBaseMethod(Method, WindowGeneratorMixIn):
 
     def __init__(self, config, maindb, traindb):
+        super(SVMBaseMethod, self).__init__(config, maindb, traindb)
         self.maindb = maindb
         self.traindb = traindb
-        self.libsvm_dir = config.libsvm_dir
         self.windowsize = int(config.svm_window_size)
         self.nranges = int(config.cpu_usage_ranges)
         self.maxcpuval = float(config.max_cpu_value)
-        self.params = config.svm_params
-        self._load_libsvm()
         self.logger = logging.getLogger("tcc3.method.svm")
         self.logger.debug("created SVM instance with windowsize = %d",
                 self.windowsize)
+
+    def normalize(self, candidate):
+        normcand = [(val / self.maxcpuval) for val in candidate]
+        return normcand
+
+class SVMMethod(SVMBaseMethod):
+
+    def __init__(self, config, maindb, traindb):
+        super(SVMMethod, self).__init__(config, maindb, traindb)
+        self.libsvm_dir = config.libsvm_dir
+        self.params = config.libsvm_params
+        self._load_libsvm()
 
     def _load_libsvm(self):
         import sys
@@ -138,7 +154,7 @@ class SVMMethod(Method, WindowGeneratorMixIn):
         # FIXME TODO FIXME allow using different normalization techniques!
         self.logger.debug("creating 'training problem' vectors")
         for candidate, class_ in self.get_examples(machine, self.windowsize):
-            normcand = [(val / self.maxcpuval) for val in candidate]
+            normcand = self.normalize(candidate)
             problx.append(normcand)
             for i in xrange(self.nranges):
                 if class_ == i:
@@ -146,20 +162,62 @@ class SVMMethod(Method, WindowGeneratorMixIn):
                 else:
                     probly[i].append(-1)
         logger.debug("creating real trainning problem")
-        svmproblems = [self.svmutil.svm_problem(probly[i], problx)
+        svmproblems = [self.svm.svm_problem(probly[i], problx)
                 for i in xrange(self.nranges)]
-        param = self.svmutil.svm_parameter(self.params)
+        param = self.svm.svm_parameter(self.params)
         logger.debug("BEHOLD! trainning the svm")
         models = []
-        for problem in svmproblems:
+        for i, problem in enumerate(svmproblems):
             logger.debug("progress!")
-            models.append(self.svmutil.svm_train(problem, param))
-        import pdb; pdb.set_trace()
-        pass
+            model = self.svm.libsvm.svm_train(problem, param)
+            models.append(model)
+            #self.svmutil.svm_save_model("model-%d" % (i), model)
+
+class SVMLightMethod(SVMBaseMethod):
+
+    def __init__(self, config, maindb, traindb):
+        super(SVMLightMethod, self).__init__(config, maindb, traindb)
+        self.svmlight_cmd = shlex.split(config.svmlight_command)
+        self.logger.debug("svmlight comes from %s", self.svmlight_cmd)
+
+    def train(self, machine):
+        import tempfile
+        #tf = tempfile.NamedTemporaryFile()
+        #for candidate, class_ in self.get_examples(machine, self.windowsize):
+        #    normcand = self.normalize(candidate)
+        #    line = " ".join("%d:%f" % pair for pair in enumerate(normcand)) + "\n"
+        #    tf.write(line)
+        problx = []
+        probly = [[] for i in xrange(self.nranges)] # n svms = n classes
+        self.logger.debug("creating 'training problem' vectors")
+        for candidate, class_ in self.get_examples(machine, self.windowsize):
+            normcand = self.normalize(candidate)
+            problx.append(normcand)
+            for i in xrange(self.nranges):
+                if class_ == i:
+                    probly[i].append(1)
+                else:
+                    probly[i].append(-1)
+        for i, ys in enumerate(probly):
+            trainfile = tempfile.mktemp(prefix="tcc3-%d-" % (i))
+            tf = open("/tmp/svm-%d.txt" % (i), "w")
+            for j, y in enumerate(ys):
+                xline = " ".join("%d:%f" % (col+1, value)
+                        for col, value in enumerate(problx[j]))
+                line = str(y) + " " + xline + "\n"
+                tf.write(line)
+            tf.flush()
+            args = self.svmlight_cmd[:]
+            args.append(tf.name)
+            args.append(trainfile)
+            self.logger.debug("running: %r", args)
+            system_command(args)
+            tf.close()
 
 methods = Registry()
 methods.register("knn", KNNMethod)
 methods.register("svm", SVMMethod)
+methods.register("svm-svmlight", SVMLightMethod)
 
 def get_method(config, maindb, traindb):
     return methods.get_instance(config.learning_method, config, maindb,

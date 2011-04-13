@@ -11,9 +11,11 @@ learning-method = svm
 
 knn-number-neighbours = 10
 
-libsvm-dir = thirdparty/libsvm/python/
 svm-window-size = 5
-svm-params = -s 0 -c 1 -b 1 -t 2 -h 0
+libsvm-params = -s 0 -c 1 -b 1 -t 2 -h 0
+libsvm-dir = thirdparty/libsvm/python/
+
+svmlight-command = ../../libsvm/svm_learn -t 2
 
 cpu-usage-ranges = 3
 max-cpu-value = 100
