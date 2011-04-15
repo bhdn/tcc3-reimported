@@ -4,6 +4,7 @@ import logging
 import itertools
 import math
 import shlex
+import random
 from tcc3 import Error
 from tcc3.registry import Registry
 from tcc3.util import system_command
@@ -38,7 +39,7 @@ class WindowGeneratorMixIn(object):
         class_ = int((value / self.maxcpuval) * self.nranges)
         return class_
 
-    def get_examples(self, machine, winsize):
+    def build_examples(self, machine, winsize):
         """Returns windows + classification with one value of delay
 
         This is one example of how one window + class is formed:
@@ -95,7 +96,7 @@ class KNNMethod(Method, WindowGeneratorMixIn):
     def predict(self, machine, window):
         winsize = len(window)
         candidates = []
-        for candidate, class_ in self.get_examples(machine, winsize):
+        for candidate, class_ in self.build_examples(machine, winsize):
             dist = self._distance(candidate, window)
             info = (-dist, class_)
             if len(candidates) < self.neighbours:
@@ -118,6 +119,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         self.windowsize = int(config.svm_window_size)
         self.nranges = int(config.cpu_usage_ranges)
         self.maxcpuval = float(config.max_cpu_value)
+        self.samples = int(config.svm_samples)
         self.logger = logging.getLogger("tcc3.method.svm")
         self.logger.debug("created SVM instance with windowsize = %d",
                 self.windowsize)
@@ -125,6 +127,34 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
     def normalize(self, candidate):
         normcand = [(val / self.maxcpuval) for val in candidate]
         return normcand
+
+    def select_samples(self, problx, probly):
+        # burn memory burn!!
+        pairs = list(enumerate(problx))
+        random.shuffle(pairs)
+        selected = pairs[:self.samples]
+        newprobly = []
+        newproblx = [value for _, value in selected]
+        for i in xrange(len(probly)):
+            ys = []
+            newprobly.append(ys)
+            for j, x in selected:
+                ys.append(probly[i][j])
+        return newproblx, newprobly
+
+    def prepare_examples(self, machine):
+        problx = []
+        probly = [[] for i in xrange(self.nranges)] # n svms = n classes
+        self.logger.debug("creating 'training problem' vectors")
+        for candidate, class_ in self.build_examples(machine, self.windowsize):
+            normcand = self.normalize(candidate)
+            problx.append(normcand)
+            for i in xrange(self.nranges):
+                if class_ == i:
+                    probly[i].append(1)
+                else:
+                    probly[i].append(-1)
+        return self.select_samples(problx, probly)
 
 class SVMMethod(SVMBaseMethod):
 
@@ -149,21 +179,8 @@ class SVMMethod(SVMBaseMethod):
         logger.debug("loaded libsvm")
 
     def train(self, machine):
-        problx = []
-        probly = [[] for i in xrange(self.nranges)] # n svms = n classes
-        # FIXME TODO FIXME allow using different normalization techniques!
-        self.logger.debug("creating 'training problem' vectors")
-        for candidate, class_ in self.get_examples(machine, self.windowsize):
-            normcand = self.normalize(candidate)
-            problx.append(normcand)
-            for i in xrange(self.nranges):
-                if class_ == i:
-                    probly[i].append(1)
-                else:
-                    probly[i].append(-1)
-        logger.debug("creating real trainning problem")
-        svmproblems = [self.svm.svm_problem(probly[i], problx)
-                for i in xrange(self.nranges)]
+        problx, probly = self.prepare_examples(machine)
+        svmproblems = [self.svm.svm_problem(ys, problx) for ys in probly]
         param = self.svm.svm_parameter(self.params)
         logger.debug("BEHOLD! trainning the svm")
         models = []
@@ -182,22 +199,7 @@ class SVMLightMethod(SVMBaseMethod):
 
     def train(self, machine):
         import tempfile
-        #tf = tempfile.NamedTemporaryFile()
-        #for candidate, class_ in self.get_examples(machine, self.windowsize):
-        #    normcand = self.normalize(candidate)
-        #    line = " ".join("%d:%f" % pair for pair in enumerate(normcand)) + "\n"
-        #    tf.write(line)
-        problx = []
-        probly = [[] for i in xrange(self.nranges)] # n svms = n classes
-        self.logger.debug("creating 'training problem' vectors")
-        for candidate, class_ in self.get_examples(machine, self.windowsize):
-            normcand = self.normalize(candidate)
-            problx.append(normcand)
-            for i in xrange(self.nranges):
-                if class_ == i:
-                    probly[i].append(1)
-                else:
-                    probly[i].append(-1)
+        problx, probly = self.prepare_examples(machine)
         for i, ys in enumerate(probly):
             trainfile = tempfile.mktemp(prefix="tcc3-%d-" % (i))
             tf = open("/tmp/svm-%d.txt" % (i), "w")

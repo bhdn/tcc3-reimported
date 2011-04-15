@@ -15,6 +15,8 @@ svm-window-size = 5
 libsvm-params = -s 0 -c 1 -b 1 -t 2 -h 0
 libsvm-dir = thirdparty/libsvm/python/
 
+svm-samples = 5000
+
 svmlight-command = ../../libsvm/svm_learn -t 2
 
 cpu-usage-ranges = 3
