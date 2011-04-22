@@ -17,7 +17,9 @@ libsvm-dir = thirdparty/libsvm/python/
 
 svm-samples = 5000
 
-svmlight-command = ../../libsvm/svm_learn -t 2
+svmlight-learn-command = ../../libsvm/svm_learn -t 2
+svmlight-classify-command = ../../libsvm/svm_classify
+svmlight-trained-dir = ./databases/svmlight-trained/
 
 cpu-usage-ranges = 3
 max-cpu-value = 100

@@ -1,3 +1,5 @@
+import os
+import tempfile
 import heapq
 import collections
 import logging
@@ -185,7 +187,6 @@ class SVMMethod(SVMBaseMethod):
         logger.debug("BEHOLD! trainning the svm")
         models = []
         for i, problem in enumerate(svmproblems):
-            logger.debug("progress!")
             model = self.svm.libsvm.svm_train(problem, param)
             models.append(model)
             #self.svmutil.svm_save_model("model-%d" % (i), model)
@@ -194,27 +195,75 @@ class SVMLightMethod(SVMBaseMethod):
 
     def __init__(self, config, maindb, traindb):
         super(SVMLightMethod, self).__init__(config, maindb, traindb)
-        self.svmlight_cmd = shlex.split(config.svmlight_command)
-        self.logger.debug("svmlight comes from %s", self.svmlight_cmd)
+        self.learn_cmd = shlex.split(config.svmlight_learn_command)
+        self.classify_cmd = shlex.split(config.svmlight_classify_command)
+        self.trained_dir = shlex.split(config.svmlight_trained_dir)[0]
+        self.logger.debug("learn command comes from %s", self.learn_cmd)
+        self.logger.debug("classify command comes from %s", self.classify_cmd)
+
+    def _dump_svmlight_line(self, x, y):
+        xline = " ".join("%d:%f" % (col+1, value)
+                for col, value in enumerate(x))
+        line = str(y) + " " + xline + "\n"
+        return line
+
+    def _class_file_name(self, i):
+        return os.path.join(self.trained_dir, "%02d" % (i))
 
     def train(self, machine):
-        import tempfile
         problx, probly = self.prepare_examples(machine)
+        trainedfiles = []
+        if not os.path.exists(self.trained_dir):
+            logger.debug("creating directory %s", self.trained_dir)
+            os.makedirs(self.trained_dir)
         for i, ys in enumerate(probly):
-            trainfile = tempfile.mktemp(prefix="tcc3-%d-" % (i))
+            trainfile = tempfile.mktemp(prefix="training.%02d" % (i),
+                    dir=self.trained_dir)
             tf = open("/tmp/svm-%d.txt" % (i), "w")
             for j, y in enumerate(ys):
-                xline = " ".join("%d:%f" % (col+1, value)
-                        for col, value in enumerate(problx[j]))
-                line = str(y) + " " + xline + "\n"
+                line = self._dump_svmlight_line(problx[j], y)
                 tf.write(line)
             tf.flush()
-            args = self.svmlight_cmd[:]
+            args = self.learn_cmd[:]
             args.append(tf.name)
             args.append(trainfile)
             self.logger.debug("running: %r", args)
             system_command(args)
             tf.close()
+            dbtrained = self._class_file_name(i)
+            trainedfiles.append((trainfile, dbtrained))
+        for trainfile, dbtrained in trainedfiles:
+            self.logger.debug("renaming %s to %s", trainfile, dbtrained)
+            os.rename(trainfile, dbtrained)
+
+    def select_winner(self, values):
+        return sorted([(value, i) for i, value in enumerate(values)],
+                reverse=True)[0][1]
+
+    def predict(self, machine, window):
+        tf = tempfile.NamedTemporaryFile()
+        cand = self.normalize(window)
+        self.logger.debug("normalized candidate: %r", cand)
+        line = self._dump_svmlight_line(cand, 0)
+        tf.write(line)
+        tf.flush()
+        classes = []
+        for i in xrange(self.nranges):
+            outfile = tempfile.mktemp()
+            path = self._class_file_name(i)
+            args = self.classify_cmd[:]
+            args.append(tf.name)
+            args.append(path)
+            args.append(outfile)
+            self.logger.debug("classifier: %r", args)
+            system_command(args)
+            data = open(outfile).read().strip()
+            self.logger.debug("for %d it returned %r", i, data)
+            dist = float(data)
+            classes.append(dist)
+            os.unlink(outfile)
+        tf.close()
+        return self.select_winner(classes)
 
 methods = Registry()
 methods.register("knn", KNNMethod)
