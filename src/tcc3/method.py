@@ -55,7 +55,8 @@ class WindowGeneratorMixIn(object):
         curwin = collections.deque()
         pendingdist = -1
         limbo = None
-        for (value,) in self.maindb.values(machine):
+        for values in self.maindb.values(machine):
+            value = values[0]
             # the source always provides as values of 'idle' from vmstat
             value = self.maxcpuval - int(value)
             if pendingdist == 0:
@@ -135,14 +136,21 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         pairs = list(enumerate(problx))
         random.shuffle(pairs)
         selected = pairs[:self.samples]
+        rest = pairs[self.samples:]
+        resty = []
+        restx = [value for _, value in rest]
         newprobly = []
         newproblx = [value for _, value in selected]
         for i in xrange(len(probly)):
             ys = []
-            newprobly.append(ys)
             for j, x in selected:
                 ys.append(probly[i][j])
-        return newproblx, newprobly
+            newprobly.append(ys)
+            ys = []
+            for j, x in rest:
+                ys.append(probly[i][j])
+            resty.append(ys)
+        return newproblx, newprobly, restx, resty
 
     def prepare_examples(self, machine):
         problx = []
@@ -181,7 +189,7 @@ class SVMMethod(SVMBaseMethod):
         logger.debug("loaded libsvm")
 
     def train(self, machine):
-        problx, probly = self.prepare_examples(machine)
+        problx, probly, restx, resty = self.prepare_examples(machine)
         svmproblems = [self.svm.svm_problem(ys, problx) for ys in probly]
         param = self.svm.svm_parameter(self.params)
         logger.debug("BEHOLD! trainning the svm")
@@ -198,6 +206,7 @@ class SVMLightMethod(SVMBaseMethod):
         self.learn_cmd = shlex.split(config.svmlight_learn_command)
         self.classify_cmd = shlex.split(config.svmlight_classify_command)
         self.trained_dir = shlex.split(config.svmlight_trained_dir)[0]
+        self.test_dir = shlex.split(config.svmlight_test_dir)[0]
         self.logger.debug("learn command comes from %s", self.learn_cmd)
         self.logger.debug("classify command comes from %s", self.classify_cmd)
 
@@ -207,11 +216,24 @@ class SVMLightMethod(SVMBaseMethod):
         line = str(y) + " " + xline + "\n"
         return line
 
-    def _class_file_name(self, i):
-        return os.path.join(self.trained_dir, "%02d" % (i))
+    def _class_file_name(self, machine, i):
+        return os.path.join(self.trained_dir, "%s-%02d" % (machine, i))
+
+    def _test_file_name(self, machine, i):
+        return os.path.join(self.test_dir, "%s-%02d" % (machine, i))
+
+    def _dump_rest(self, machine, restx, resty):
+        for i, ys in enumerate(resty):
+            path = self._test_file_name(machine, i)
+            f = open(path, "w")
+            self.logger.debug("writing test entries to %s" % (path))
+            f.writelines(self._dump_svmlight_line(cand, ys[j])
+                    for j, cand in enumerate(restx) if (ys[j] == 1))
+            f.close()
 
     def train(self, machine):
-        problx, probly = self.prepare_examples(machine)
+        problx, probly, restx, resty = self.prepare_examples(machine)
+        self._dump_rest(machine, restx, resty)
         trainedfiles = []
         if not os.path.exists(self.trained_dir):
             logger.debug("creating directory %s", self.trained_dir)
@@ -228,9 +250,9 @@ class SVMLightMethod(SVMBaseMethod):
             args.append(tf.name)
             args.append(trainfile)
             self.logger.debug("running: %r", args)
-            system_command(args)
+            system_command(args, show=True)
             tf.close()
-            dbtrained = self._class_file_name(i)
+            dbtrained = self._class_file_name(machine, i)
             trainedfiles.append((trainfile, dbtrained))
         for trainfile, dbtrained in trainedfiles:
             self.logger.debug("renaming %s to %s", trainfile, dbtrained)
@@ -264,6 +286,33 @@ class SVMLightMethod(SVMBaseMethod):
             os.unlink(outfile)
         tf.close()
         return self.select_winner(classes)
+
+    def test(self, machine):
+        import itertools
+        for i in xrange(self.nranges):
+            outname = tempfile.mktemp()
+            testpath = self._test_file_name(machine, i)
+            modelpath = self._class_file_name(machine, i)
+            args = self.classify_cmd[:]
+            args.append(testpath)
+            args.append(modelpath)
+            args.append(outname)
+            self.logger.debug("running: %r" % (args))
+            system_command(args, show=True)
+            fout = open(outname)
+            ftest = open(testpath)
+            total = 0
+            correct = 0
+            for rawout, rawtest in itertools.izip(fout, ftest):
+                outval = float(rawout.strip()) < 0
+                testval = float(rawtest.split()[0].strip()) < 0
+                if outval == testval:
+                    correct += 1
+                total += 1
+            print "TOTAL/CORRECT:", total, correct
+            ftest.close()
+            fout.close()
+            os.unlink(outname)
 
 methods = Registry()
 methods.register("knn", KNNMethod)

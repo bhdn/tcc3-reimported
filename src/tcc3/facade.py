@@ -27,3 +27,6 @@ class TCC3Facade(object):
 
     def train(self, hostname):
         self.method.train(hostname)
+
+    def test(self, hostname):
+        self.method.test(hostname)

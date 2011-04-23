@@ -32,13 +32,17 @@ class VMStatCollector(Collector):
             if len(fields) < 15:
                 raise InvalidFormat, ("invalid number of fields in line %d"
                         % (lineno))
-            rawidle = fields[14]
-            try:
-                idle = int(rawidle)
-            except ValueError:
-                raise InvalidFormat, ("invalid 'idle' value in line %d: %r" %
-                        (lineno, rawidle))
-            self.database.add((idle,), hostname)
+            values = []
+            # vmstat fields: id, r, bi, bo
+            for idx in (14, 0, 8, 9):
+                raw = fields[idx]
+                try:
+                    value = int(raw)
+                except ValueError:
+                    raise InvalidFormat, ("invalid 'idle' value in line %d: %r" %
+                            (lineno, rawidle))
+                values.append(value)
+            self.database.add(values, hostname)
 
 collectors = Registry()
 collectors.register("vmstat", VMStatCollector)
