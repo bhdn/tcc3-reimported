@@ -6,7 +6,7 @@ class CommandError(Error):
 
 def system_command(args, show=False):
     if show:
-        stdout = subprocess.STDOUT
+        stdout = None
         stderr = None
     else:
         stdout = subprocess.PIPE
@@ -15,7 +15,7 @@ def system_command(args, show=False):
             stderr=stderr, bufsize=1024 * 1024 * 5)
     proc.wait()
     output = ""
-    if show:
+    if not show:
         output = proc.stdout.read()
     if proc.returncode != 0:
         cmdline = subprocess.list2cmdline(args)
