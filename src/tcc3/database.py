@@ -65,7 +65,7 @@ class CSVDatabase(Database):
             if write:
                 obj = f
             else:
-                obj = csv.reader(f)
+                obj = csv.reader(f, delimiter=";")
             self.files[machine] = obj
             return obj
 
