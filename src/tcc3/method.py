@@ -25,6 +25,7 @@ class Method(object):
         self.config = config
         self.maindb = maindb
         self.traindb = traindb
+        self.nfuturevalues = int(config.future_values)
 
     def train(self, machine):
         raise NotImplementedError
@@ -34,19 +35,22 @@ class Method(object):
 
 class WindowGeneratorMixIn(object):
 
-    def _class_from_cpu_use(self, value):
+    def class_from_cpu_use(self, value):
         "A value identifiying the range (class) @value is part"
         if value == self.maxcpuval:
             return self.nranges - 1
         class_ = int((value / self.maxcpuval) * self.nranges)
         return class_
 
+    def transform_future_values(self, values):
+        return float(sum(values)) / len(values) # avg
+
     def build_examples(self, machine, winsize):
         """Returns windows + classification with one value of delay
 
         This is one example of how one window + class is formed:
 
-        ... [ 66 11 56 22 78 44 ] 98 <<14>> ...
+        ... [ 66 11 56 22 78 44 ] avg(<<14 15 16 17 18>>) ...
 
         [] indicates values used to form the window, 98 is the value ignore
         for the classification, which is kept in a 'limbo', and 14 is the
@@ -54,27 +58,23 @@ class WindowGeneratorMixIn(object):
         """
         curwin = collections.deque()
         pendingdist = -1
-        pending = []
         limbo = None
+        needed = winsize + self.nfuturevalues
         for values in self.maindb.values(machine):
-            value = values[0]
-            # the source always provides as values of 'idle' from vmstat
-            value = self.maxcpuval - int(value)
-            if pendingdist == 0:
-                yield tuple(curwin), self._class_from_cpu_use(value)
+            value = self.maxcpuval - float(values[0])
+            curwin.append(value)
+            if len(curwin) >= needed:
+                window = tuple(curwin)[:winsize]
+                future = tuple(curwin)[winsize:]
+                transf = self.transform_future_values(future)
+                class_ = self.class_from_cpu_use(transf)
+                winsum = sum(window)
+                if not (winsum == 0.0 or winsum == 100.0):
+                    #print "yielding", window, class_, "avg", transf, future
+                    yield window, class_
                 curwin.popleft()
-                curwin.append(limbo)
-                limbo = value
-            elif len(curwin) == winsize:
-                # time to stop filling the window and wait for the
-                # classification value
-                pendingdist = 1
-                limbo = value
-            else:
-                curwin.append(value)
-            # <space!>
-            if pendingdist > 0:
-                pendingdist -= 1
+        yield ((0.0,) * winsize), 0
+        yield ((100.0,) * winsize), (self.nranges - 1)
 
 class KNNMethod(Method, WindowGeneratorMixIn):
 
@@ -124,6 +124,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         self.nranges = int(config.cpu_usage_ranges)
         self.maxcpuval = float(config.max_cpu_value)
         self.samples = int(config.svm_samples)
+        self.ntest = int(config.svm_test)
         self.logger = logging.getLogger("tcc3.method.svm")
         self.logger.debug("created SVM instance with windowsize = %d",
                 self.windowsize)
@@ -137,7 +138,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         pairs = list(enumerate(problx))
         random.shuffle(pairs)
         selected = pairs[:self.samples]
-        rest = pairs[self.samples:]
+        rest = pairs[self.samples:self.samples+self.ntest+1]
         resty = []
         restx = [value for _, value in rest]
         newprobly = []
