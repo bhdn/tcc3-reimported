@@ -12,12 +12,13 @@ learning-method = svm
 knn-number-neighbours = 10
 
 future-values = 10
-svm-window-size = 15
+svm-window-size = 20
 
-C = 0.5
 t = 2
+C = 2.0
+gamma = 0.5
 
-params = -t %(t)s -c %(C)s
+params = -t %(t)s -c %(C)s -g %(gamma)s
 
 libsvm-learn-command = ../../libsvm/libsvm-3.1/svm-train %(params)s
 libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
@@ -25,12 +26,12 @@ libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
 svmlight-learn-command = ../../libsvm/svm_learn %(params)s
 svmlight-classify-command = ../../libsvm/svm_classify
 
-svm-samples = 5000
+svm-samples = 8000
 svm-test = 4000
 svm-test-dir = ./databases/svmlight-test/
 svm-trained-dir = ./databases/svmlight-trained/
 
-cpu-usage-ranges = 4
+cpu-usage-ranges = 2
 max-cpu-value = 100
 
 [conf]
