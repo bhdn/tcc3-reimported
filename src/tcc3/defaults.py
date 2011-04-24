@@ -14,17 +14,21 @@ knn-number-neighbours = 10
 future-values = 10
 svm-window-size = 15
 
-libsvm-params = -t 2 -d 5 -c 10
-libsvm-trained-dir = ./databases/libsvm-trained/
-libsvm-dir = thirdparty/libsvm/python/
+C = 0.5
+t = 2
 
-svm-samples = 10000
-svm-test = 4000
+params = -t %(t)s -c %(C)s
 
-svmlight-learn-command = ../../libsvm/svm_learn -t 2
+libsvm-learn-command = ../../libsvm/libsvm-3.1/svm-train %(params)s
+libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
+
+svmlight-learn-command = ../../libsvm/svm_learn %(params)s
 svmlight-classify-command = ../../libsvm/svm_classify
-svmlight-trained-dir = ./databases/svmlight-trained/
-svmlight-test-dir = ./databases/svmlight-test/
+
+svm-samples = 5000
+svm-test = 4000
+svm-test-dir = ./databases/svmlight-test/
+svm-trained-dir = ./databases/svmlight-trained/
 
 cpu-usage-ranges = 4
 max-cpu-value = 100
