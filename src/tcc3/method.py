@@ -69,7 +69,7 @@ class WindowGeneratorMixIn(object):
                 transf = self.transform_future_values(future)
                 class_ = self.class_from_cpu_use(transf)
                 winsum = sum(window)
-                if not (winsum == 0.0 or winsum == 100.0):
+                if not (winsum == 0.0 or winsum == 100.0*winsize):
                     #print "yielding", window, class_, "avg", transf, future
                     yield window, class_
                 curwin.popleft()
