@@ -54,6 +54,7 @@ class WindowGeneratorMixIn(object):
         """
         curwin = collections.deque()
         pendingdist = -1
+        pending = []
         limbo = None
         for values in self.maindb.values(machine):
             value = values[0]
@@ -152,6 +153,10 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             resty.append(ys)
         return newproblx, newprobly, restx, resty
 
+    def select_winner(self, values):
+        return sorted([(value, i) for i, value in enumerate(values)],
+                reverse=True)[0][1]
+
     def prepare_examples(self, machine):
         problx = []
         probly = [[] for i in xrange(self.nranges)] # n svms = n classes
@@ -166,12 +171,23 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
                     probly[i].append(-1)
         return self.select_samples(problx, probly)
 
-class SVMMethod(SVMBaseMethod):
+class LibsvmDumperMixIn:
+
+    def dump_libsvm_line(self, x, y):
+        """Returns a generator dumping lines in the format of feature
+        vectors used by libsvm"""
+        xline = " ".join("%d:%f" % (col+1, value)
+                for col, value in enumerate(x))
+        line = str(y) + " " + xline + "\n"
+        return line
+
+class SVMMethod(SVMBaseMethod, LibsvmDumperMixIn):
 
     def __init__(self, config, maindb, traindb):
         super(SVMMethod, self).__init__(config, maindb, traindb)
         self.libsvm_dir = config.libsvm_dir
         self.params = config.libsvm_params
+        self.trained_dir = shlex.split(config.libsvm_trained_dir)[0]
         self._load_libsvm()
 
     def _load_libsvm(self):
@@ -188,18 +204,39 @@ class SVMMethod(SVMBaseMethod):
         self.svmutil = svmutil
         logger.debug("loaded libsvm")
 
+    def _model_file_name(self, machine, i):
+        return os.path.join(self.trained_dir, "%s-%d" % (machine, i))
+
     def train(self, machine):
         problx, probly, restx, resty = self.prepare_examples(machine)
         svmproblems = [self.svm.svm_problem(ys, problx) for ys in probly]
         param = self.svm.svm_parameter(self.params)
         logger.debug("BEHOLD! trainning the svm")
         models = []
+        if not os.path.exists(self.trained_dir):
+            os.makedirs(self.trained_dir)
         for i, problem in enumerate(svmproblems):
+            self.logger.debug("trainning svm %d", i)
             model = self.svm.libsvm.svm_train(problem, param)
             models.append(model)
-            #self.svmutil.svm_save_model("model-%d" % (i), model)
+            modelpath = self._model_file_name(machine, i)
+            self.svmutil.svm_save_model(modelpath, model)
 
-class SVMLightMethod(SVMBaseMethod):
+    def predict(self, machine, window):
+        cands = []
+        for i in xrange(self.nranges):
+            candidate = self.normalize(window)
+            modelpath = self._model_file_name(machine, i)
+            model = self.svmutil.svm_load_model(modelpath)
+            x0, _ = self.svmutil.gen_svm_nodearray(candidate)
+            ret = self.svm.libsvm.svm_predict(model, x0)
+            cands.append(ret)
+        return self.select_winner(cands)
+
+    def test(self, machine):
+        pass
+
+class SVMLightMethod(SVMBaseMethod, LibsvmDumperMixIn):
 
     def __init__(self, config, maindb, traindb):
         super(SVMLightMethod, self).__init__(config, maindb, traindb)
@@ -209,12 +246,6 @@ class SVMLightMethod(SVMBaseMethod):
         self.test_dir = shlex.split(config.svmlight_test_dir)[0]
         self.logger.debug("learn command comes from %s", self.learn_cmd)
         self.logger.debug("classify command comes from %s", self.classify_cmd)
-
-    def _dump_svmlight_line(self, x, y):
-        xline = " ".join("%d:%f" % (col+1, value)
-                for col, value in enumerate(x))
-        line = str(y) + " " + xline + "\n"
-        return line
 
     def _class_file_name(self, machine, i):
         return os.path.join(self.trained_dir, "%s-%02d" % (machine, i))
@@ -227,8 +258,8 @@ class SVMLightMethod(SVMBaseMethod):
             path = self._test_file_name(machine, i)
             f = open(path, "w")
             self.logger.debug("writing test entries to %s" % (path))
-            f.writelines(self._dump_svmlight_line(cand, ys[j])
-                    for j, cand in enumerate(restx) if (ys[j] == 1))
+            f.writelines(self.dump_libsvm_line(cand, ys[j])
+                    for j, cand in enumerate(restx))
             f.close()
 
     def train(self, machine):
@@ -243,7 +274,7 @@ class SVMLightMethod(SVMBaseMethod):
                     dir=self.trained_dir)
             tf = open("/tmp/svm-%d.txt" % (i), "w")
             for j, y in enumerate(ys):
-                line = self._dump_svmlight_line(problx[j], y)
+                line = self.dump_libsvm_line(problx[j], y)
                 tf.write(line)
             tf.flush()
             args = self.learn_cmd[:]
@@ -257,10 +288,6 @@ class SVMLightMethod(SVMBaseMethod):
         for trainfile, dbtrained in trainedfiles:
             self.logger.debug("renaming %s to %s", trainfile, dbtrained)
             os.rename(trainfile, dbtrained)
-
-    def select_winner(self, values):
-        return sorted([(value, i) for i, value in enumerate(values)],
-                reverse=True)[0][1]
 
     def predict(self, machine, window):
         tf = tempfile.NamedTemporaryFile()
@@ -309,7 +336,7 @@ class SVMLightMethod(SVMBaseMethod):
                 if outval == testval:
                     correct += 1
                 total += 1
-            print "TOTAL/CORRECT:", total, correct
+            print "TOTAL/CORRECT:", total, correct, ((float(correct)/total)*100.0)
             ftest.close()
             fout.close()
             os.unlink(outname)
