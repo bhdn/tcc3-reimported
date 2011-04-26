@@ -35,15 +35,24 @@ class Method(object):
 
 class WindowGeneratorMixIn(object):
 
-    def class_from_cpu_use(self, value):
+    def class_from_cpu_use(self, value, ranges=None):
         "A value identifiying the range (class) @value is part"
+        if ranges is None:
+            ranges = self.nranges
         if value == self.maxcpuval:
-            return self.nranges - 1
-        class_ = int((value / self.maxcpuval) * self.nranges)
+            return ranges - 1
+        class_ = int((value / self.maxcpuval) * ranges)
         return class_
 
-    def transform_future_values(self, values):
+    def make_future_values(self, values):
         return float(sum(values)) / len(values) # avg
+
+    def categorize_window(self, values):
+        ranges = 4
+        for value in values:
+            class_ = self.class_from_cpu_use(value, ranges=ranges)
+            for i in xrange(ranges):
+                yield int(i == class_)
 
     def build_examples(self, machine, winsize):
         """Returns windows + classification with one value of delay
@@ -66,12 +75,13 @@ class WindowGeneratorMixIn(object):
             if len(curwin) >= needed:
                 window = tuple(curwin)[:winsize]
                 future = tuple(curwin)[winsize:]
-                transf = self.transform_future_values(future)
+                transf = self.make_future_values(future)
                 class_ = self.class_from_cpu_use(transf)
                 winsum = sum(window)
                 if not (winsum == 0.0 or winsum == 100.0*winsize):
                     #print "yielding", window, class_, "avg", transf, future
-                    yield window, class_
+                    categorized = tuple(self.categorize_window(window))
+                    yield categorized, class_
                 curwin.popleft()
         yield ((0.0,) * winsize), 0
         yield ((100.0,) * winsize), (self.nranges - 1)
@@ -132,8 +142,9 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
                 self.windowsize)
 
     def normalize(self, candidate):
-        normcand = [(val / self.maxcpuval) for val in candidate]
-        return normcand
+        #normcand = [(val / self.maxcpuval) for val in candidate]
+        #return normcand
+        return candidate
 
     def select_samples(self, problx, probly):
         # burn memory burn!!
@@ -263,7 +274,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
                 if outval == testval:
                     correct += 1
                 total += 1
-            print "TOTAL/CORRECT:", total, correct, ((float(correct)/total)*100.0)
+            #print "TOTAL/CORRECT:", total, correct, ((float(correct)/total)*100.0)
             ftest.close()
             fout.close()
             os.unlink(outname)
@@ -292,9 +303,24 @@ class LibsvmMethod(SVMLightMethod):
         self.learn_cmd = shlex.split(config.libsvm_learn_command)
         self.classify_cmd = shlex.split(config.libsvm_classify_command)
 
+class MulticlassLibsvmMethod(LibsvmMethod):
+
+    def categorize_window(self, values):
+        return values
+    
+    def prepare_examples(self, machine):
+        all = list(self.build_examples(machine, self.windowsize))
+        xs = []
+        ys = []
+        for x, y in all:
+            xs.append(x)
+            ys.append(y)
+        return self.select_samples(xs, [ys])
+
 methods = Registry()
 methods.register("knn", KNNMethod)
 methods.register("svm", LibsvmMethod)
+methods.register("svm-multiclass", MulticlassLibsvmMethod)
 methods.register("svm-svmlight", SVMLightMethod)
 
 def get_method(config, maindb, traindb):
