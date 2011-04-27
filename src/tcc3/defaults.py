@@ -16,7 +16,7 @@ future-values = 10
 svm-window-size = 15
 
 t = 2
-C = 1.1
+C = 0.9
 gamma = 0.9
 degree = 5
 

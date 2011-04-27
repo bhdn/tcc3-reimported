@@ -188,7 +188,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             newcand = []
             for i in xrange(cols):
                 if i == 0: # cpu use
-                    newval = self.class_from_cpu_use(cand[i]) / self.nranges
+                    newval = float(self.class_from_cpu_use(cand[i])) / self.nranges
                 else:
                     alpha = (cand[i] - avg[i]) / std[i]
                     ae = math.exp(-alpha)
