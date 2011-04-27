@@ -244,6 +244,10 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
     def _dump_rest(self, machine, restx, resty):
         for i, ys in enumerate(resty):
             path = self._test_file_name(machine, i)
+            dir = os.path.dirname(path)
+            if not os.path.exists(dir):
+                self.logger.debug("created %s" % (dir))
+                os.makedirs(dir)
             f = open(path, "w")
             self.logger.debug("writing test entries to %s" % (path))
             f.writelines(self.dump_libsvm_line(cand, ys[j])
