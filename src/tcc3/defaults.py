@@ -12,15 +12,15 @@ learning-method = svm-multiclass
 
 knn-number-neighbours = 10
 
-future-values = 6
-svm-window-size = 30
+future-values = 10
+svm-window-size = 15
 
-t = 0
-C = 0.02
-gamma = 0.00005
+t = 2
+C = 1.1
+gamma = 0.9
 degree = 5
 
-params = -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s -v 5
+params = -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s
 
 libsvm-learn-command = ../../libsvm/libsvm-3.1/svm-train %(params)s
 libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
@@ -28,8 +28,8 @@ libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
 svmlight-learn-command = ../../libsvm/svm_learn %(params)s
 svmlight-classify-command = ../../libsvm/svm_classify
 
-svm-samples = 10000
-svm-test = 8000
+svm-samples = 20000
+svm-test = 4000
 svm-test-dir = ./databases/svmlight-test/
 svm-trained-dir = ./databases/svmlight-trained/
 

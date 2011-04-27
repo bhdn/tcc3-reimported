@@ -11,6 +11,8 @@ from tcc3 import Error
 from tcc3.registry import Registry
 from tcc3.util import system_command
 
+import numpy
+
 logger = logging.getLogger("tcc3.method")
 
 class MethodError(Error):
@@ -44,8 +46,10 @@ class WindowGeneratorMixIn(object):
         class_ = int((value / self.maxcpuval) * ranges)
         return class_
 
-    def make_future_values(self, values):
-        return float(sum(values)) / len(values) # avg
+    def make_future_values(self, examples, allvalues):
+        cpuidx = 0
+        return float(sum(allvalues[i][cpuidx]
+                for i, example in examples)) / len(examples) # avg
 
     def categorize_window(self, values):
         ranges = 4
@@ -53,6 +57,31 @@ class WindowGeneratorMixIn(object):
             class_ = self.class_from_cpu_use(value, ranges=ranges)
             for i in xrange(ranges):
                 yield int(i == class_)
+
+    def load_values(self, machine):
+        values = []
+        for rawcols in self.maindb.values(machine):
+            cols = []
+            for i, raw in enumerate(rawcols):
+                if i == 0: # cpu value
+                    cols.append(self.maxcpuval - float(raw))
+                else:
+                    cols.append(float(raw))
+            values.append(cols)
+        return values
+
+    def build_candidate(self, example):
+        candidate = []
+        for cols in example:
+            #FIXME consider grouping by type
+            candidate.extend(cols)
+        return candidate
+
+    def invalid_example(self, window, winsize, allvalues):
+        cputotal = 0.0
+        for i in xrange(winsize):
+            cputotal += allvalues[window[i][0]][0]
+        return cputotal == 0.0
 
     def build_examples(self, machine, winsize):
         """Returns windows + classification with one value of delay
@@ -69,22 +98,18 @@ class WindowGeneratorMixIn(object):
         pendingdist = -1
         limbo = None
         needed = winsize + self.nfuturevalues
-        for values in self.maindb.values(machine):
-            value = self.maxcpuval - float(values[0])
-            curwin.append(value)
+        allvalues = self.load_values(machine)
+        normvalues = self.normalize_values(allvalues)
+        for i, values in enumerate(normvalues):
+            curwin.append((i, values))
             if len(curwin) >= needed:
-                window = tuple(curwin)[:winsize]
+                window = tuple(value for j, value in curwin)[:winsize]
                 future = tuple(curwin)[winsize:]
-                transf = self.make_future_values(future)
+                transf = self.make_future_values(future, allvalues)
                 class_ = self.class_from_cpu_use(transf)
-                winsum = sum(window)
-                if not (winsum == 0.0 or winsum == 100.0*winsize):
-                    #print "yielding", window, class_, "avg", transf, future
-                    categorized = tuple(self.categorize_window(window))
-                    yield categorized, class_
+                candidate = self.build_candidate(window)
+                yield candidate, class_
                 curwin.popleft()
-        yield ((0.0,) * winsize), 0
-        yield ((100.0,) * winsize), (self.nranges - 1)
 
 class KNNMethod(Method, WindowGeneratorMixIn):
 
@@ -141,10 +166,36 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         self.logger.debug("created SVM instance with windowsize = %d",
                 self.windowsize)
 
-    def normalize(self, candidate):
-        #normcand = [(val / self.maxcpuval) for val in candidate]
-        #return normcand
-        return candidate
+    def normalize_values(self, candidates):
+        # http://docs.google.com/viewer?a=v&q=cache:_sFjFz5OMOgJ:ir.iit.edu/~dagr/DataMiningCourse/Spring2001/Notes/Data_Preprocessing.pdf+sigmoidal+normalization&hl=en&pid=bl&srcid=ADGEESjENwqav9GUs0VinnhtyH_CLJKWMjuxV4yrOsX8DYjPlXhTDTDQltrnhWK91HQEWdl-nQswNUECMs-iLPeIp5qpxFm5ZovgV7q_J9QxzZg0SzTqN2fD7BtC542N6IU_aM09aWtZ&sig=AHIEtbRtN8FYbICbfU0-P0Rvjve4o8kAZQ
+        if not candidates:
+            return []
+        cols = len(candidates[0])
+        max = [0.0] * cols
+        min = [0.0] * cols
+        std = [0.0] * cols
+        avg = [0.0] * cols
+        for i in xrange(cols):
+            values = numpy.array([cand[i] for cand in candidates],
+                    dtype=float)
+            max[i] = values.max()
+            min[i] = values.min()
+            std[i] = numpy.std(values)
+            avg[i] = numpy.average(values)
+        new = []
+        print "cal"
+        for cand in candidates:
+            newcand = []
+            for i in xrange(cols):
+                if i == 0: # cpu use
+                    newval = self.class_from_cpu_use(cand[i]) / self.nranges
+                else:
+                    alpha = (cand[i] - avg[i]) / std[i]
+                    ae = math.exp(-alpha)
+                    newval = (1 - ae) / (1 + ae)
+                newcand.append(newval)
+            new.append(newcand)
+        return new
 
     def select_samples(self, problx, probly):
         # burn memory burn!!
@@ -176,8 +227,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         probly = [[] for i in xrange(self.nranges)] # n svms = n classes
         self.logger.debug("creating 'training problem' vectors")
         for candidate, class_ in self.build_examples(machine, self.windowsize):
-            normcand = self.normalize(candidate)
-            problx.append(normcand)
+            problx.append(candidate)
             for i in xrange(self.nranges):
                 if class_ == i:
                     probly[i].append(1)
@@ -317,11 +367,17 @@ class MulticlassLibsvmMethod(LibsvmMethod):
             ys.append(y)
         return self.select_samples(xs, [ys])
 
+class SVRLibsvmMethod(MulticlassLibsvmMethod):
+
+    def class_from_cpu_use(self, cpu):
+        return cpu / self.maxcpuval
+
 methods = Registry()
 methods.register("knn", KNNMethod)
 methods.register("svm", LibsvmMethod)
 methods.register("svm-multiclass", MulticlassLibsvmMethod)
 methods.register("svm-svmlight", SVMLightMethod)
+methods.register("svm-svr", SVRLibsvmMethod)
 
 def get_method(config, maindb, traindb):
     return methods.get_instance(config.learning_method, config, maindb,
