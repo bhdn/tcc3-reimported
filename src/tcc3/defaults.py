@@ -13,7 +13,7 @@ learning-method = svm-multiclass
 knn-number-neighbours = 10
 
 future-values = 10
-svm-window-size = 20
+svm-window-size = 19
 
 t = 2
 C = 1.525
@@ -28,8 +28,8 @@ libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
 svmlight-learn-command = ../../libsvm/svm_learn %(params)s
 svmlight-classify-command = ../../libsvm/svm_classify
 
-svm-samples = 5000
-svm-test = 4000
+svm-samples = 80000
+svm-test = 8000
 svm-test-dir = ./databases/svmlight-test/
 svm-trained-dir = ./databases/svmlight-trained/
 
