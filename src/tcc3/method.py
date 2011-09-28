@@ -52,7 +52,7 @@ class WindowGeneratorMixIn(object):
                 for i, example in examples)) / len(examples) # avg
 
     def categorize_window(self, values):
-        ranges = 4
+        ranges = self.nranges
         for value in values:
             class_ = self.class_from_cpu_use(value, ranges=ranges)
             for i in xrange(ranges):

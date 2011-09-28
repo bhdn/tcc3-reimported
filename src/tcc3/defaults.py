@@ -8,7 +8,7 @@ main-database-name = main
 trained-database-name = trained
 databases-dir = ./databases
 
-vmstat-fields = id r bi bo
+vmstat-fields = id
 learning-method = svm
 knn-number-neighbours = 10
 future-values = 10
