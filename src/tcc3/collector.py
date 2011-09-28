@@ -40,7 +40,6 @@ class VMStatCollector(Collector):
             values = []
             # vmstat fields: id, r, bi, bo
             #for idx in (14, 0, 8, 9):
-            import pdb; pdb.set_trace()
             for idx in self.collectfields:
                 raw = fields[idx]
                 try:
