@@ -98,6 +98,7 @@ class WindowGeneratorMixIn(object):
         needed = winsize + self.nfuturevalues
         allvalues = self.load_values(machine)
         normvalues = self.normalize_values(allvalues)
+        skipped = 0
         for i, values in enumerate(normvalues):
             curwin.append((i, values))
             if len(curwin) >= needed:
@@ -109,8 +110,12 @@ class WindowGeneratorMixIn(object):
                 if not (self.skip_zeroes and
                         self.invalid_example(window, winsize, allvalues)):
                     yield candidate, class_
+                else:
+                    skipped += 1
                 curwin.popleft()
         yield ([0.0]*winsize, 0)
+        self.logger.debug("skipped windows: %d", skipped)
+        assert len(curwin) == needed - 1 # -1 as we have .popleft()
 
 class KNNMethod(Method, WindowGeneratorMixIn):
 
