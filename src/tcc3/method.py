@@ -328,7 +328,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
                 if outval == testval:
                     correct += 1
                 total += 1
-            #print "TOTAL/CORRECT:", total, correct, ((float(correct)/total)*100.0)
+            print "TOTAL/CORRECT:", total, correct, ((float(correct)/total)*100.0)
             ftest.close()
             fout.close()
             os.unlink(outname)

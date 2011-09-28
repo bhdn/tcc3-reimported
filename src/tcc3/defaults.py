@@ -8,19 +8,20 @@ main-database-name = main
 trained-database-name = trained
 databases-dir = ./databases
 
-learning-method = svm-multiclass
-
+learning-method = svm
 knn-number-neighbours = 10
-
-future-values = 10
-svm-window-size = 19
-
+future-values = 5
+svm-window-size = 5
+s = 0
 t = 2
 C = 1.525
 gamma = 0.79
 degree = 5
+cpu-usage-ranges = 4
+svm-samples = 1000
+svm-test = 200
 
-params = -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s
+params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s
 
 libsvm-learn-command = ../../libsvm/libsvm-3.1/svm-train %(params)s
 libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
@@ -28,12 +29,9 @@ libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
 svmlight-learn-command = ../../libsvm/svm_learn %(params)s
 svmlight-classify-command = ../../libsvm/svm_classify
 
-svm-samples = 80000
-svm-test = 8000
 svm-test-dir = ./databases/svmlight-test/
 svm-trained-dir = ./databases/svmlight-trained/
 
-cpu-usage-ranges = 3
 max-cpu-value = 100
 
 [conf]
