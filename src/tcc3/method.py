@@ -28,6 +28,7 @@ class Method(object):
         self.maindb = maindb
         self.traindb = traindb
         self.nfuturevalues = int(config.future_values)
+        self.skip_zeroes = bool(int(config.skip_zeroes))
 
     def train(self, machine):
         raise NotImplementedError
@@ -78,10 +79,7 @@ class WindowGeneratorMixIn(object):
         return candidate
 
     def invalid_example(self, window, winsize, allvalues):
-        cputotal = 0.0
-        for i in xrange(winsize):
-            cputotal += allvalues[window[i][0]][0]
-        return cputotal == 0.0
+        return 0 == sum(x[0] for x in window)
 
     def build_examples(self, machine, winsize):
         """Returns windows + classification with one value of delay
@@ -108,8 +106,11 @@ class WindowGeneratorMixIn(object):
                 transf = self.make_future_values(future, allvalues)
                 class_ = self.class_from_cpu_use(transf)
                 candidate = self.build_candidate(window)
-                yield candidate, class_
+                if not (self.skip_zeroes and
+                        self.invalid_example(window, winsize, allvalues)):
+                    yield candidate, class_
                 curwin.popleft()
+        yield ([0.0]*winsize, 0)
 
 class KNNMethod(Method, WindowGeneratorMixIn):
 

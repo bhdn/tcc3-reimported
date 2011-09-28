@@ -8,6 +8,7 @@ main-database-name = main
 trained-database-name = trained
 databases-dir = ./databases
 
+skip-zeroes = 1
 vmstat-fields = id
 learning-method = svm
 knn-number-neighbours = 10
@@ -19,8 +20,8 @@ C = 1.525
 gamma = 0.79
 degree = 5
 cpu-usage-ranges = 4
-svm-samples = 5000
-svm-test = 1000
+svm-samples = 4000
+svm-test = 2000
 
 params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s
 
