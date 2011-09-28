@@ -29,4 +29,4 @@ class TCC3Facade(object):
         self.method.train(hostname)
 
     def test(self, hostname):
-        self.method.test(hostname)
+        return self.method.test(hostname)

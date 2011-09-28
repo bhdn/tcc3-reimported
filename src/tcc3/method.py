@@ -308,6 +308,8 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
 
     def test(self, machine):
         import itertools
+        allresults = []
+        correctresults = []
         for i in xrange(self.nranges):
             outname = tempfile.mktemp()
             testpath = self._test_file_name(machine, i)
@@ -322,17 +324,41 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             ftest = open(testpath)
             total = 0
             correct = 0
+            myresults = []
+            allresults.append(myresults)
             for rawout, rawtest in itertools.izip(fout, ftest):
                 outval = float(rawout.strip()) < 0
                 testval = float(rawtest.split()[0].strip()) < 0
                 if outval == testval:
                     correct += 1
+                    myresults.append(True)
+                else:
+                    myresults.append(False)
                 total += 1
-            print "TOTAL/CORRECT:", total, correct, ((float(correct)/total)*100.0)
+            self.logger.debug("TOTAL/CORRECT for class %d: %d/%d/%f%%", i,
+                    total, correct, ((float(correct)/total)*100.0))
             ftest.close()
             fout.close()
             os.unlink(outname)
-
+        total = None
+        for i in xrange(self.nranges):
+            if total is None:
+                total = len(allresults[i])
+            else:
+                if len(allresults[i]) != total:
+                    raise Error, ("eita! totais diferentes: %d vs %d" %
+                            (total, len(allresults[i])))
+        assert (sum(float(len(r)) for r in allresults) / self.nranges
+                == len(allresults[0])) # ensure sizes are equal
+        matches = 0
+        for k in xrange(len(allresults[0])):
+            if all(allresults[i][k] for i in xrange(self.nranges)):
+                matches += 1
+        perc = float(matches)/total*100.0
+        self.logger.debug("MATCHES: %d / TOTAL: %d, %f%%", matches, total,
+                perc)
+        return "%f%%" % (perc)
+            
 class LibsvmDumperMixIn:
 
     def dump_libsvm_line(self, x, y):
