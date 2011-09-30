@@ -109,6 +109,7 @@ class WindowGeneratorMixIn(object):
                 candidate = self.build_candidate(window)
                 if not (self.skip_zeroes and
                         self.invalid_example(window, winsize, allvalues)):
+                    assert len(candidate) == winsize
                     yield candidate, class_
                 else:
                     skipped += 1

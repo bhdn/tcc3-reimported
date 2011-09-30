@@ -20,8 +20,8 @@ C = 1.525
 gamma = 0.79
 degree = 5
 cpu-usage-ranges = 4
-svm-samples = 4000
-svm-test = 2000
+svm-samples = 2000
+svm-test = 50
 
 params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s
 
