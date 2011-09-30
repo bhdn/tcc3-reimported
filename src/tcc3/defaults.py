@@ -16,12 +16,12 @@ future-values = 10
 svm-window-size = 10
 s = 0
 t = 2
-C = 1.525
+C = 1.0
 gamma = 0.79
 degree = 5
 cpu-usage-ranges = 4
-svm-samples = 2000
-svm-test = 50
+svm-samples = 8000
+svm-test = 1000
 
 params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s
 

@@ -48,9 +48,15 @@ class WindowGeneratorMixIn(object):
         return class_
 
     def make_future_values(self, examples, allvalues):
-        cpuidx = 0
-        return float(sum(allvalues[i][cpuidx]
-                for i, example in examples)) / len(examples) # avg
+        # the return value must be 'compatible' with the raw cpu load
+        # value, as it is used with class_from_cpu_use()
+        total = 0.0
+        # it uses allvalues because 'examples' is already normalized
+        for i, example in examples:
+            total += allvalues[i][0] # 0 is the index of the cpu load
+        return total / len(examples)
+        #return float(sum(allvalues[i][cpuidx]
+        #        for i, example in examples)) / len(examples) # avg
 
     def categorize_window(self, values):
         ranges = self.nranges
@@ -92,18 +98,21 @@ class WindowGeneratorMixIn(object):
         for the classification, which is kept in a 'limbo', and 14 is the
         value to be used as the classification.
         """
-        curwin = collections.deque()
         pendingdist = -1
+        lag = 0 # const actually
+        curwin = collections.deque()
         limbo = None
-        needed = winsize + self.nfuturevalues
+        needed = winsize + lag + self.nfuturevalues
         allvalues = self.load_values(machine)
         normvalues = self.normalize_values(allvalues)
         skipped = 0
         for i, values in enumerate(normvalues):
-            curwin.append((i, values))
+            curwin.append((i, tuple(values)))
             if len(curwin) >= needed:
                 window = tuple(value for j, value in curwin)[:winsize]
-                future = tuple(curwin)[winsize:]
+                # :-winsize as we may want to have a lag between the window
+                # and the values used to compute the 'future'
+                future = tuple(curwin)[:-winsize]
                 transf = self.make_future_values(future, allvalues)
                 class_ = self.class_from_cpu_use(transf)
                 candidate = self.build_candidate(window)
@@ -195,7 +204,8 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             newcand = []
             for i in xrange(cols):
                 if i == 0: # cpu use
-                    newval = float(self.class_from_cpu_use(cand[i])) / self.nranges
+                    #newval = float(self.class_from_cpu_use(cand[i])) / self.nranges
+                    newval = cand[i] / 100.0
                 else:
                     alpha = (cand[i] - avg[i]) / std[i]
                     ae = math.exp(-alpha)
