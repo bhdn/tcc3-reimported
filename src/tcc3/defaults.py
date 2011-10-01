@@ -18,12 +18,12 @@ s = 0
 t = 2
 C = 1.0
 gamma = 0.79
-degree = 5
+degree = 4
 cpu-usage-ranges = 4
-svm-samples = 8000
-svm-test = 1000
+svm-samples = 20000
+svm-test = 70000
 
-params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s -d %(degree)s
+params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s
 
 libsvm-learn-command = ../../libsvm/libsvm-3.1/svm-train %(params)s
 libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
