@@ -4,16 +4,21 @@ CONFIG_DEFAULTS = """\
 log-format = $(levelname)s: $(message)s
 database-type = csv
 collector-type = vmstat
+vmm-type = libvirt
 main-database-name = main
 trained-database-name = trained
 databases-dir = ./databases
+
+sched-interval = 30
+guests = 
+hosts = 
 
 skip-zeroes = 1
 vmstat-fields = id
 learning-method = svm
 knn-number-neighbours = 10
 future-values = 10
-svm-window-size = 10
+window-size = 10
 s = 0
 t = 2
 C = 1.0

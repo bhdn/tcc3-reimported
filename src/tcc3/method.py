@@ -173,7 +173,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         super(SVMBaseMethod, self).__init__(config, maindb, traindb)
         self.maindb = maindb
         self.traindb = traindb
-        self.windowsize = int(config.svm_window_size)
+        self.windowsize = int(config.window_size)
         self.nranges = int(config.cpu_usage_ranges)
         self.maxcpuval = float(config.max_cpu_value)
         self.samples = int(config.svm_samples)

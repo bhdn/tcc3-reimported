@@ -1,8 +1,9 @@
-from tcc3 import database, collector, method
+from tcc3 import database, collector, method, vmm, scheduler
 
 class TCC3Facade(object):
 
     def __init__(self, config):
+        self.config = config
         self.dbmanager = database.get_database_manager(config.tcc3)
         self.mainname = config.tcc3.main_database_name
         self.trainedname = config.tcc3.trained_database_name
@@ -11,6 +12,7 @@ class TCC3Facade(object):
         self.method = method.get_method(config.tcc3, self.maindb,
                 self.traindb)
         self.collector = collector.get_collector(config.tcc3, self.maindb)
+        self.vmm = vmm.get_vmm(config.tcc3)
 
     def collect(self, sourcedef, hostname):
         self.collector.collect(sourcedef, hostname)
@@ -30,3 +32,8 @@ class TCC3Facade(object):
 
     def test(self, hostname):
         return self.method.test(hostname)
+
+    def schedule(self):
+        sched = scheduler.Scheduler(self.config, self.vmm, self.method,
+                self.maindb)
+        sched.start()
