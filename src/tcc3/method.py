@@ -21,6 +21,8 @@ class MethodError(Error):
 class SVMError(MethodError):
     pass
 
+WINDOW_CPU_INDEX = 0
+
 class Method(object):
 
     def __init__(self, config, maindb, traindb):
@@ -53,7 +55,7 @@ class WindowGeneratorMixIn(object):
         total = 0.0
         # it uses allvalues because 'examples' is already normalized
         for i, example in examples:
-            total += allvalues[i][0] # 0 is the index of the cpu load
+            total += allvalues[i][WINDOW_CPU_INDEX] # 0 is the index of the cpu load
         return total / len(examples)
         #return float(sum(allvalues[i][cpuidx]
         #        for i, example in examples)) / len(examples) # avg
@@ -85,7 +87,7 @@ class WindowGeneratorMixIn(object):
         return candidate
 
     def invalid_example(self, window, winsize, allvalues):
-        return 0 == sum(x[0] for x in window)
+        return 0 == sum(x[WINDOW_CPU_INDEX] for x in window)
 
     def build_examples(self, machine, winsize):
         """Returns windows + classification with one value of delay
