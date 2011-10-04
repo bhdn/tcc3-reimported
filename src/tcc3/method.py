@@ -299,6 +299,9 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             os.rename(trainfile, dbtrained)
 
     def predict(self, machine, window):
+        if len(window) != self.windowsize:
+            raise MethodError, ("invalid window size %d, expected is %d" %
+                    (len(window), self.windowsize))
         tf = tempfile.NamedTemporaryFile()
         cand = self.normalize(window)
         self.logger.debug("normalized candidate: %r", cand)
