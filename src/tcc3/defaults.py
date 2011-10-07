@@ -8,10 +8,12 @@ vmm-type = libvirt
 main-database-name = main
 trained-database-name = trained
 databases-dir = ./databases
+libvirt-scheme = qemu+ssh://
+libvirt-url-suffix = /system
 
 sched-interval = 30
-guests = 
-hosts = 
+guests = n9
+hosts = nb1 nb2 cassildis
 
 skip-zeroes = 1
 vmstat-fields = id

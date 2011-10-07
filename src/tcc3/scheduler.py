@@ -19,14 +19,14 @@ class Scheduler(object):
         readings = {} # {guestname: deque of stats}
         while True:
             self.logger.debug("scheduler tick")
-            for guest in self.guests:
-                stats = self.vmm.get_stats(guest)
+            for guest, stats in self.vmm.collect_stats():
                 if guest not in readings:
                     readings[guest] = collections.deque()
                 readings[guest].append(stats)
                 #FIXME ensure the number of fields is the same as used in
                 # collector code
                 if len(readings[guest]) >= self.windowsize:
+                    assert len(readings[guest]) == self.windowsize
                     self.maindb.add(stats, guest)
                     class_ = self.method.predict(guest, readings[guest])
                     readings[guest].popleft()
