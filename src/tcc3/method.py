@@ -30,6 +30,8 @@ class Method(object):
         self.maindb = maindb
         self.traindb = traindb
         self.nfuturevalues = int(config.future_values)
+        self.maxcpuval = float(config.max_cpu_value)
+        self.nranges = int(config.cpu_usage_ranges)
         self.skip_zeroes = bool(int(config.skip_zeroes))
 
     def train(self, machine):
@@ -132,10 +134,8 @@ class WindowGeneratorMixIn(object):
 class KNNMethod(Method, WindowGeneratorMixIn):
 
     def __init__(self, config, maindb, traindb):
-        super(KNNMethod, self).__init___(config, maindb, traindb)
+        super(KNNMethod, self).__init__(config, maindb, traindb)
         self.neighbours = int(config.knn_number_neighbours)
-        self.nranges = int(config.cpu_usage_ranges)
-        self.maxcpuval = float(config.max_cpu_value)
         self.logger = logging.getLogger("tcc3.method.knn")
         self.logger.debug("created KNN instance with N = %d",
                 self.neighbours)
@@ -167,6 +167,19 @@ class KNNMethod(Method, WindowGeneratorMixIn):
         count = collections.Counter(class_ for dist, class_ in candidates)
         return count.most_common()[0][0]
 
+class AutoRegressiveMethod(Method, WindowGeneratorMixIn):
+
+     def __init__(self, config, maindb, traindb):
+        super(AutoRegressiveMethod, self).__init__(config, maindb, traindb)
+        self.ncoefs = int(config.ar_coefs)
+
+    def train(self, machine):
+        import nitime
+        allvalues = self.load_values(machine)
+        normvalues = self.normalize_values(allvalues)
+        values = numpy.array(sample[WINDOW_CPU_INDEX] for sample in normvalues)
+        coefs, sig_sq= nitime.AR_est_YW(values, self.ncoefs)
+
 class SVMBaseMethod(Method, WindowGeneratorMixIn):
 
     def __init__(self, config, maindb, traindb):
@@ -174,8 +187,6 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         self.maindb = maindb
         self.traindb = traindb
         self.windowsize = int(config.window_size)
-        self.nranges = int(config.cpu_usage_ranges)
-        self.maxcpuval = float(config.max_cpu_value)
         self.samples = int(config.svm_samples)
         self.ntest = int(config.svm_test)
         self.trained_dir = shlex.split(config.svm_trained_dir)[0]
@@ -426,6 +437,7 @@ class SVRLibsvmMethod(MulticlassLibsvmMethod):
 
 methods = Registry()
 methods.register("knn", KNNMethod)
+methods.register("ar", AutoRegressiveMethod)
 methods.register("svm", LibsvmMethod)
 methods.register("svm-multiclass", MulticlassLibsvmMethod)
 methods.register("svm-svmlight", SVMLightMethod)
