@@ -83,6 +83,12 @@ class CSVDatabase(Database):
     def list_machines(self):
         return list_valid_names(self.topdir)
 
+    def destroy(self, machine):
+        path = self._base_path(machine)
+        logger.debug("removing database file %s", path)
+        if os.path.exists(path):
+            os.unlink(path)
+
 class CSVDatabaseManager(DatabaseManager):
 
     target_class = CSVDatabase

@@ -91,6 +91,38 @@ class WindowGeneratorMixIn(object):
     def invalid_example(self, window, winsize, allvalues):
         return 0 == sum(x[WINDOW_CPU_INDEX] for x in window)
 
+    def normalize_values(self, candidates):
+        # http://docs.google.com/viewer?a=v&q=cache:_sFjFz5OMOgJ:ir.iit.edu/~dagr/DataMiningCourse/Spring2001/Notes/Data_Preprocessing.pdf+sigmoidal+normalization&hl=en&pid=bl&srcid=ADGEESjENwqav9GUs0VinnhtyH_CLJKWMjuxV4yrOsX8DYjPlXhTDTDQltrnhWK91HQEWdl-nQswNUECMs-iLPeIp5qpxFm5ZovgV7q_J9QxzZg0SzTqN2fD7BtC542N6IU_aM09aWtZ&sig=AHIEtbRtN8FYbICbfU0-P0Rvjve4o8kAZQ
+        if not candidates:
+            return []
+        cols = len(candidates[0])
+        max = [0.0] * cols
+        min = [0.0] * cols
+        std = [0.0] * cols
+        avg = [0.0] * cols
+        for i in xrange(cols):
+            values = numpy.array([cand[i] for cand in candidates],
+                    dtype=float)
+            max[i] = values.max()
+            min[i] = values.min()
+            std[i] = numpy.std(values)
+            avg[i] = numpy.average(values)
+        new = []
+        print "cal"
+        for cand in candidates:
+            newcand = []
+            for i in xrange(cols):
+                if i == 0: # cpu use
+                    #newval = float(self.class_from_cpu_use(cand[i])) / self.nranges
+                    newval = cand[i] / 100.0
+                else:
+                    alpha = (cand[i] - avg[i]) / std[i]
+                    ae = math.exp(-alpha)
+                    newval = (1 - ae) / (1 + ae)
+                newcand.append(newval)
+            new.append(newcand)
+        return new
+
     def build_examples(self, machine, winsize):
         """Returns windows + classification with one value of delay
 
@@ -169,16 +201,24 @@ class KNNMethod(Method, WindowGeneratorMixIn):
 
 class AutoRegressiveMethod(Method, WindowGeneratorMixIn):
 
-     def __init__(self, config, maindb, traindb):
+    def __init__(self, config, maindb, traindb):
         super(AutoRegressiveMethod, self).__init__(config, maindb, traindb)
         self.ncoefs = int(config.ar_coefs)
 
+    def _dump_coefs(self, coefs, machine):
+        self.traindb.destroy(machine)
+        self.traindb.add(coefs, machine)
+
     def train(self, machine):
-        import nitime
+        from nitime.algorithms.autoregressive import AR_est_YW
         allvalues = self.load_values(machine)
         normvalues = self.normalize_values(allvalues)
-        values = numpy.array(sample[WINDOW_CPU_INDEX] for sample in normvalues)
-        coefs, sig_sq= nitime.AR_est_YW(values, self.ncoefs)
+        values = numpy.array([sample[WINDOW_CPU_INDEX] for sample in normvalues])
+        coefs, sig_sq = AR_est_YW(values, self.ncoefs)
+        self._dump_coefs(coefs, machine)
+
+    def predict(self, machine, window):
+        pass
 
 class SVMBaseMethod(Method, WindowGeneratorMixIn):
 
@@ -195,37 +235,6 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         self.logger.debug("created SVM instance with windowsize = %d",
                 self.windowsize)
 
-    def normalize_values(self, candidates):
-        # http://docs.google.com/viewer?a=v&q=cache:_sFjFz5OMOgJ:ir.iit.edu/~dagr/DataMiningCourse/Spring2001/Notes/Data_Preprocessing.pdf+sigmoidal+normalization&hl=en&pid=bl&srcid=ADGEESjENwqav9GUs0VinnhtyH_CLJKWMjuxV4yrOsX8DYjPlXhTDTDQltrnhWK91HQEWdl-nQswNUECMs-iLPeIp5qpxFm5ZovgV7q_J9QxzZg0SzTqN2fD7BtC542N6IU_aM09aWtZ&sig=AHIEtbRtN8FYbICbfU0-P0Rvjve4o8kAZQ
-        if not candidates:
-            return []
-        cols = len(candidates[0])
-        max = [0.0] * cols
-        min = [0.0] * cols
-        std = [0.0] * cols
-        avg = [0.0] * cols
-        for i in xrange(cols):
-            values = numpy.array([cand[i] for cand in candidates],
-                    dtype=float)
-            max[i] = values.max()
-            min[i] = values.min()
-            std[i] = numpy.std(values)
-            avg[i] = numpy.average(values)
-        new = []
-        print "cal"
-        for cand in candidates:
-            newcand = []
-            for i in xrange(cols):
-                if i == 0: # cpu use
-                    #newval = float(self.class_from_cpu_use(cand[i])) / self.nranges
-                    newval = cand[i] / 100.0
-                else:
-                    alpha = (cand[i] - avg[i]) / std[i]
-                    ae = math.exp(-alpha)
-                    newval = (1 - ae) / (1 + ae)
-                newcand.append(newval)
-            new.append(newcand)
-        return new
 
     def select_samples(self, problx, probly):
         # burn memory burn!!

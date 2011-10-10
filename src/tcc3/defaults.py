@@ -11,13 +11,15 @@ databases-dir = ./databases
 libvirt-scheme = qemu+ssh://
 libvirt-url-suffix = /system
 
+ar-coefs = 10
+
 sched-interval = 30
 guests = n9
 hosts = nb1 nb2 cassildis
 
 skip-zeroes = 1
 vmstat-fields = id
-learning-method = svm
+learning-method = ar
 knn-number-neighbours = 10
 future-values = 10
 window-size = 10
