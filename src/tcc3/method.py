@@ -218,7 +218,7 @@ class AutoRegressiveMethod(Method, WindowGeneratorMixIn):
         self._dump_coefs(coefs, machine)
 
     def predict(self, machine, window):
-        pass
+        raise NotImplementedError
 
 class SVMBaseMethod(Method, WindowGeneratorMixIn):
 
