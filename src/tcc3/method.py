@@ -112,7 +112,7 @@ class WindowGeneratorMixIn(object):
         for cand in candidates:
             newcand = []
             for i in xrange(cols):
-                if i == 0: # cpu use
+                if i == WINDOW_CPU_INDEX: # cpu use
                     #newval = float(self.class_from_cpu_use(cand[i])) / self.nranges
                     newval = cand[i] / 100.0
                 else:
