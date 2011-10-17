@@ -319,20 +319,29 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             self.logger.debug("renaming %s to %s", trainfile, dbtrained)
             os.rename(trainfile, dbtrained)
 
-    def predict(self, machine, window):
-        if len(window) != self.windowsize:
-            raise MethodError, ("invalid window size %d, expected is %d" %
-                    (len(window), self.windowsize))
+    def predict(self, machine, rawcandidate):
+        from tcc3.collector import parse_vmstat_fieldslist
+        vmstatfields = parse_vmstat_fieldslist(self.config.vmstat_fields)
+
+        # for now we only handle candidates with only cpu readings
+        assert len(vmstatfields) == 1
+
+        if len(vmstatfields) * self.windowsize != len(rawcandidate):
+            raise MethodError, ("invalid candidate, expected %d values" %
+                    (len(vmstatfields) * self.windowsize))
+
+
         tf = tempfile.NamedTemporaryFile()
-        cand = self.normalize(window)
+        windows = [[val] for val in rawcandidate]
+        cand = self.normalize_values(windows)
         self.logger.debug("normalized candidate: %r", cand)
-        line = self._dump_svmlight_line(cand, 0)
+        line = self.dump_libsvm_line((col[0] for col in cand), 0)
         tf.write(line)
         tf.flush()
         classes = []
         for i in xrange(self.nranges):
             outfile = tempfile.mktemp()
-            path = self._class_file_name(i)
+            path = self._class_file_name(machine, i)
             args = self.classify_cmd[:]
             args.append(tf.name)
             args.append(path)

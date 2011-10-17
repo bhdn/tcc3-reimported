@@ -15,11 +15,15 @@ class Collector:
 VMSTAT_FIELDS = " r  b   swpd   free   buff  cache   si   so    bi    bo in   cs us sy id wa"
 VMSTAT_FIELDSMAP = dict((n, i) for i, n in enumerate(VMSTAT_FIELDS.split()))
 
+def parse_vmstat_fieldslist(rawlist):
+    fieldnames = rawlist.split()
+    collectfields = [VMSTAT_FIELDSMAP[n] for n in fieldnames]
+    return collectfields
+
 class VMStatCollector(Collector):
 
     def __init__(self, config, database):
-        fieldnames = config.vmstat_fields.split()
-        self.collectfields = [VMSTAT_FIELDSMAP[n] for n in fieldnames]
+        self.collectfields = parse_vmstat_fieldslist(config.vmstat_fields)
         self.database = database
 
     def collect(self, sourcedef, hostname):

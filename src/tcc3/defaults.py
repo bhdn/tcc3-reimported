@@ -19,7 +19,7 @@ hosts = nb1 nb2 cassildis
 
 skip-zeroes = 1
 vmstat-fields = id
-learning-method = ar
+learning-method = svm
 knn-number-neighbours = 10
 future-values = 10
 window-size = 10
