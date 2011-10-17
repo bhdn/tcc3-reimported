@@ -108,7 +108,6 @@ class WindowGeneratorMixIn(object):
             std[i] = numpy.std(values)
             avg[i] = numpy.average(values)
         new = []
-        print "cal"
         for cand in candidates:
             newcand = []
             for i in xrange(cols):
