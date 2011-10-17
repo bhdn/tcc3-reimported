@@ -37,14 +37,15 @@ class LibvirtVMM(VirtualMachineMonitor):
             url = self.scheme + host + self.urlsuffix
             try:
                 conn = self._conns[host]
-            except KeyError:
+                conn.version() # is it still connected?
+            except (KeyError, libvirt.libvirtError), e:
                 self._conns[host] = conn = libvirt.open(url)
             for id in conn.listDomainsID():
                 dom = conn.lookupByID(id)
                 name = dom.name()
                 info = dom.info()
-                if info[0] in [libvirt.VIR_DOMAIN_CRASHED,
-                        libvirt.VIR_DOMAIN_SHUTOFF]:
+                if info[0] in (libvirt.VIR_DOMAIN_CRASHED,
+                        libvirt.VIR_DOMAIN_SHUTOFF):
                     self.logger.debug("ignoring guest %s as it is "
                             "either crashed or shutoff", name)
                     continue
