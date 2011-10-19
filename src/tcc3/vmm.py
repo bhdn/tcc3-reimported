@@ -37,8 +37,9 @@ class LibvirtVMM(VirtualMachineMonitor):
             url = self.scheme + host + self.urlsuffix
             try:
                 conn = self._conns[host]
-                conn.version() # is it still connected?
+                conn.getVersion() # is it still connected?
             except (KeyError, libvirt.libvirtError), e:
+                self.logger.debug("opening connection to %s", url)
                 self._conns[host] = conn = libvirt.open(url)
             for id in conn.listDomainsID():
                 dom = conn.lookupByID(id)
@@ -58,7 +59,10 @@ class LibvirtVMM(VirtualMachineMonitor):
                 pcentbase = (((cputime) * 100.0) / elapsed)
                 pcentGuestCpu = pcentbase / guestcpus
                 self._previnfo[name] = (cpuabs, now)
-                yield name, int(pcentGuestCpu)
+                pcent = int(pcentGuestCpu)
+                self.logger.debug("host %s, info: %r, pcent: %d", name,
+                        info, pcent)
+                yield name, pcent
 
 vmms = Registry()
 vmms.register("libvirt", LibvirtVMM)

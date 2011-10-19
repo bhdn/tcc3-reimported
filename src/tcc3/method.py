@@ -319,6 +319,10 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             self.logger.debug("renaming %s to %s", trainfile, dbtrained)
             os.rename(trainfile, dbtrained)
 
+    def _generic_class_file(self, class_):
+        path = os.path.join(self.trained_dir, "generic-%02d" % (class_))
+        return path
+
     def predict(self, machine, rawcandidate):
         from tcc3.collector import parse_vmstat_fieldslist
         vmstatfields = parse_vmstat_fieldslist(self.config.vmstat_fields)
@@ -342,6 +346,11 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         for i in xrange(self.nranges):
             outfile = tempfile.mktemp()
             path = self._class_file_name(machine, i)
+            if not os.path.exists(path):
+                newpath = self._generic_class_file(i)
+                self.logger.debug("%s not found, using generic %s", path,
+                        newpath)
+                path = newpath
             args = self.classify_cmd[:]
             args.append(tf.name)
             args.append(path)

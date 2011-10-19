@@ -34,6 +34,6 @@ class TCC3Facade(object):
         return self.method.test(hostname)
 
     def schedule(self):
-        sched = scheduler.Scheduler(self.config, self.vmm, self.method,
+        sched = scheduler.Scheduler(self.config.tcc3, self.vmm, self.method,
                 self.maindb)
         sched.start()
