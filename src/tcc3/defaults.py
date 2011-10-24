@@ -14,8 +14,9 @@ libvirt-url-suffix = /system
 ar-coefs = 10
 
 sched-interval = 30
-guests = n9
-hosts = nb1 nb2 cassildis
+guests = tcc0 tcc1 tcc2 tcc3 tcc4 tcc5
+hosts = tcc159 tcc158 lviv
+hosts-ncpus = tcc159:4 tcc158:2 lviv:2
 
 skip-zeroes = 1
 vmstat-fields = id
