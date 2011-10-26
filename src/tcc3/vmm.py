@@ -79,6 +79,15 @@ class LibvirtVMM(VirtualMachineMonitor):
             self._conns[host] = conn = libvirt.open(url)
         return conn
 
+    def _invalidate_connection(self):
+        self.logger.debug("invalidating libvirt connections")
+        for conn in self._conns.values():
+            try:
+                conn.close()
+            except libvirt.libvirtError:
+                pass
+        self._conns = {}
+
     def migrate(self, srchost, guest, dsthost):
         srcurl = self._host_url(srchost)
         dsturl = self._host_url(dsthost)
@@ -86,6 +95,7 @@ class LibvirtVMM(VirtualMachineMonitor):
         args = ["virsh", "-c", srcurl, "migrate", "--persistent", guest, dsturl,
                 "--migrateuri", migurl]
         system_command(args)
+        self._invalidate_connection()
 
     def collect_stats(self):
         # use the same method of virtManager/domain.py to get the cpu usage
@@ -114,7 +124,7 @@ class LibvirtVMM(VirtualMachineMonitor):
                 pcentbase = (((cputime) * 100.0) / elapsed)
                 pcentGuestCpu = pcentbase / guestcpus
                 self._previnfo[name] = (cpuabs, now)
-                pcent = int(pcentGuestCpu)
+                pcent = min(100, max(int(pcentGuestCpu), 0))
                 self.logger.debug("host %s, info: %r, pcent: %d", name,
                         info, pcent)
                 guestinfo = GuestInfo(name)

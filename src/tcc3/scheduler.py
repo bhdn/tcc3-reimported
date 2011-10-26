@@ -19,13 +19,18 @@ class Scheduler(object):
         self.logger = logging.getLogger("tcc3.scheduler")
         self._statsource = Queue.Queue()
         self._finished = threading.Event()
+        self._vmmlock = threading.Lock()
 
     def _collect_stats(self):
         try:
             last = 0
             while not self._finished.is_set():
                 self.logger.debug("collector tick")
-                stats = list(self.vmm.collect_stats())
+                self._vmmlock.acquire()
+                try:
+                    stats = list(self.vmm.collect_stats())
+                finally:
+                    self._vmmlock.release()
                 self._statsource.put(stats)
                 diff = time.time() - last
                 waittime = max(self.interval - diff, 0)
@@ -118,7 +123,11 @@ class Scheduler(object):
                 for srchost, guest, dsthost in migrations:
                     self.logger.info("migrating %s from %s to %s", guest.name,
                             srchost.name, dsthost.name)
-                    self.vmm.migrate(srchost.name, guest.name, dsthost.name)
+                    self._vmmlock.acquire()
+                    try:
+                        self.vmm.migrate(srchost.name, guest.name, dsthost.name)
+                    finally:
+                        self._vmmlock.release()
 
     def start(self):
         try:

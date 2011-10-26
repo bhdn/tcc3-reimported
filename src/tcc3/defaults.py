@@ -13,7 +13,7 @@ libvirt-url-suffix = /system
 
 ar-coefs = 10
 
-sched-interval = 30
+sched-interval = 3
 guests = tcc0 tcc1 tcc2 tcc3 tcc4 tcc5
 hosts = tcc159 tcc158 lviv
 hosts-ncpus = tcc159:4 tcc158:2 lviv:2
