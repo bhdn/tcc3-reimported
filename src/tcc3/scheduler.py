@@ -109,7 +109,7 @@ class Scheduler(object):
                 for host in tophosts:
                     for guest in sortedguests[:]:
                         guesthost = guestmap[guest]
-                        if (availcapacity[host.name] > predictions[guest.name]
+                        if (availcapacity[host.name] >= predictions[guest.name]
                                 and availmemory[host.name] > guest.memoryused):
                             # good to migrate:
                             if guesthost != host:
