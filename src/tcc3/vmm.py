@@ -79,7 +79,7 @@ class LibvirtVMM(VirtualMachineMonitor):
             self._conns[host] = conn = libvirt.open(url)
         return conn
 
-    def _invalidate_connection(self):
+    def _invalidate_connections(self):
         self.logger.debug("invalidating libvirt connections")
         for conn in self._conns.values():
             try:
@@ -94,8 +94,8 @@ class LibvirtVMM(VirtualMachineMonitor):
         migurl = "tcp://" + dsthost + ":49152"
         args = ["virsh", "-c", srcurl, "migrate", "--persistent", guest, dsturl,
                 "--migrateuri", migurl]
+        self._invalidate_connections()
         system_command(args)
-        self._invalidate_connection()
 
     def collect_stats(self):
         # use the same method of virtManager/domain.py to get the cpu usage
@@ -108,6 +108,7 @@ class LibvirtVMM(VirtualMachineMonitor):
                 dom = conn.lookupByID(id)
                 name = dom.name()
                 info = dom.info()
+                self.logger.info("state for machine %s: %s", name, info[0])
                 if info[0] in (libvirt.VIR_DOMAIN_CRASHED,
                         libvirt.VIR_DOMAIN_SHUTOFF):
                     self.logger.debug("ignoring guest %s as it is "
