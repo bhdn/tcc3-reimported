@@ -2,6 +2,7 @@ from tcc3.registry import Registry
 import logging
 import time
 import libvirt # TODO load it only when needed
+from tcc3.util import system_command
 
 class VirtualMachineMonitor(object):
 
@@ -65,8 +66,11 @@ class LibvirtVMM(VirtualMachineMonitor):
             config[name] = count
         return config
 
+    def _host_url(self, host):
+        return self.scheme + host + self.urlsuffix
+
     def _get_connection(self, host):
-        url = self.scheme + host + self.urlsuffix
+        url = self._host_url(host)
         try:
             conn = self._conns[host]
             conn.getVersion() # is it still connected?
@@ -74,6 +78,14 @@ class LibvirtVMM(VirtualMachineMonitor):
             self.logger.debug("opening connection to %s", url)
             self._conns[host] = conn = libvirt.open(url)
         return conn
+
+    def migrate(self, srchost, guest, dsthost):
+        srcurl = self._host_url(srchost)
+        dsturl = self._host_url(dsthost)
+        migurl = "tcp://" + dsthost + ":49152"
+        args = ["virsh", "-c", srcurl, "migrate", "--persistent", guest, dsturl,
+                "--migrateuri", migurl]
+        system_command(args)
 
     def collect_stats(self):
         # use the same method of virtManager/domain.py to get the cpu usage
@@ -115,6 +127,7 @@ class LibvirtVMM(VirtualMachineMonitor):
             # fallback for 2cpus
             hostinfo.maxcpus = self.cpucount.get(hostinfo.name, 2)
             yield hostinfo
+
 
 vmms = Registry()
 vmms.register("libvirt", LibvirtVMM)
