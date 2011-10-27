@@ -2,7 +2,7 @@ from tcc3.registry import Registry
 import logging
 import time
 import libvirt # TODO load it only when needed
-from tcc3.util import system_command
+from tcc3.util import system_command, CommandError
 
 class VirtualMachineMonitor(object):
 
@@ -35,6 +35,7 @@ class HostInfo:
         self.name = name
         self.url = None
         self.freememory = None
+        self.memory = None
         self.maxcpus = None
         self.guests = set()
     
@@ -51,6 +52,7 @@ class LibvirtVMM(VirtualMachineMonitor):
         self.urlsuffix = config.libvirt_url_suffix.strip()
         self.logger = logging.getLogger("tcc3.vmm.libvirt")
         self.cpucount = self._parse_ncpu_config(config.hosts_ncpus)
+        self.memorycount = self._parse_ncpu_config(config.hosts_memory)
         self._previnfo = {}
         self._conns = {}
 
@@ -65,6 +67,9 @@ class LibvirtVMM(VirtualMachineMonitor):
                 continue
             config[name] = count
         return config
+
+    def _parse_memory(self, rawvalue):
+        return self._parse_ncpu_config(self, rawvalue)
 
     def _host_url(self, host):
         return self.scheme + host + self.urlsuffix
@@ -94,8 +99,15 @@ class LibvirtVMM(VirtualMachineMonitor):
         migurl = "tcp://" + dsthost + ":49152"
         args = ["virsh", "-c", srcurl, "migrate", "--persistent", guest, dsturl,
                 "--migrateuri", migurl]
-        self._invalidate_connections()
-        system_command(args)
+        for i in xrange(10):
+            self._invalidate_connections()
+            try:
+                system_command(args)
+            except CommandError, e:
+                # possibly related to a connection problem
+                continue
+            else:
+                break
 
     def collect_stats(self):
         # use the same method of virtManager/domain.py to get the cpu usage
@@ -109,10 +121,10 @@ class LibvirtVMM(VirtualMachineMonitor):
                 name = dom.name()
                 info = dom.info()
                 self.logger.info("state for machine %s: %s", name, info[0])
-                if info[0] in (libvirt.VIR_DOMAIN_CRASHED,
-                        libvirt.VIR_DOMAIN_SHUTOFF):
+                if info[0] != libvirt.VIR_DOMAIN_RUNNING:
                     self.logger.debug("ignoring guest %s as it is "
                             "either crashed or shutoff", name)
+                    self._invalidate_connections()
                     continue
                 memory = info[2]
                 prevcpuabs, prevtimestamp = self._previnfo.get(name, (0, 0))
@@ -137,8 +149,11 @@ class LibvirtVMM(VirtualMachineMonitor):
             # maxvcpus is not reliable, let's make it configurable for now,
             # fallback for 2cpus
             hostinfo.maxcpus = self.cpucount.get(hostinfo.name, 2)
+            hostinfo.memory = self.memorycount.get(hostinfo.name, 1024*1024)
             yield hostinfo
 
+    def close(self):
+        self._invalidate_connections()
 
 vmms = Registry()
 vmms.register("libvirt", LibvirtVMM)

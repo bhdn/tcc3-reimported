@@ -76,11 +76,8 @@ class Scheduler(object):
                                     for hi in hostsinfo)
                 availcapacity = {}
                 availcapacity.update(maxcapacity)
-                availmemory = dict((hi.name, hi.freememory)
+                availmemory = dict((hi.name, hi.memory)
                                     for hi in hostsinfo)
-                for hi in hostsinfo:
-                    for guest in hi.guests:
-                        availmemory[hi.name] += guest.memoryused
                 self.logger.debug("maxcapacity: %r", maxcapacity)
                 self.logger.debug("availcapacity: %r", availcapacity)
                 # used capacity as pointed by the predictions:
@@ -136,3 +133,4 @@ class Scheduler(object):
             self._schedule()
         finally:
             self._finished.set()
+            self.vmm.close()

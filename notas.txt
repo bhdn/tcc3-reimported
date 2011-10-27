@@ -61,3 +61,8 @@ agrupado pela rede neural ART-2A.
 - detalhar cada valor (ou faixa) dos testes usados, “passar valores pode
   deixar mais claro que é uma detalhação dos testes”
 
+= Medidas e gráficos para adicionar no trabalho =
+
+- distribuição dos valores de uso de CPU (como feito no Homeostatic...)
+- média de erro de predição e desvio padrão
+- 
