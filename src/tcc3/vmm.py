@@ -2,7 +2,14 @@ from tcc3.registry import Registry
 import logging
 import time
 import libvirt # TODO load it only when needed
+from tcc3 import Error
 from tcc3.util import system_command, CommandError
+
+class VMMError(Error):
+    pass
+
+class ConnectionError(VMMError):
+    pass
 
 class VirtualMachineMonitor(object):
 
@@ -81,7 +88,19 @@ class LibvirtVMM(VirtualMachineMonitor):
             conn.getVersion() # is it still connected?
         except (KeyError, libvirt.libvirtError), e:
             self.logger.debug("opening connection to %s", url)
-            self._conns[host] = conn = libvirt.open(url)
+            for i in xrange(10):
+                try:
+                    self._conns[host] = conn = libvirt.open(url)
+                except libvirt.libvirtError, e:
+                    self.logger.error("failed to connect to %s: %s", url,
+                            e)
+                    self.logger.error("trying again")
+                    time.sleep(2)
+                else:
+                    break
+            else:
+                self.logger.error("giving up connecting to host %s", url)
+                raise ConnectionError, "cannot connect to %s" % (url)
         return conn
 
     def _invalidate_connections(self):
@@ -114,7 +133,11 @@ class LibvirtVMM(VirtualMachineMonitor):
         # percentage (_sample_cpu_stats)
         # also http://people.redhat.com/~rjones/virt-top/faq.html#calccpu
         for host in self.hosts:
-            conn = self._get_connection(host)
+            try:
+                conn = self._get_connection(host)
+            except ConnectionError:
+                tainted.add(host)
+                continue
             hostinfo = HostInfo(host)
             for id in conn.listDomainsID():
                 dom = conn.lookupByID(id)
