@@ -143,7 +143,6 @@ class LibvirtVMM(VirtualMachineMonitor):
                 dom = conn.lookupByID(id)
                 name = dom.name()
                 info = dom.info()
-                self.logger.info("state for machine %s: %s", name, info[0])
                 if info[0] != libvirt.VIR_DOMAIN_RUNNING:
                     self.logger.debug("ignoring guest %s as it is "
                             "either crashed or shutoff", name)
