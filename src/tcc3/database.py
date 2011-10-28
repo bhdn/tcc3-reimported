@@ -53,6 +53,9 @@ class CSVDatabase(Database):
         name = machine.replace("/", "_")
         return os.path.join(self.topdir, machine)
 
+    def _generic_path(self, machine):
+        return self._base_path("generic")
+
     def _open_base(self, machine, write=False):
         try:
             return self.files[machine]
@@ -61,6 +64,8 @@ class CSVDatabase(Database):
             mode = "r"
             if write:
                 mode = "a"
+            if not os.path.exists(path):
+                path = self._generic_path(machine)
             f = open(path, mode)
             if write:
                 obj = f

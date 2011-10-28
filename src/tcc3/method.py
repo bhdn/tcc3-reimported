@@ -219,6 +219,63 @@ class AutoRegressiveMethod(Method, WindowGeneratorMixIn):
     def predict(self, machine, window):
         raise NotImplementedError
 
+class TendencyBasedMethod(Method, WindowGeneratorMixIn):
+
+    def __init__(self, *args, **kwargs):
+        super(TendencyBasedMethod, self).__init__(*args, **kwargs)
+        self.increment = 1.0
+        self.decrement = 1.0
+        self.adaptdegree = 1.0
+        self.avg = None
+        self.logger = logging.getLogger("tcc3.method.tendency")
+
+    def train(self, machine):
+        import numpy
+        allvalues = numpy.array(self.load_values(machine))
+        values = numpy.array([sample[WINDOW_CPU_INDEX] for sample in allvalues])
+        avg = numpy.average(values)
+        self.traindb.destroy(machine)
+        self.traindb.add((avg,), machine)
+
+    def predict(self, machine, window):
+        # gather data about the whole training set
+        if self.avg is None:
+            for values in self.traindb.values(machine):
+                self.avg = float(values[0])
+                break
+            else:
+                raise MethodError, "you must run tcc3-train beforehand"
+        self.logger.debug("avg: %f", self.avg)
+        #
+        # the prediction:
+        cur = window[-1]
+        prev = window[-2]
+        diff = cur - prev
+        if diff > 0:
+            # tendency: increase
+            newval = cur + self.increment
+            # "increment adaptation process"
+            incvalue = cur - newval
+            self.increment = self.increment + ((incvalue - self.increment) *
+                                self.adaptdegree)
+        elif diff == 0:
+            # tendency: stabilize
+            newval = cur
+        else:
+            # tendency: decrease
+            newval = cur - self.decrement
+            # "decrement adaptation process"
+            decvalue = cur - newval
+            self.decrement = self.decrement + ((decvalue - self.decrement) *
+                                self.adaptdegree)
+        # now convert this value to the identifier of a value range, as we
+        # use in svm method TODO: change predict in all other classes to
+        # return the "worst case" for each class, this way we benefit those
+        # methods that can return a more precise cpu prediction
+        self.logger.debug("newval: %d", newval)
+        newval = min(newval, 100.0)
+        return self.class_from_cpu_use(newval)
+
 class SVMBaseMethod(Method, WindowGeneratorMixIn):
 
     def __init__(self, config, maindb, traindb):
@@ -464,6 +521,7 @@ class SVRLibsvmMethod(MulticlassLibsvmMethod):
 methods = Registry()
 methods.register("knn", KNNMethod)
 methods.register("ar", AutoRegressiveMethod)
+methods.register("tendency", TendencyBasedMethod)
 methods.register("svm", LibsvmMethod)
 methods.register("svm-multiclass", MulticlassLibsvmMethod)
 methods.register("svm-svmlight", SVMLightMethod)

@@ -67,7 +67,7 @@ class Scheduler(object):
                                 + class_
                         readings[guestinfo.name].popleft()
                         canpredict = True
-            if canpredict:
+            if canpredict and self._statsource.empty():
                 self.logger.debug("predictions: %r", predictions)
                 self.logger.debug("hostpredictions: %r", hostpredictions)
                 # compute max cpu capacity for each host (in the same unity
