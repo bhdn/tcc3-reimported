@@ -1,0 +1,21 @@
+#!/usr/bin/python
+import time
+from tcc3.command import TCC3Command, CliError
+
+class DumpDB(TCC3Command):
+
+    descr = "Dumps all data from all machines in text form"
+
+    def run(self):
+        interval = int(self.config.tcc3.sched_interval)
+        while True:           
+            cur = time.time()
+            for host in self.tcc3.vmm.collect_stats():
+                for guest in host.guests:
+                    print guest.name, guest.cpuusage
+            delay = interval - (time.time() - cur)
+            time.sleep(max(delay, 0.0))
+
+DumpDB().main()
+
+# vim:ts=4:sw=4:et
