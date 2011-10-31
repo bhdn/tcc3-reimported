@@ -215,7 +215,8 @@ class KNNMethod(Method, WindowGeneratorMixIn):
 
     def predict(self, machine, window):
         if self._examples is None:
-            self._examples = list(self.build_examples(machine, winsize))
+            self._examples = list(self.build_examples(machine,
+                self.windowsize))
         return self._predict(window, self._examples)
 
     def test(self, machine):
