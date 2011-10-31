@@ -61,8 +61,21 @@ agrupado pela rede neural ART-2A.
 - detalhar cada valor (ou faixa) dos testes usados, “passar valores pode
   deixar mais claro que é uma detalhação dos testes”
 
+= Correções a fazer =
+
+- indicar que usa-se best-fit increseasing e citar o trabalho da pucrs
+
 = Medidas e gráficos para adicionar no trabalho =
 
 - distribuição dos valores de uso de CPU (como feito no Homeostatic...)
+- média de valores de uso de CPU e desvio padrão
 - média de erro de predição e desvio padrão
-- 
+- medir a influência da presença de outras CPUs nas medidas de uso de cpu
+  retornadas pela libvirt (pude perceber que há uma certa influência..)
+- para cada método de predição:
+	- medir erro de predição, média de erro de predição e desvio padrão
+	  do erro de predição
+	- aplicar um período de cada um dos loads, utilizando script em
+	  python
+	- controlar quantas transições intencionais foram feitas vs números
+	  de migrações que aconteceram
