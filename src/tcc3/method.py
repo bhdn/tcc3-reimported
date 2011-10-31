@@ -9,7 +9,7 @@ import shlex
 import random
 from tcc3 import Error
 from tcc3.registry import Registry
-from tcc3.util import system_command
+from tcc3.util import system_command, Counter
 
 import numpy
 
@@ -167,13 +167,28 @@ class KNNMethod(Method, WindowGeneratorMixIn):
     def __init__(self, config, maindb, traindb):
         super(KNNMethod, self).__init__(config, maindb, traindb)
         self.neighbours = int(config.knn_number_neighbours)
+        self.testsize = int(config.knn_test)
+        self.windowsize = int(config.window_size)
+        self.test_dir = shlex.split(config.svm_test_dir)[0]
         self.logger = logging.getLogger("tcc3.method.knn")
         self.logger.debug("created KNN instance with N = %d",
                 self.neighbours)
+        self._examples = None
+
+    def _test_file_name(self, machine):
+        return os.path.join(self.test_dir, "%s" % (machine))
 
     def train(self, machine):
-        self.logger.info("pretending to be trainning a K-NN for %s",
-                machine)
+        examples = list(self.build_examples(machine, self.windowsize))
+        random.shuffle(examples)
+        path = self._test_file_name(machine)
+        f = open(path, "w")
+        for i in xrange(self.testsize):
+            example, class_ = examples[i]
+            line = (" ".join(str(value) for value in example)
+                    + " %d" % (class_))
+            f.write(line + "\n")
+        f.close()
 
     def _distance(self, one, another):
         dist = 0.0
@@ -181,10 +196,10 @@ class KNNMethod(Method, WindowGeneratorMixIn):
             dist += math.pow(onesvalue - another[i], 2)
         return math.sqrt(dist)
 
-    def predict(self, machine, window):
+    def _predict(self, window, examples):
         winsize = len(window)
         candidates = []
-        for candidate, class_ in self.build_examples(machine, winsize):
+        for candidate, class_ in examples:
             dist = self._distance(candidate, window)
             info = (-dist, class_)
             if len(candidates) < self.neighbours:
@@ -195,8 +210,28 @@ class KNNMethod(Method, WindowGeneratorMixIn):
                 # most distant in the selected neighbours
                 heapq.heappushpop(candidates, info)
         self.logger.debug("candidates: %r", candidates)
-        count = collections.Counter(class_ for dist, class_ in candidates)
+        count = Counter(class_ for dist, class_ in candidates)
         return count.most_common()[0][0]
+
+    def predict(self, machine, window):
+        if self._examples is None:
+            self._examples = list(self.build_examples(machine, winsize))
+        return self._predict(window, self._examples)
+
+    def test(self, machine):
+        examples = list(self.build_examples(machine, self.windowsize))
+        path = self._test_file_name(machine)
+        total = 0
+        correct = 0
+        for line in open(path):
+            rawvalues = line.split()
+            example = [float(rawvalue) for rawvalue in rawvalues[:-1]]
+            correctclass_ = int(rawvalues[-1])
+            predicted = self._predict(example, examples)
+            if predicted == correctclass_:
+                correct += 1
+            total += 1
+        self.logger.info("total/correct: %d/%d", total, correct)
 
 class AutoRegressiveMethod(Method, WindowGeneratorMixIn):
 

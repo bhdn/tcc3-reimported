@@ -13,7 +13,7 @@ libvirt-url-suffix = /system
 
 ar-coefs = 10
 
-sched-interval = 10
+sched-interval = 30
 guests = tcc0 tcc1 tcc2 tcc3 tcc4 tcc5
 hosts = tcc159 tcc158 lviv
 hosts-ncpus = tcc159:4 tcc158:2 lviv:2
@@ -21,8 +21,9 @@ hosts-memory = tcc159:3597132 tcc158:4023472 lviv:4023472
 
 skip-zeroes = 1
 vmstat-fields = id
-learning-method = tendency
+learning-method = knn
 knn-number-neighbours = 10
+knn-test = 10000
 future-values = 10
 window-size = 10
 s = 0
