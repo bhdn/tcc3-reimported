@@ -2,8 +2,8 @@ N = 500
 output.pdf:	steadysmaller.txt workloadsmaller.txt plot.gnuplot
 	gnuplot plot.gnuplot
 
-steadysmaller.txt:
-	head -$(N) > $@
+steadysmaller.txt: steady.txt
+	head -$(N) $< > $@
 
-smaller.txt:
-	sed -u 1,1d workload-log.txt | head -$(N) | awk '{print $2}' > $@
+workloadsmaller.txt: workload-log.txt
+	sed -u 1,1d $< | head -$(N) | awk '{print $$2}' > $@
