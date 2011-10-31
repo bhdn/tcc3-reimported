@@ -24,6 +24,7 @@ def system_command(args, show=False):
 
 
 # Copy and paste from python 2.7:
+from operator import itemgetter as _itemgetter
 
 ########################################################################
 ###  Counter
@@ -163,7 +164,7 @@ class Counter(dict):
         # and outputs are allowed to contain zero and negative counts.
 
         if iterable is not None:
-            if isinstance(iterable, Mapping):
+            if isinstance(iterable, dict):
                 if self:
                     self_get = self.get
                     for elem, count in iterable.iteritems():
@@ -195,7 +196,7 @@ class Counter(dict):
         '''
         if iterable is not None:
             self_get = self.get
-            if isinstance(iterable, Mapping):
+            if isinstance(iterable, dict):
                 for elem, count in iterable.items():
                     self[elem] = self_get(elem, 0) - count
             else:
