@@ -58,14 +58,21 @@ class CSVDatabase(Database):
 
     def _open_base(self, machine, write=False):
         try:
-            return self.files[machine]
+            f = self.files[machine]
+            if not write and "a" in f.mode:
+                f.close()
+                raise KeyError
+            return f
         except KeyError:
             path = self._base_path(machine)
             mode = "r"
             if write:
                 mode = "a"
             if not os.path.exists(path):
-                path = self._generic_path(machine)
+                genpath = self._generic_path(machine)
+                logger.debug("%s not found using %s instead", path,
+                        genpath)
+                path = genpath
             f = open(path, mode)
             if write:
                 obj = f

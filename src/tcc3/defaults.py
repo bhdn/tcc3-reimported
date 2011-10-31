@@ -24,6 +24,7 @@ vmstat-fields = id
 learning-method = knn
 knn-number-neighbours = 10
 knn-test = 10000
+knn-train = 10000
 future-values = 10
 window-size = 10
 s = 0

@@ -69,9 +69,11 @@ class WindowGeneratorMixIn(object):
             for i in xrange(ranges):
                 yield int(i == class_)
 
-    def load_values(self, machine):
+    def load_values(self, machine, db=None):
         values = []
-        for rawcols in self.maindb.values(machine):
+        if db is None:
+            db = self.maindb
+        for rawcols in db.values(machine):
             cols = []
             for i, raw in enumerate(rawcols):
                 if i == 0: # cpu value
@@ -122,7 +124,7 @@ class WindowGeneratorMixIn(object):
             new.append(newcand)
         return new
 
-    def build_examples(self, machine, winsize):
+    def build_examples(self, machine, winsize, db=None):
         """Returns windows + classification with one value of delay
 
         This is one example of how one window + class is formed:
@@ -138,7 +140,7 @@ class WindowGeneratorMixIn(object):
         curwin = collections.deque()
         limbo = None
         needed = winsize + lag + self.nfuturevalues
-        allvalues = self.load_values(machine)
+        allvalues = self.load_values(machine, db=db)
         normvalues = self.normalize_values(allvalues)
         skipped = 0
         for i, values in enumerate(normvalues):
@@ -168,22 +170,30 @@ class KNNMethod(Method, WindowGeneratorMixIn):
         super(KNNMethod, self).__init__(config, maindb, traindb)
         self.neighbours = int(config.knn_number_neighbours)
         self.testsize = int(config.knn_test)
+        self.trainsize = int(config.knn_train)
         self.windowsize = int(config.window_size)
         self.test_dir = shlex.split(config.svm_test_dir)[0]
         self.logger = logging.getLogger("tcc3.method.knn")
         self.logger.debug("created KNN instance with N = %d",
                 self.neighbours)
-        self._examples = None
+        self._examples = {}
 
     def _test_file_name(self, machine):
         return os.path.join(self.test_dir, "%s" % (machine))
 
     def train(self, machine):
-        examples = list(self.build_examples(machine, self.windowsize))
+        examples = list(self.build_examples(machine, self.windowsize,
+            db=self.maindb))
         random.shuffle(examples)
+        self.traindb.destroy(machine)
+        for i in xrange(self.trainsize):
+            example, class_ = examples[i]
+            line = list(example)
+            line.append(class_)
+            self.traindb.add(line, machine)
         path = self._test_file_name(machine)
         f = open(path, "w")
-        for i in xrange(self.testsize):
+        for i in xrange(self.trainsize, self.trainsize+self.testsize):
             example, class_ = examples[i]
             line = (" ".join(str(value) for value in example)
                     + " %d" % (class_))
@@ -196,11 +206,19 @@ class KNNMethod(Method, WindowGeneratorMixIn):
             dist += math.pow(onesvalue - another[i], 2)
         return math.sqrt(dist)
 
+    def _build_predict_examples(self, machine):
+        for entry in self.traindb.values(machine):
+            values = [float(raw) for raw in entry[:-1]]
+            assert values[0] <= 1.00
+            class_ = int(entry[-1])
+            yield values, class_
+
     def _predict(self, window, examples):
         winsize = len(window)
         candidates = []
+        normalized = [val/self.maxcpuval for val in window]
         for candidate, class_ in examples:
-            dist = self._distance(candidate, window)
+            dist = self._distance(candidate, normalized)
             info = (-dist, class_)
             if len(candidates) < self.neighbours:
                 # grow the neighbours list up to its size
@@ -214,13 +232,11 @@ class KNNMethod(Method, WindowGeneratorMixIn):
         return count.most_common()[0][0]
 
     def predict(self, machine, window):
-        if self._examples is None:
-            self._examples = list(self.build_examples(machine,
-                self.windowsize))
-        return self._predict(window, self._examples)
+        if machine not in self._examples:
+            self._examples[machine] = list(self._build_predict_examples(machine))
+        return self._predict(window, self._examples[machine])
 
     def test(self, machine):
-        examples = list(self.build_examples(machine, self.windowsize))
         path = self._test_file_name(machine)
         total = 0
         correct = 0
@@ -228,7 +244,7 @@ class KNNMethod(Method, WindowGeneratorMixIn):
             rawvalues = line.split()
             example = [float(rawvalue) for rawvalue in rawvalues[:-1]]
             correctclass_ = int(rawvalues[-1])
-            predicted = self._predict(example, examples)
+            predicted = self.predict(machine, example)
             if predicted == correctclass_:
                 correct += 1
             total += 1
