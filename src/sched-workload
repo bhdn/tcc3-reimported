@@ -1,0 +1,27 @@
+#!/bin/bash
+INITIALDATE="$1"
+shift
+FINALDATE="$1"
+shift
+CMD="$*"
+
+INITSECS=`date -d "$INITIALDATE" +%s`
+FINALSECS=`date -d "$FINALDATE" +%s`
+
+NOW=`date +%s`
+INITWAIT=$(($INITSECS - $NOW))
+echo "X: sleeping for $INITWAIT secs"
+sleep $INITWAIT
+
+echo "X: running: $CMD"
+$CMD &
+CHILDPID=$!
+echo "X: child pid: $!"
+
+NOW=`date +%s`
+FINALWAIT=$(($FINALSECS - $NOW))
+echo "X: sleeping for $FINALWAIT secs"
+sleep $FINALWAIT
+
+kill $CHILDPID
+echo "X: done."
