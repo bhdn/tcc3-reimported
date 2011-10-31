@@ -88,23 +88,22 @@ No exemplo da figura \ref{fig:hostguests4}, a máquina virtual
 vm-11 está executando algum processo que está exigindo muito tempo
 de CPU. Este tipo de situação pode ocorrer quando este processo faz uso intenso
 de CPU (é CPU-\emph{bound}) (que faz uso intensivo do processador), o que
-geralmente
-pode ser uma tarefa rotineira de \emph{backup} (compressão, descompressão ou
-sincronização de árvores) ou rotinas aritméticas. Neste caso fica claro que
-seria melhor ter esta máquina executando no hospedeiro host1, pois o
-uso típico de CPU das máquinas virtuais que já estão executando em host1 ainda
-pode acomodar vm-11. A dificuldade neste modelo está no fato de que este uso de
-CPU pode ser sazonal, e que outras máquinas virtuais além de vm-11 podem ter
-situações de demanda abrupta.
+geralmente pode ser uma tarefa rotineira de \emph{backup} (compressão,
+descompressão ou sincronização de árvores) ou rotinas aritméticas. Neste
+caso fica claro que seria melhor ter esta máquina executando no hospedeiro
+host1, pois o uso típico de CPU das máquinas virtuais que já estão
+executando em host1 ainda pode acomodar vm-11. A dificuldade neste modelo
+está no fato de que este uso de CPU pode ser sazonal, e que outras máquinas
+virtuais além de vm-11 podem ter situações de demanda abrupta.
 
-Com isso, o software que será desenvolvido a partir deste projeto atuará
-tentando prever o comportamento destas máquinas virtuais e requisitando à
-ferramenta de virtualização que migre aquelas que apresentarem perspectiva
-de uso intensivo de CPU para um hospedeiro que tenha condições de tratar
-aquela demanda. Este software executará como um processo separado, na forma de um
-\emph{daemon}, ou seja, que executará como um serviço do sistema. Este poderá
-estar instalado em qualquer uma das máquinas hospedeiras ou até mesmo em
-uma máquina separada, providas as credenciais de acesso para a \libvirt{}.
+Com isso, o software deste projeto atua tentando prever o comportamento
+destas máquinas virtuais e requisitando à ferramenta de virtualização que
+migre aquelas que apresentarem perspectiva de uso intensivo de CPU para um
+hospedeiro que tenha condições de tratar aquela demanda. Este software na
+forma de um \emph{daemon}, ou seja, um serviço do sistema independente aos
+serviços de virtualização. Este poderá estar instalado em qualquer uma das
+máquinas hospedeiras ou até mesmo em uma máquina separada, providas as
+credenciais de acesso para a \libvirt{}.
 
 Como dados de entrada, o software receberá as leituras de uso de CPU de cada
 uma das máquinas virtuais executando no ambiente. Entende-se que a saída
@@ -141,13 +140,13 @@ virtualização (3), que então executará a migração entre um hospedeiro e ou
 \section{Modelagem do software}\label{sec:modelagem}
 
 A figura \ref{fig:contexto0} apresenta o diagrama de contexto,
-indicando a relação entre o projeto que será desenvolvido e a biblioteca
-\libvirt{}. O fluxo estatísticas das máq. virtuais indica as
-informações a respeito de uso de CPU que são providas pela libVirt,
-enquanto que cmds. de migração indica os comandos, transmitidos
-por meio da API (introduzida na seção \ref{sec:libvirtapi}), que são enviadas
-à \libvirt{} para a migração das máquinas virtuais, de acordo com o que o
-software a ser implementado decidir.
+indicando a relação entre o projeto e a biblioteca \libvirt{}. O fluxo
+estatísticas das máq. virtuais indica as informações a respeito de uso de
+CPU que são providas pela libVirt, enquanto que cmds. de migração indica os
+comandos, transmitidos por meio da API (introduzida na seção
+\ref{sec:libvirtapi}), que são enviadas à \libvirt{} para a migração das
+máquinas virtuais, de acordo com o que o software a ser implementado
+decidir.
 
 \begin{figure}[htp]
 \centering
@@ -218,7 +217,7 @@ das técnicas de aprendizado que serão implementadas no projeto.
 
 \section{Metodologia de avaliação das técnicas}
 
-Para as etapas de aprendizado e predição, serão utilizados os métodos de
+Para as etapas de aprendizado e predição, são utilizados os métodos de
 aprendizado de máquina \emph{Support Vector Machines} (Máquinas de Vetores
 de Suporte) e $k$-NN ($k$-\emph{Nearest Neighbors}). O SVM foi escolhido em
 razão de seu bom desempenho em diversos tipos de problemas de aprendizado,
@@ -267,14 +266,14 @@ utilizados no sistema. Esta consiste na execução nos seguintes passos:
 \subsection{Treinamento}
 
 Para a etapa de treinamento, e subsequente uso pela etapa de predição, o
-vetor de características usado será constituído de uma janela
+vetor de características usado é constituído de uma janela
 formada por um determinado número de leituras anteriores do uso de CPU para
 cada máquina virtual controlada naquele domínio. Como estes valores são
-percentuais de uso de CPU, a normalização destes será feita com uma divisão
+percentuais de uso de CPU, a normalização destes é feita com uma divisão
 de cada valor por $100$. Na figura \ref{fig:vetorjanela} é apresentada uma
 série de leituras de uso de CPU e também como é a configuração da janela
 extraída da mesma. Os valores marcados com linhas tracejadas indicam o valor
-que será usado como classe utilizada para o treinamento.
+que é usado como classe utilizada para o treinamento.
 
 \begin{figure}[htp]
 \centering
@@ -283,8 +282,8 @@ que será usado como classe utilizada para o treinamento.
 \label{fig:vetorjanela}
 \end{figure}
 
-Para a classe usada em cada exemplo do treinamento, serão utilizados
-valores categóricos. Cada classe representará uma faixa de valor do
+Para a classe usada em cada exemplo do treinamento, são utilizados
+valores categóricos. Cada classe representa uma faixa de valor do
 percentual de uso de CPU. Por exemplo, a faixa 0--24\% seria a classe
 A, 25--49\% a classe B, e assim por diante.
 
@@ -303,17 +302,17 @@ são apresentados os vetores de características que são usados para treinar
 o uso de CPU. Para este exemplo há 4 classes, o valor $1$ representa a
 classe selecionada, e $-1$ a não-seleção dela.
 
-Além disso, serão feitos testes com vetores de características contendo
+Além disso, são feitos testes com vetores de características contendo
 informações a respeito do período do dia, e dia da semana, de maneira a
 tentar capturar características sazonais no comportamento das máquinas
 virtuais.
 
 \subsection{Predição e migração}
 
-Para a etapa de predição, serão utilizados os métodos de classificação das
+Para a etapa de predição, são utilizados os métodos de classificação das
 técnicas de aprendizado de máquina que foram descritas acima. O resultado da
 classificação, para cada máquina virtual, irá consistir em uma faixa de
-percentual de uso de CPU. Esta faixa então será usada para calcular o
+percentual de uso de CPU. Esta faixa então é usada para calcular o
 potencial uso total de CPU para o próximo intervalo de tempo (intervalo este
 que será diferente durante os testes) e então deve-se decidir se cada máquina
 virtual deve permanecer no mesmo hospedeiro ou ser migrada para outra com maior
@@ -326,7 +325,7 @@ máquinas virtuais pode resultar em desnecessárias migrações entre hospedeiro
 
 Após o empacotamento das previsões na lista de hospedeiros, aquelas
 máquinas virtuais que não estiverem mais em seus hospedeiros originais
-serão efetivamente migrados utilizando a \libvirt{}.
+são efetivamente migradas utilizando a \libvirt{}.
 
 \section{Avaliação de desempenho}\label{sec:desemp}
 
