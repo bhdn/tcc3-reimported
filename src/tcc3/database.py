@@ -68,7 +68,7 @@ class CSVDatabase(Database):
             mode = "r"
             if write:
                 mode = "a"
-            if not os.path.exists(path):
+            if not os.path.exists(path) and not write:
                 genpath = self._generic_path(machine)
                 logger.debug("%s not found using %s instead", path,
                         genpath)
