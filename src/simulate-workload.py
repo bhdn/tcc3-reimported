@@ -5,12 +5,15 @@ import signal
 
 running = False
 
+counter = 0
+
 def handler(signum, frame):
     global running
     running = False
 
 def work_for(usage=0.50, interval=10):
     global running
+    global counter
     signal.signal(signal.SIGALRM, handler)
     cur = time.time()
     dur = interval * usage
@@ -20,7 +23,8 @@ def work_for(usage=0.50, interval=10):
         running = True
         while running:
             x = 0.001 + 323232.0
-    print "awake!"
+            counter += 1
+    print "awake, counter:", counter
     now = time.time()
     time.sleep(max(interval - (now - cur), 0))
 
