@@ -79,3 +79,7 @@ agrupado pela rede neural ART-2A.
 	  python
 	- controlar quantas transições intencionais foram feitas vs números
 	  de migrações que aconteceram
+
+- mass-rebuild e efeito nos gráficos de distribuição, link para
+  “oficializar”:
+  http://svn.mandriva.com/cgi-bin/viewvc.cgi/packages/cooker/x11-driver-video-psb/current/SPECS/x11-driver-video-psb.spec?revision=615465&view=markup
