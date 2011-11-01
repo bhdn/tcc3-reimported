@@ -1,0 +1,36 @@
+#!/usr/bin/python
+from tcc3.command import TCC3Command, CliError
+
+class DumpWorkload(TCC3Command):
+
+    descr = "Dump the data for a given machine in the format used by "\
+            "simulate-workload"
+
+    def init_parser(self, parser):
+        super(DumpWorkload, self).init_parser(parser)
+        parser.add_option("-H", "--hostname", type="string",
+                help="The hostname whose information is from")
+
+    def run(self):
+        if self.opts.hostname is None:
+            raise CliError, "you must supply the hostname"
+        winsize = int(self.config.tcc3.window_size)
+        maxcpuval = int(self.config.tcc3.max_cpu_value)
+        prev = None
+        repeated = 0
+        for cols in self.tcc3.maindb.values(self.opts.hostname):
+            value = maxcpuval - int(cols[0])
+            if value == 0:
+                if value == prev and repeated < winsize:
+                    repeated += 1
+            else:
+                if repeated > 0:
+                    for i in xrange(repeated):
+                        print "0"
+                    repeated = 0
+                print value
+            prev = value
+
+DumpWorkload().main()
+
+# vim:ts=4:sw=4:et
