@@ -8,7 +8,6 @@ width=(max-min)/n	#interval width
 #function used to map a value to the intervals
 hist(x,width)=width*floor(x/width)+width/2.0
 set term png	#output terminal and file
-set output "histogram.png"
 set xrange [min:max]
 set yrange [0:]
 #to put an empty boundary around the
@@ -21,4 +20,13 @@ set tics out nomirror
 set xlabel "x"
 set ylabel "Frequency"
 #count and plot
+set output "histograma-n2.png"
 plot "workload-n2.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+set output "histograma-n3.png"
+plot "workload-n3.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+set output "histograma-n4.png"
+plot "workload-n4.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+set output "histograma-n6.png"
+plot "workload-n6.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+set output "histograma-seggie.png"
+plot "workload-seggie.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
