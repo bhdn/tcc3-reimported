@@ -18,6 +18,8 @@ $CMD &
 CHILDPID=$!
 echo "X: child pid: $!"
 
+trap "kill $CHILDPID" INT
+
 NOW=`date +%s`
 FINALWAIT=$(($FINALSECS - $NOW))
 echo "X: sleeping for $FINALWAIT secs"
