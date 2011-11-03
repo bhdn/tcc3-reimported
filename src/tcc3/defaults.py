@@ -21,7 +21,7 @@ hosts-memory = tcc159:3597132 tcc158:4023472 lviv:4023472
 
 skip-zeroes = 1
 vmstat-fields = id
-learning-method = knn
+learning-method = svm
 knn-number-neighbours = 10
 knn-test = 10000
 knn-train = 10000

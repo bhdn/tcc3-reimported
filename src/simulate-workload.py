@@ -37,3 +37,4 @@ for line in open(sys.argv[2]):
     value = float(rawvalue)
     print "current load:", value
     work_for(value / 100.0, interval)
+    sys.stdout.flush()
