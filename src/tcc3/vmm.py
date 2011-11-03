@@ -45,23 +45,11 @@ class HostInfo:
         self.memory = None
         self.maxcpus = None
         self.guests = set()
-    
+
     def __repr__(self):
         return "<host %r>" % (self.name)
 
-class LibvirtVMM(VirtualMachineMonitor):
-
-    def __init__(self, config):
-        self.config = config
-        self.hosts = config.hosts.split()
-        self.guests = config.guests.split()
-        self.scheme = config.libvirt_scheme.strip()
-        self.urlsuffix = config.libvirt_url_suffix.strip()
-        self.logger = logging.getLogger("tcc3.vmm.libvirt")
-        self.cpucount = self._parse_ncpu_config(config.hosts_ncpus)
-        self.memorycount = self._parse_ncpu_config(config.hosts_memory)
-        self._previnfo = {}
-        self._conns = {}
+class VMMConfigMixIn:
 
     def _parse_ncpu_config(self, rawvalue):
         config = {}
@@ -77,6 +65,83 @@ class LibvirtVMM(VirtualMachineMonitor):
 
     def _parse_memory(self, rawvalue):
         return self._parse_ncpu_config(self, rawvalue)
+
+
+class DummyVMM(VirtualMachineMonitor, VMMConfigMixIn):
+
+    def __init__(self, config):
+        self.config = config
+        self.logger = logging.getLogger("tcc3.vmm.dummy")
+        self.hosts = config.dummy_hosts.split()
+        self.guests = self._parse_guests(config.dummy_guests)
+        self.cpucount = self._parse_ncpu_config(config.dummy_hosts_ncpus)
+        self.memorycount = self._parse_ncpu_config(config.dummy_hosts_memory)
+        self._guestmap = {} # guest: host
+        self._hostmap = {} # host: guest
+        self._workloads = {} # guest: workload
+        self._openworkloads = {} # guest: file obj of workload file
+        for host in self.hosts:
+            self._hostmap[host] = []
+        for guest, (workloadpath, host, _, _) in self.guests.iteritems():
+            self._guestmap[guest] = host
+            self._hostmap.setdefault(host, []).append(guest)
+            self._workloads[guest] = workloadpath
+
+    def _parse_guests(self, rawvalue):
+        config = {}
+        for rawdef in rawvalue.split():
+            try:
+                name, workloadpath, host, rawmem, rawcpus = rawdef.split(":", 4)
+                memory = int(rawmem)
+                cpus = int(rawcpus)
+            except ValueError:
+                self.logger.warn("invalid host-ncpus configuration: %r", rawdef)
+                continue
+            config[name] = (workloadpath, host, memory, cpus)
+        return config
+
+    def migrate(self, srchost, guest, dsthost):
+        self._hostmap[srchost].remove(guest)
+        self._hostmap[dsthost].append(guest)
+        self._guestmap[guest] = dsthost
+
+    def collect_stats(self):
+        for host in self.hosts:
+            hostinfo = HostInfo(host)
+            memoryused = 0
+            for guest in self._hostmap[host]:
+                try:
+                    f = self._openworkloads[guest]
+                except KeyError:
+                    f = self._openworkloads[guest] = open(self._workloads[guest])
+                rawcpu = f.readline().strip()
+                guestinfo = GuestInfo(guest)
+                guestinfo.cpuusage = int(rawcpu)
+                _, _, guestinfo.memoryused, guestinfo.cpus = self.guests[guest]
+                memoryused += guestinfo.memoryused
+                self.logger.debug("%s is %d%%", guest, guestinfo.cpuusage)
+                hostinfo.guests.add(guestinfo)
+            hostinfo.maxcpus = self.cpucount.get(host, 2)
+            hostinfo.memory = self.memorycount.get(host, 1024*1024)
+            hostinfo.freememory = hostinfo.memory - memoryused
+            yield hostinfo
+
+    def close(self):
+        pass
+
+class LibvirtVMM(VirtualMachineMonitor, VMMConfigMixIn):
+
+    def __init__(self, config):
+        self.config = config
+        self.hosts = config.hosts.split()
+        self.guests = config.guests.split()
+        self.scheme = config.libvirt_scheme.strip()
+        self.urlsuffix = config.libvirt_url_suffix.strip()
+        self.cpucount = self._parse_ncpu_config(config.hosts_ncpus)
+        self.memorycount = self._parse_ncpu_config(config.hosts_memory)
+        self.logger = logging.getLogger("tcc3.vmm.libvirt")
+        self._previnfo = {}
+        self._conns = {}
 
     def _host_url(self, host):
         return self.scheme + host + self.urlsuffix
@@ -179,6 +244,7 @@ class LibvirtVMM(VirtualMachineMonitor):
 
 vmms = Registry()
 vmms.register("libvirt", LibvirtVMM)
+vmms.register("dummy", DummyVMM)
 
 def get_vmm(config):
     return vmms.get_instance(config.vmm_type, config)

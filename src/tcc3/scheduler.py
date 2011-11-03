@@ -17,27 +17,9 @@ class Scheduler(object):
         self.windowsize = int(config.window_size)
         self.nranges = int(config.cpu_usage_ranges)
         self.logger = logging.getLogger("tcc3.scheduler")
-        self._statsource = Queue.Queue()
+        self._statsource = Queue.Queue(maxsize=1)
         self._finished = threading.Event()
         self._vmmlock = threading.Lock()
-
-    def _collect_stats(self):
-        try:
-            last = 0
-            while not self._finished.is_set():
-                self.logger.debug("collector tick")
-                self._vmmlock.acquire()
-                try:
-                    stats = list(self.vmm.collect_stats())
-                finally:
-                    self._vmmlock.release()
-                self._statsource.put(stats)
-                diff = time.time() - last
-                waittime = max(self.interval - diff, 0)
-                self._finished.wait(waittime)
-                last = time.time()
-        finally:
-            self._finished.set()
 
     def _schedule(self):
         readings = {} # {guestname: deque of stats}
@@ -45,12 +27,7 @@ class Scheduler(object):
         while not self._finished.is_set():
             predictions = {} # guestname: predicted class_
             hostpredictions = {}
-            # collect information about hosts and predict cpu usage for
-            try:
-                hostsinfo = self._statsource.get(timeout=1)
-            except Queue.Empty:
-                continue
-            # guests:
+            hostsinfo = list(self.vmm.collect_stats())
             for hostinfo in hostsinfo:
                 for guestinfo in hostinfo.guests:
                     if guestinfo.name not in readings:
@@ -67,7 +44,7 @@ class Scheduler(object):
                                 + class_
                         readings[guestinfo.name].popleft()
                         canpredict = True
-            if canpredict and self._statsource.empty():
+            if canpredict:
                 self.logger.debug("predictions: %r", predictions)
                 self.logger.debug("hostpredictions: %r", hostpredictions)
                 # compute max cpu capacity for each host (in the same unity
@@ -127,10 +104,6 @@ class Scheduler(object):
                         self._vmmlock.release()
 
     def start(self):
-        try:
-            t = threading.Thread(target=self._collect_stats)
-            t.start()
-            self._schedule()
-        finally:
-            self._finished.set()
-            self.vmm.close()
+        self._schedule()
+        self._finished.set()
+        self.vmm.close()
