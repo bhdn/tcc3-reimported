@@ -179,6 +179,8 @@ class KNNMethod(Method, WindowGeneratorMixIn):
         self._examples = {}
 
     def _test_file_name(self, machine):
+        if not os.path.exists(self.test_dir):
+            os.makedirs(self.test_dir)
         return os.path.join(self.test_dir, "%s" % (machine))
 
     def train(self, machine):
