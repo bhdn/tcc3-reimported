@@ -155,15 +155,15 @@ sistema}
 \label{fig:contexto0}
 \end{figure}
 
-Como o projeto será implementado utilizando o conceito de orientação a
+Como o projeto é implementado utilizando o conceito de orientação a
 objetos, a figura \ref{fig:contexto1} apresenta
 de maneira mais detalhada, na forma de um diagrama de contexto, como é a
-interação entre os módulos que serão implementados no projeto. O fluxo
+interação entre os módulos que são implementados no projeto. O fluxo
 “uso de CPU máq. virtuais” (também abreviado como “usos de CPU”)
-indica os valores que serão lidos periodicamente de cada máquina virtual.  O
+indica os valores que são lidos periodicamente de cada máquina virtual.  O
 processo Coleta trata da consulta à instância da \libvirt{} e o
 pré-processamento dos dados para envio à base. O processo Treinamento
-será executado periodicamente e consistirá na execução da fase de treinamento
+é executado periodicamente e consistirá na execução da fase de treinamento
 para as técnicas de AM (Aprendizado de Máquina). O depósito de dados
 ``base treinada'' representa uma base de dados com os parâmetros
 utilizados para representar o conhecimento dos algoritmos de AM. O conteúdo em
@@ -313,9 +313,9 @@ técnicas de aprendizado de máquina que foram descritas acima. O resultado da
 classificação, para cada máquina virtual, irá consistir em uma faixa de
 percentual de uso de CPU. Esta faixa então é usada para calcular o
 potencial uso total de CPU para o próximo intervalo de tempo (intervalo este
-que será diferente durante os testes) e então deve-se decidir se cada máquina
+que é diferente durante os testes) e então deve-se decidir se cada máquina
 virtual deve permanecer no mesmo hospedeiro ou ser migrada para outra com maior
-disponibilidade. Para esta decisão será utilizada a estratégia de \emph{first
+disponibilidade. Para esta decisão é utilizada a estratégia de \emph{first
 fit}, que procura alocar novos objetos no primeiro espaço mais próximo do
 começo do espaço disponível~\cite{yao1980new}. Opta-se por utilizar esta
 técnica de empacotamento em razão desta ser mais conservadora se comparada a
@@ -333,7 +333,7 @@ são efetivamente migradas utilizando a \libvirt{}.
 % utilizar uma instância do classificador para todas as VMs, versus
 % utilizar uma instância nova para cada VM
 
-O processo de validação será constituído de duas etapas. A primeira trata de
+O processo de validação é constituído de duas etapas. A primeira trata de
 avaliar o desempenho de apenas o sistema de predição, utilizando dados reais de
 CPU que serão coletados. A segunda etapa irá avaliar o desempenho do sistema
 completo em um ambiente utilizando virtualização. Além disso, na primeira etapa
@@ -363,15 +363,15 @@ como momentos de processamento CPU-\emph{bound}.
 \label{fig:diagramaclasses2}
 \end{figure}
 
-A leitura destes valores será feita a cada minuto utilizando o utilitário
+A leitura destes valores é feita a cada minuto utilizando o utilitário
 \emph{top}, que coleta estatísticas de uso de recursos por processos e no
 sistema operacional como um todo~\cite{andresen2004monitoring}. Para utilizar
-os valores coletados no ambiente de compilação, será criada uma especialização
+os valores coletados no ambiente de compilação, é criada uma especialização
 para a classe InterfaceMMV, como descrito na figura
 \ref{fig:diagramaclasses2}, que lerá os arquivos com o histórico de acesso às
 máquinas e então entregará estes valores ao módulo de aprendizado.
 
-Para a segunda etapa, o software implementado será testado em um ambiente de
+Para a segunda etapa, o software implementado é testado em um ambiente de
 virtualização real, onde cada máquina virtual estará executando pequenos
 programas que estarão ocupando as CPUs de maneira a simular os comportamentos
 observados no ambiente de compilação descrito anteriormente.  Estes programas
@@ -383,7 +383,7 @@ Finalmente, serão avaliados diferentes valores em parâmetros utilizados
 pelo sistema a ser implementado, a saber:
 
 \begin{itemize}
-  \item no caso de $k$-NN, o valor de $k$ será alterado, seguindo as
+  \item no caso de $k$-NN, o valor de $k$ é alterado, seguindo as
         recomendações de \citeonline{hall2008choice};
    \item o tamanho da janela usada para treinamento e predição, como sugerido
         por \citeonline{frank2001time};
@@ -422,23 +422,23 @@ O projeto é implementado na linguagem \emph{Python}
 de orientação a objetos, facilitando a prototipagem de projetos
 \cite{lutz2006programming}.
 
-O ambiente de desenvolvimento será baseado no sistema operacional Linux
+O ambiente de desenvolvimento é baseado no sistema operacional Linux
 \cite{morimoto2004entendendo}, que é a plataforma principal de
 desenvolvimento e teste da \libvirt{}. Mesmo a biblioteca sendo acessível
 de qualquer sistema operacional, a proximidade com o ambiente de
 desenvolvimento diminui a probabilidade de encontrar incompatibilidade
 entre ferramentas durante a fase de implementação. A distribuição Linux
-utilizada será \emph{Mandriva Linux}\footnote{http://www.mandriva.com/},
+utilizada é \emph{Mandriva Linux}\footnote{http://www.mandriva.com/},
 que possui em sua base de pacotes todas as ferramentas necessárias para a
-implementação. O pacote python-libvirt será utilizado para acessar
+implementação. O pacote python-libvirt é utilizado para acessar
 os módulos da \libvirt{}.
 
-Para o monitor de máquinas virtuais será utilizado o
+Para o monitor de máquinas virtuais é utilizado o
 KVM,\footnote{http://linux-kvm.org/} que é de código aberto e também
 desenvolvido pela empresa Red Hat, garantindo assim maior compatibilidade
 com a \libvirt{}.
 
-Para a implementação das instâncias de SVM, será utilizada a
+Para a implementação das instâncias de SVM, é utilizada a
 \emph{libsvm}~\cite{chang2001libsvm}. O motivo da escolha desta
 implementação deve-se se em razão de sua licença, que permite uso e
 distribuição, incluindo uso comercial.
