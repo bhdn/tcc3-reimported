@@ -45,7 +45,7 @@ class Scheduler(object):
                         readings[guestinfo.name].popleft()
                         canpredict = True
             if canpredict:
-                self.logger.debug("predictions: %r", predictions)
+                self.logger.info("predictions: %r", predictions)
                 self.logger.debug("hostpredictions: %r", hostpredictions)
                 # compute max cpu capacity for each host (in the same unity
                 # used as in "class_"):
@@ -55,7 +55,7 @@ class Scheduler(object):
                 availcapacity.update(maxcapacity)
                 availmemory = dict((hi.name, hi.memory)
                                     for hi in hostsinfo)
-                self.logger.debug("maxcapacity: %r", maxcapacity)
+                self.logger.info("maxcapacity: %r", maxcapacity)
                 self.logger.debug("availcapacity: %r", availcapacity)
                 # used capacity as pointed by the predictions:
                 # compute a list of the hosts that are most likely to
