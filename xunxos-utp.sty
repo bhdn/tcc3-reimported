@@ -268,6 +268,45 @@
 
 % ===============================
 
+\def\@makeanapchapterhead#1{%
+  {%
+%  \noindent\rule{\textwidth}{1.7pt}\\\par
+  \normalfont\ABNTchapterfont\ABNTanapsize
+  \espaco{simples}
+  \ifthenelse{\boolean{ABNTAnApIndicativoIndent}}
+    {\ifthenelse{\boolean{ABNTCapAnnexAppendix}}
+       {\settowidth{\ABNTanapindent}{\MakeUppercase{\anapchaptername}
+          \thechapter{} \ABNTtravessao{}}}
+       {\settowidth{\ABNTanapindent}{\anapchaptername
+          \thechapter{} \ABNTtravessao{}}}
+    }
+    {}
+  \vspace*{30pt}
+%
+  \raggedright\espaco{1.2}\par  
+  \begin{list}{}{%
+       \setlength{\listparindent}{0cm}%
+       \setlength{\itemindent}{-\ABNTanapindent}%
+       \setlength{\rightmargin}{0cm}%
+       \setlength{\leftmargin}{\ABNTanapindent}%
+       \setlength{\parsep}{0pt}}%
+    \item %
+      \ifthenelse{\equal{#1}{}}
+         {\ifthenelse{\boolean{ABNTCapAnnexAppendix}}
+            {\MakeUppercase{\anapchaptername}}
+            {\anapchaptername} 
+          \thechapter \ABNTaposindicativoanap}
+         {\ifthenelse{\boolean{ABNTCapAnnexAppendix}}
+            {\MakeUppercase{\anapchaptername}}
+            {\anapchaptername}
+          \thechapter{} \ABNTtravessao{} \ABNTaposindicativoanap
+            \ifthenelse{\boolean{ABNTcapchap}}%
+              {\MakeUppercase{#1}}%
+              {#1}}
+  \end{list}
+%%%  \par\vspace{50pt}%
+  }%
+}
 
 \def\@anapchapter[#1]#2%
       {
