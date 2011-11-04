@@ -1,6 +1,6 @@
 all: trabalho.pdf exemplo.pdf apresentacao.pdf
 trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
-	cronograma.tex \
+	resultados.tex \
 	aprendizado.tex \
 	definicoes.tex \
 	glossario.tex \
