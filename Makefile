@@ -5,6 +5,7 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	definicoes.tex \
 	glossario.tex \
 	relacionados.tex \
+	anexos.tex \
 	img-met-contexto-0.pdf \
 	img-met-contexto-1.pdf \
 	img-host-guests1.pdf \
@@ -17,7 +18,12 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-diagrama-classes1.pdf \
 	img-diagrama-classes2.pdf \
 	img-libvirt-contexto0.pdf \
-	img-libvirt-contexto1.pdf
+	img-libvirt-contexto1.pdf \
+	src/test-data/workload/histograma-n2.pdf \
+	src/test-data/workload/histograma-n3.pdf \
+	src/test-data/workload/histograma-n4.pdf \
+	src/test-data/workload/histograma-n6.pdf \
+	src/test-data/workload/histograma-seggie.pdf
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
 imgi-%.pdf: imgi-%.svg
@@ -46,6 +52,12 @@ apresentacao.pdf: apresentacao.tex \
 	bibtex $*
 	pdflatex $<
 	pdflatex $<
+
+src/test-data/workload/%.pdf: src/test-data/workload/%.eps
+	epstopdf --outfile=$@ $<
+
+src/test-data/workload/%.eps: src/test-data/workload/plot-histogram.gnuplot
+	cd src/test-data/workload; gnuplot plot-histogram.gnuplot
 
 .PHONY: clean
 clean:
