@@ -23,7 +23,13 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	src/test-data/workload/histograma-n3.pdf \
 	src/test-data/workload/histograma-n4.pdf \
 	src/test-data/workload/histograma-n6.pdf \
-	src/test-data/workload/histograma-seggie.pdf
+	src/test-data/workload/histograma-seggie.pdf \
+	src/test-data/workload/dispersion-n2.png \
+	src/test-data/workload/dispersion-n3.png \
+	src/test-data/workload/dispersion-n4.png \
+	src/test-data/workload/dispersion-n6.png \
+	src/test-data/workload/dispersion-seggie.png \
+	src/test-data/workload/dispersion-4h-n4.png
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
 imgi-%.pdf: imgi-%.svg
@@ -56,8 +62,11 @@ apresentacao.pdf: apresentacao.tex \
 src/test-data/workload/%.pdf: src/test-data/workload/%.eps
 	epstopdf --outfile=$@ $<
 
-src/test-data/workload/%.eps: src/test-data/workload/plot-histogram.gnuplot
-	cd src/test-data/workload; gnuplot plot-histogram.gnuplot
+src/test-data/workload/workload-%.eps: src/test-data/workload/plot-histogram.gnuplot
+	cd src/test-data/workload; gnuplot $(<F)
+
+src/test-data/workload/dispersion-%.png: src/test-data/workload/plot-dispersion.gnuplot
+	cd src/test-data/workload; gnuplot $(<F)
 
 .PHONY: clean
 clean:

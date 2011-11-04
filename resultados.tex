@@ -7,10 +7,82 @@ projeto Mandriva Linux entre os dias 15 de março de 2011 e 11 de abril de
 2011, com medidas de uso tempo de uso de CPU sendo realizadas a cada 30
 segundos, resultando num total de 80200 valores para cada máquina.
 
+Todas as máquinas possuem 4 CPUs e \emph{clock} de 2800MHz. As máquinas n2,
+n3 e n4 são utilizadas exclusivamente para execução de software para
+arquitetura i686 (32 bits,) enquanto que n6 e seggie são utilizadas para
+execução e compilção de software em arquitetura AMD64 (64 bits.)
+
 \section{Caracterização}
 
 Mesmo estas máquinas fazendo parte de um ambiente de compilação que é
 utilizado diariamente para compilar vários pacotes de software do projeto
 Mandriva Linux, 45\% dos valores de uso de CPU lidos foram 0\%, ou seja,
 as máquinas estiveram ociosas durante 45\% do tempo durante os 27 dias de
-coleta.
+coleta. A figura \ref{fig:prehistn4} mostra a distribuição para uma das
+máquinas do ambiente. Os histogramas das outras máquinas estão no apêndice
+\ref{chap:histogramas}, a partir da página \pageref{chap:histogramas}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics{src/test-data/workload/histograma-n4.pdf}
+\figinfo{Distribuição dos valores de uso de CPU da máquina n4}
+\label{fig:prehistn4}
+\end{figure}
+
+A figura~\ref{fig:predispn4} mostra a dispersão dos valores de CPU durante
+todo o período de observação, enquanto que a figura~\ref{fig:disp4hn4}
+mostra o o comportamento durante um período de quatro horas, aonde é
+possível observar mais claramente cada ponto observado. Nota-se que a
+transição entre os valores é pouco suave. O valor do desvio padrão para
+cada máquina está disposto no quadro \ref{quadro:desviopadrao}.
+
+\begin{table}
+\centering
+\hspace{-2cm} % FIXME arrumar no template
+\quadro{Média e desvio padrão das máquinas observadas}\label{quadro:desviopadrao}
+\begin{tabular}{| c | c | c | c |}
+\hline
+Máquina & Média & Desvio padrão \\
+\hline
+n2 	& 	24,5623722901 & 34,45394416 \\
+n3 	& 	6,83392723648 & 18,5214665282 \\
+n4 	& 	27,7236937184 & 32,1217945295 \\
+n6 	& 	35,1048768939 & 37,8408009198 \\
+seggie 	&	19,9159114989 & 32,068825708 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{src/test-data/workload/dispersion-n4.png}
+\figinfo{Representação dos valores de uso de CPU da máquina n4}
+\label{fig:predispn4}
+\end{figure}
+
+Nesta mesma figura~\ref{fig:disp4hn4} é possível observar o ciclo de vida
+de uma tarefa de compilação de um pacote de software. A partir do ponto 150
+nota-se um crescimento moderado no uso de CPU, que pode ser associado ao
+estágio de preparação que é executado antes da compilação em si. Este
+estágio executa a descompressão dos códigos-fonte que serão compilados,
+geralmente usando os softwares gzip\footnote{http://www.gzip.org} e
+bzip2\footnote{http://bzip2.org}. Tal descompressão é uma tarefa faz uso
+intenso de leitura e escrita de disco e também de CPU, porém estas
+ferramentas fazem uso apenas de uma CPU, resultando em leituras de CPU em
+torno de 25\%.
+
+Após o estágio de preparação o software é compilado. A maioria dos
+códigos-fonte é preparada para compilar código parelelamente, permitindo
+assim fazer uso de todas as CPUs disponíveis, chegando aos 100\% de
+utilização. Finalmente, quando a tarefa de compilação é concluída os
+binários gerados são comprimidos em um arquivo, resultando novamente no uso
+moderado de CPU.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{src/test-data/workload/dispersion-4h-n4.png}
+\figinfo{Representação dos valores de uso de CPU da máquina n4 durante um
+período de 4 horas}
+\label{fig:disp4hn4}
+\end{figure}
+

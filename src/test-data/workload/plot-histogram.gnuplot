@@ -7,7 +7,8 @@ min=0	#min value
 width=(max-min)/n	#interval width
 #function used to map a value to the intervals
 hist(x,width)=width*floor(x/width)+width/2.0
-set term postscript font 7 portrait
+#set term postscript font 7 portrait
+set term png
 set size 0.7,0.4
 set xrange [min:max]
 set yrange [0:]
@@ -16,7 +17,7 @@ set yrange [0:]
 #set offset graph 0.05,0.05,0.05,0.0
 set xtics min,(max-min)/5,max
 #set boxwidth width*0.9
-set border lw 0.5
+#set border lw 0.5
 set style fill solid 0.5	#fillstyle
 #set tics out nomirror
 #count and plot
