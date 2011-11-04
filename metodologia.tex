@@ -114,16 +114,16 @@ A escolha da ferramenta \libvirt{} como interface de controle do ambiente
 de virtualização deve-se ao fato da mesma permitir controlar ambientes
 formados for diferentes monitores de máquinas virtuais, como descrito na
 seção \ref{sec:libvirt}. A figura \ref{fig:libvirtcontexto0} descreve de maneira
-superficial como será a interação entre o software a ser implementado e a
-\libvirt{}. O software estará periodicamente coletando informações a respeito
+superficial como é a interação entre o software a ser implementado e a
+\libvirt{}. O software periodicamente coleta informações a respeito
 do uso de CPU das máquinas virtuais sendo gerenciadas (1). Com essas
-informações, o software fará predições a respeito do comportamento destas
-máquinas virtuais e, então, enviará comandos por meio da API (\emph{Application
+informações, o software faz então predições a respeito do comportamento destas
+máquinas virtuais e, então, envia comandos por meio da API (\emph{Application
 Programming Interface}, Interface de Programação de Aplicação) da \libvirt{}
 (2), comandos estes indicando qual máquina virtual deve migrar para qual
-máquina hospedeira. A \libvirt{} por sua vez comunicará a ferramenta de
-virtualização (3), que então executará a migração entre um hospedeiro e outro
-(4).
+máquina hospedeira. A \libvirt{} por sua vez comunica a ferramenta de
+virtualização (3), que finalmente executa a migração entre um hospedeiro e
+outro (4).
 
 \begin{figure}[htp]
 \centering
