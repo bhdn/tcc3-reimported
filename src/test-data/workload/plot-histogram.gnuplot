@@ -8,24 +8,25 @@ width=(max-min)/n	#interval width
 #function used to map a value to the intervals
 hist(x,width)=width*floor(x/width)+width/2.0
 set term postscript font 7 portrait
-set size 0.4,0.2
+set size 0.7,0.4
 set xrange [min:max]
 set yrange [0:]
 #to put an empty boundary around the
 #data inside an autoscaled graph.
-set offset graph 0.05,0.05,0.05,0.0
+#set offset graph 0.05,0.05,0.05,0.0
 set xtics min,(max-min)/5,max
-set boxwidth width*0.9
+#set boxwidth width*0.9
+set border lw 0.5
 set style fill solid 0.5	#fillstyle
-set tics out nomirror
+#set tics out nomirror
 #count and plot
 set output "histograma-n2.eps"
-plot "workload-n2.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+plot "workload-n2.txt-full" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
 set output "histograma-n3.eps"
-plot "workload-n3.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+plot "workload-n3.txt-full" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
 set output "histograma-n4.eps"
-plot "workload-n4.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+plot "workload-n4.txt-full" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
 set output "histograma-n6.eps"
-plot "workload-n6.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+plot "workload-n6.txt-full" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
 set output "histograma-seggie.eps"
-plot "workload-seggie.txt" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
+plot "workload-seggie.txt-full" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
