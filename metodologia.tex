@@ -99,11 +99,11 @@ virtuais além de vm-11 podem ter situações de demanda abrupta.
 Com isso, o software deste projeto atua tentando prever o comportamento
 destas máquinas virtuais e requisitando à ferramenta de virtualização que
 migre aquelas que apresentarem perspectiva de uso intensivo de CPU para um
-hospedeiro que tenha condições de tratar aquela demanda. Este software na
-forma de um \emph{daemon}, ou seja, um serviço do sistema independente aos
-serviços de virtualização. Este poderá estar instalado em qualquer uma das
-máquinas hospedeiras ou até mesmo em uma máquina separada, providas as
-credenciais de acesso para a \libvirt{}.
+hospedeiro que tenha condições de tratar aquela demanda. Este software é
+executado na forma de um \emph{daemon}, ou seja, um serviço do sistema
+independente aos serviços de virtualização. Este poderá estar instalado em
+qualquer uma das máquinas hospedeiras ou até mesmo em uma máquina separada,
+providas as credenciais de acesso para a \libvirt{}.
 
 Como dados de entrada, o software receberá as leituras de uso de CPU de cada
 uma das máquinas virtuais executando no ambiente. Entende-se que a saída
@@ -418,7 +418,7 @@ objetivos/questionamentos:
 
 \section{Detalhes de implementação}
 
-O projeto será implementado na linguagem \emph{Python}
+O projeto é implementado na linguagem \emph{Python}
 \cite{rossum1995python}.  Esta possui tipagem dinâmica, suporta o paradigma
 de orientação a objetos, facilitando a prototipagem de projetos
 \cite{lutz2006programming}.
