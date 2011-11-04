@@ -105,16 +105,15 @@ independente aos serviços de virtualização. Este poderá estar instalado em
 qualquer uma das máquinas hospedeiras ou até mesmo em uma máquina separada,
 providas as credenciais de acesso para a \libvirt{}.
 
-Como dados de entrada, o software receberá as leituras de uso de CPU de cada
-uma das máquinas virtuais executando no ambiente. Entende-se que a saída
-observável do software é uma série de comandos de migração que devem ser
-enviados à \libvirt{}.
+Como dados de entrada, o software recebe as leituras de uso de CPU de cada
+uma das máquinas virtuais executando no ambiente. A saída observável do
+software é uma série de comandos de migração que são então enviados à
+\libvirt{}.
 
-De maneira a ser útil para o maior número de usuários de ferramentas de
-virtualização, este projeto utilizará a ferramenta \libvirt{} como interface
-para controle e migração das máquinas virtuais. Isto deve-se em razão da
-variedade de ferramentas que a mesma suporta, como descrito na seção
-\ref{sec:libvirt}. A figura \ref{fig:libvirtcontexto0} descreve de maneira
+A escolha da ferramenta \libvirt{} como interface de controle do ambiente
+de virtualização deve-se ao fato da mesma permitir controlar ambientes
+formados for diferentes monitores de máquinas virtuais, como descrito na
+seção \ref{sec:libvirt}. A figura \ref{fig:libvirtcontexto0} descreve de maneira
 superficial como será a interação entre o software a ser implementado e a
 \libvirt{}. O software estará periodicamente coletando informações a respeito
 do uso de CPU das máquinas virtuais sendo gerenciadas (1). Com essas
