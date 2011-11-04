@@ -7,6 +7,7 @@ import itertools
 import math
 import shlex
 import random
+import subprocess
 from tcc3 import Error
 from tcc3.registry import Registry
 from tcc3.util import system_command, Counter
@@ -454,8 +455,11 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         tf.write(line)
         tf.flush()
         classes = []
+        outfiles = []
+        procs = []
         for i in xrange(self.nranges):
             outfile = tempfile.mktemp()
+            outfiles.append(outfile)
             path = self._class_file_name(machine, i)
             if not os.path.exists(path):
                 newpath = self._generic_class_file(i)
@@ -467,12 +471,18 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
             args.append(path)
             args.append(outfile)
             self.logger.debug("classifier: %r", args)
-            system_command(args)
-            data = open(outfile).read().strip()
+            #system_command(args)
+            p = subprocess.Popen(args, shell=False)
+            procs.append(p)
+        for p in procs:
+            if p.wait() != 0:
+                raise MethodError, "command %s failed!"
+        for i in xrange(self.nranges):
+            data = open(outfiles[i]).read().strip()
             self.logger.debug("for %d it returned %r", i, data)
             dist = float(data)
             classes.append(dist)
-            os.unlink(outfile)
+            os.unlink(outfiles[i])
         tf.close()
         return self.select_winner(classes)
 
