@@ -245,7 +245,7 @@ class KNNMethod(Method, WindowGeneratorMixIn):
         correct = 0
         for line in open(path):
             rawvalues = line.split()
-            example = [float(rawvalue) for rawvalue in rawvalues[:-1]]
+            example = [self.maxcpuvalue * float(rawvalue) for rawvalue in rawvalues[:-1]]
             correctclass_ = int(rawvalues[-1])
             predicted = self.predict(machine, example)
             if predicted == correctclass_:
