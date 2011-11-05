@@ -1,0 +1,6 @@
+[bogdano@tcc159 src]$ for h in n2 n3 n4 n6 seggie; do ./tcc3-test -H $h; done 2>&1 > classification-test-knn-0.log
+INFO: total/correct: 10000/9660
+INFO: total/correct: 10000/9894
+INFO: total/correct: 10000/9764
+INFO: total/correct: 10000/9671
+INFO: total/correct: 10000/9587
