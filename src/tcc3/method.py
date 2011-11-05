@@ -414,17 +414,21 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         for i, ys in enumerate(probly):
             trainfile = tempfile.mktemp(prefix="training.%02d" % (i),
                     dir=self.trained_dir)
-            tf = open("/tmp/svm-%d.txt" % (i), "w")
+            datafile = tempfile.mktemp(prefix="data-file.%02d" % (i),
+                    dir=self.trained_dir)
+            tf = open(datafile, "w")
             for j, y in enumerate(ys):
                 line = self.dump_libsvm_line(problx[j], y)
                 tf.write(line)
             tf.flush()
             args = self.learn_cmd[:]
-            args.append(tf.name)
+            args.append(datafile)
             args.append(trainfile)
             self.logger.debug("running: %r", args)
             system_command(args, show=True)
             tf.close()
+            if os.path.exists(datafile):
+                os.unlink(datafile)
             dbtrained = self._class_file_name(machine, i)
             trainedfiles.append((trainfile, dbtrained))
         for trainfile, dbtrained in trainedfiles:
