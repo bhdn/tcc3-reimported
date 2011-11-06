@@ -253,6 +253,22 @@ class KNNMethod(Method, WindowGeneratorMixIn):
             total += 1
         self.logger.info("total/correct: %d/%d", total, correct)
 
+class KNNCMethod(KNNMethod):
+
+    def __init__(self, config, maindb, traindb):
+        super(KNNCMethod, self).__init__(config, maindb, traindb)
+        self.knn_test_cmd = shlex.split(config.knn_test_command)
+
+    def test(self, machine):
+        testpath = self._test_file_name(machine)
+        trainpath = self.traindb._base_path(machine)
+        cmd = self.knn_test_cmd[:]
+        cmd.append(str(self.windowsize))
+        cmd.append(str(self.neighbours))
+        cmd.append(trainpath)
+        cmd.append(testpath)
+        system_command(cmd, show=True)
+
 class AutoRegressiveMethod(Method, WindowGeneratorMixIn):
 
     def __init__(self, config, maindb, traindb):
@@ -590,6 +606,7 @@ class SVRLibsvmMethod(MulticlassLibsvmMethod):
 
 methods = Registry()
 methods.register("knn", KNNMethod)
+methods.register("knn-c", KNNCMethod)
 methods.register("ar", AutoRegressiveMethod)
 methods.register("tendency", TendencyBasedMethod)
 methods.register("svm", LibsvmMethod)
