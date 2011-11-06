@@ -12,7 +12,7 @@ libvirt-url-suffix = /system
 
 ar-coefs = 10
 
-vmm-type = dummy
+vmm-type = libvirt
 dummy-guests = n2:test-data/workload/workload-n2.txt:host0:131072:1
     n3:test-data/workload/workload-n3.txt:host0:131072:1
     n4:test-data/workload/workload-n4.txt:host0:131072:1
@@ -22,7 +22,7 @@ dummy-hosts = host0 host1
 dummy-hosts-ncpus = host0:2 host1:2
 dummy-hosts-memory = host0:3597132
 
-sched-interval = 0
+sched-interval = 10
 guests = tcc0 tcc1 tcc2 tcc3 tcc4 tcc5
 hosts = tcc159 tcc158 lviv
 hosts-ncpus = tcc159:4 tcc158:2 lviv:2

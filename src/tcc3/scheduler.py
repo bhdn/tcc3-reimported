@@ -102,6 +102,7 @@ class Scheduler(object):
                         self.vmm.migrate(srchost.name, guest.name, dsthost.name)
                     finally:
                         self._vmmlock.release()
+            self._finished.wait(self.interval)
 
     def start(self):
         self._schedule()
