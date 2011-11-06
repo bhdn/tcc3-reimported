@@ -96,4 +96,31 @@ compilação.
 
 \section{Predição}
 
+O primeiro passo ao avaliar as técnicas de predição foi ajustar os
+parâmetros que eram utilizados pelas mesmas. Para o caso de $k$-NN, o
+parâmetro investigado é o número de vizinhos, e no caso de SVM, $C$ e
+$\sigma$, descritos a partir da seção \ref{sec:margenssuaves}. Além disso,
+há outros dois parâmetros que são específicos a este projeto e são
+relacionados à etapa de predição: o tamanho da janela utilizada para
+treinamento e o tamanho da janela utilizada para definir o uso de CPU
+futuro.
 
+Decidiu-se por adotar a seguinte estratégia ao escolher os parâmetros:
+primeiro foram utilizados para os parâmetros de valores futuros e tamanho
+de janela valores que podem ser considerados “ideais” para o problema deste
+projeto. Tendo esses parâmetros fixos, foi possível fazer a busca pelos
+melhores parâmetros para $k$-NN e SVM. Então, tendo os parâmetros
+específicos de cada técnica, foram feitos testes com diferentes tamanhos de
+janela para treinamento e futuro.
+
+% me dei conta agora que a definição de “futuro” deveria estar associada à
+% influência que realmente o valor vai ter no vetor de características
+
+
+
+\section{Consolidação}
+
+\section{Aspectos não explorados neste trabalho}
+
+% - a definição de valor “futuro”, talvez escolher o valor máximo faria
+%   mais sentido.
