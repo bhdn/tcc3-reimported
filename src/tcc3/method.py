@@ -265,6 +265,7 @@ class KNNCMethod(KNNMethod):
         cmd = self.knn_test_cmd[:]
         cmd.append(str(self.windowsize))
         cmd.append(str(self.neighbours))
+        cmd.append(machine)
         cmd.append(trainpath)
         cmd.append(testpath)
         system_command(cmd, show=True)

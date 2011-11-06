@@ -73,7 +73,8 @@ float *load_examples(const char *path, size_t *found)
 }
 
 void test(float *trainvalues, size_t traincount, float *testvalues,
-		size_t testcount, size_t windowsize, size_t k)
+		size_t testcount, size_t windowsize, size_t k,
+		size_t *out_total, size_t *out_correct)
 {
 	size_t testi, traini, i;
 	float powsum, dist, class_, correct_class;
@@ -142,15 +143,17 @@ void test(float *trainvalues, size_t traincount, float *testvalues,
 		total++;
 	}
 
-	printf("total/correct: %zu/%zu\n", total, correct_total);
+	*out_total = total;
+	*out_correct = correct_total;
 }
 
 int main(int argc, char *argv[])
 {
-	size_t traincount, testcount, windowsize, k;
+	size_t traincount, testcount, windowsize, k, total, correct;
+	char *host;
 
-	if (argc < 5) {
-		fprintf(stderr, "%s <windowsize> <k> <trainfile> "
+	if (argc < 6) {
+		fprintf(stderr, "%s <windowsize> <k> <host> <trainfile> "
 				"<testfile>\n", argv[0]);
 		return 1;
 	}
@@ -165,11 +168,15 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+	host = argv[3];
 
-	float *trainvalues = load_examples(argv[3], &traincount);
-	float *testvalues = load_examples(argv[4], &testcount);
+	float *trainvalues = load_examples(argv[4], &traincount);
+	float *testvalues = load_examples(argv[5], &testcount);
 
-	test(trainvalues, traincount, testvalues, testcount, windowsize, k);
+	test(trainvalues, traincount, testvalues, testcount, windowsize, k,
+			&total, &correct);
+
+	printf("host %s total/correct: %zu/%zu\n", host, total, correct);
 
 	return 0;
 }
