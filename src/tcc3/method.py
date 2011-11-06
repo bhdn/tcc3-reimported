@@ -543,7 +543,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         perc = float(matches)/total*100.0
         self.logger.debug("MATCHES: %d / TOTAL: %d, %f%%", matches, total,
                 perc)
-        return "%f%%" % (perc)
+        return "host %s: %f%%" % (machine, perc)
             
 class LibsvmDumperMixIn:
 
