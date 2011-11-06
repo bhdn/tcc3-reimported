@@ -124,6 +124,7 @@ void test(float *trainvalues, size_t traincount, float *testvalues,
 			candidate = pq.top();
 			pq.pop();
 			counter[candidate->class_] = 1 + counter[candidate->class_];
+			delete candidate;
 		}
 
 		winner_class = -1;

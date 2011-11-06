@@ -7,8 +7,8 @@ min=0	#min value
 width=(max-min)/n	#interval width
 #function used to map a value to the intervals
 hist(x,width)=width*floor(x/width)+width/2.0
-#set term postscript font 7 portrait
-set term png
+set term postscript font 7 portrait
+#set term png
 set size 0.7,0.4
 set xrange [min:max]
 set yrange [0:]
