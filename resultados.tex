@@ -29,6 +29,7 @@ máquinas do ambiente. Os histogramas das outras máquinas estão no apêndice
 \label{fig:prehistn4}
 \end{figure}
 
+
 A figura~\ref{fig:predispn4} mostra a dispersão dos valores de CPU durante
 todo o período de observação, enquanto que a figura~\ref{fig:disp4hn4}
 mostra o o comportamento durante um período de quatro horas, aonde é
@@ -36,7 +37,7 @@ possível observar mais claramente cada ponto observado. Nota-se que a
 transição entre os valores é pouco suave. O valor do desvio padrão para
 cada máquina está disposto no quadro \ref{quadro:desviopadrao}.
 
-\begin{table}
+\begin{table}[htp]
 \centering
 \hspace{-2cm} % FIXME arrumar no template
 \quadro{Média e desvio padrão das máquinas observadas}\label{quadro:desviopadrao}
@@ -53,9 +54,9 @@ seggie 	&	19,9159114989 & 32,068825708 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[htp]
+\begin{figure}
 \centering
-\includegraphics[width=0.8\textwidth]{src/test-data/workload/dispersion-n4.png}
+\includegraphics[width=0.7\textwidth]{src/test-data/workload/dispersion-n4.png}
 \figinfo{Representação dos valores de uso de CPU da máquina n4}
 \label{fig:predispn4}
 \end{figure}
@@ -80,9 +81,19 @@ moderado de CPU.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=0.8\textwidth]{src/test-data/workload/dispersion-4h-n4.png}
+\includegraphics[width=0.7\textwidth]{src/test-data/workload/dispersion-4h-n4.png}
 \figinfo{Representação dos valores de uso de CPU da máquina n4 durante um
 período de 4 horas}
 \label{fig:disp4hn4}
 \end{figure}
+
+É possível observar também na figura \ref{fig:predispn4}, e também nas
+figuras \ref{fig:appdispn2}, \ref{fig:appdispn6} e \ref{fig:appdispseggie} no
+apêndice, que existe um período de intenso uso de CPU em torno do ponto
+30000. Isso deve-se a uma extensa tarefa de recompilação que durou
+aproximadamente três dias e utilizou várias máquinas do ambiente de
+compilação.
+
+\section{Predição}
+
 
