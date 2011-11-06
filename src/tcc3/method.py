@@ -342,6 +342,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
         self.ntest = int(config.svm_test)
         self.trained_dir = shlex.split(config.svm_trained_dir)[0]
         self.test_dir = shlex.split(config.svm_test_dir)[0]
+        self.cmd_params = shlex.split(config.svm_params)
         self.logger = logging.getLogger("tcc3.method.svm")
         self.logger.debug("created SVM instance with windowsize = %d",
                 self.windowsize)
@@ -422,6 +423,7 @@ class SVMBaseMethod(Method, WindowGeneratorMixIn):
                 tf.write(line)
             tf.flush()
             args = self.learn_cmd[:]
+            args.extend(self.cmd_params)
             args.append(datafile)
             args.append(trainfile)
             self.logger.debug("running: %r", args)

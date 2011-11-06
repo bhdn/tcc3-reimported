@@ -31,7 +31,7 @@ hosts-memory = tcc159:3597132 tcc158:4023472 lviv:4023472
 
 skip-zeroes = 1
 vmstat-fields = id
-learning-method = knn
+learning-method = svm
 knn-number-neighbours = 10
 knn-test = 10000
 knn-train = 10000
@@ -46,12 +46,11 @@ cpu-usage-ranges = 4
 svm-samples = 20000
 svm-test = 70000
 
-params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s
-
-libsvm-learn-command = ../../libsvm/libsvm-3.1/svm-train %(params)s
+svm-params = -s %(s)s -t %(t)s -c %(C)s -g %(gamma)s
+libsvm-learn-command = ../../libsvm/libsvm-3.1/svm-train
 libsvm-classify-command = ../../libsvm/libsvm-3.1/svm-predict
 
-svmlight-learn-command = ../../libsvm/svm_learn %(params)s
+svmlight-learn-command = ../../libsvm/svm_learn
 svmlight-classify-command = ../../libsvm/svm_classify
 
 svm-test-dir = ./databases/svmlight-test/
