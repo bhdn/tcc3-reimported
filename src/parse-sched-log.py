@@ -10,7 +10,7 @@ pair_re = re.compile("<guest '(?P<guest>[^']+)'>: <host '(?P<host>[^']+)'>")
 first = None
 all = []
 cur = {}
-if len(argv) > 1:
+if len(sys.argv) > 1:
     f = open(sys.argv[1])
 else:
     f = sys.stdin
