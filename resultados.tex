@@ -147,6 +147,25 @@ espaço de busca e o desempenho utilizando dados da máquina n4.
 
 \subsection{Classificação cruzada}
 
+\begin{table}[htp]
+\centering
+\hspace{-2cm} % FIXME arrumar no template
+\quadro{Desempenho de classificação cruzada, usando SVM}\label{quadro:clacruzada}
+\begin{tabular}{| l | c | c | c | c | c | c |}
+\hline
+\multirow{2}{*}{Máq. classificada} & \multicolumn{6}{c|}{Máquina treinada} \\
+\cline{2-7}
+		& n2      & n3       & n4      	 & n6        & seggie  	 & média   \\
+\hline
+n2      	& 99,39\%  & 98,59\% &   99,51\% &   96,10\% &   96,05\% & 97,93\% \\
+n3      	& 99,82\%  & 99,78\% &   99,91\% &   99,09\% &   99,08\% & 99,54\% \\
+n4      	& 99,39\%  & 99,11\% &   99,68\% &   98,50\% &   98,52\% & 99,04\% \\
+seggie  	& 98,73\%  & 98,06\% &   99,09\% &   99,20\% &   99,38\% & 98,89\% \\
+n6      	& 99,13\%  & 98,30\% &   99,27\% &   99,34\% &   99,36\% & 99,08\% \\
+\hline
+\end{tabular}
+\end{table}
+
 Para o caso de máquinas desconhecidas, como descrito na seção
 \ref{sec:maquinasdesconhecidas}, o software tentará recorrer ao histórico
 de uma máquina especial, chamada \emph{generic}. Assim, para o grupo de
