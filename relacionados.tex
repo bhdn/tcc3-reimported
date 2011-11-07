@@ -62,6 +62,14 @@ originalmente aplicada a textos~\cite{de2005automatic}, reduzindo a
 dimensionalidade. Após isso são utilizadas as redes TDNN (\emph{Time-delay
 Neural Network}) para o treinamento e predição do comportamento dos processos.
 
+O trabalho de \citeonline{yang2003homeostatic} aborda o uso de várias técnicas
+para predição de uso de CPU, e demonstra que a estratégia dinâmica baseada em
+tendêcia de uso teve o melhor desempenho entre as avaliadas. Esta estratégia
+consiste em esperar que o próximo valor de uso de CPU aumente se o anterior
+aumentou, e diminua se o anterior diminuiu. O incremento ou decremento é
+ajustado dinamicamente dependendo da distância do valor atual da média observada
+até então, de maneira a evitar grandes erros quando a série muda de direção.
+
 \section{Quadro comparativo de trabalhos relacionados}
 
 \begin{table}
@@ -83,6 +91,8 @@ Prediction the CPU Availability Of Time-shared Unix System on The Computational
 Grid \cite{wolski2000predicting} & Não & Sim & Não \\
 \hline
 Performance Prediction With Skeletons \cite{sodhi2008performance} & Sim & Não & Não \\
+\hline
+Homeostatic and Tendency\-based CPU Load Predictions \cite{yang2003homeostatic} & Não & Sim & Não \\
 \hline
 
 \end{tabular}

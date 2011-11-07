@@ -50,8 +50,12 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	src/test-data/classification/svm-n3-window-future.pdf \
 	src/test-data/classification/svm-n4-window-future.pdf \
 	src/test-data/classification/svm-n6-window-future.pdf \
-	src/test-data/classification/svm-seggie-window-future.pdf
-
+	src/test-data/classification/svm-seggie-window-future.pdf \
+	src/test-data/scheduler/stats-knn-oneday-used.pdf \
+	src/test-data/scheduler/stats-svm-oneday-host0.pdf \
+	src/test-data/scheduler/stats-knn-oneday-host0.pdf \
+	src/test-data/scheduler/stats-svm-oneday-host1.pdf \
+	src/test-data/scheduler/stats-knn-oneday-host1.pdf
 
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
@@ -82,9 +86,7 @@ apresentacao.pdf: apresentacao.tex \
 	pdflatex $<
 	pdflatex $<
 
-src/test-data/workload/%.pdf: src/test-data/workload/%.eps
-	epstopdf --outfile=$@ $<
-src/test-data/classification/%.pdf: src/test-data/classification/%.eps
+src/test-data/%.pdf: src/test-data/%.eps
 	epstopdf --outfile=$@ $<
 
 src/test-data/workload/workload-%.eps: src/test-data/workload/plot-histogram.gnuplot
@@ -94,6 +96,9 @@ src/test-data/workload/dispersion-%.png: src/test-data/workload/plot-dispersion.
 	cd src/test-data/workload; gnuplot $(<F)
 
 src/test-data/classification/%.eps: src/test-data/classification/plot-stats.gnuplot
+	cd $(<D); gnuplot $(<F)
+
+src/test-data/scheduler/%.eps: src/test-data/scheduler/plot.gnuplot
 	cd $(<D); gnuplot $(<F)
 
 .PHONY: clean

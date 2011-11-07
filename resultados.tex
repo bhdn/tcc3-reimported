@@ -139,16 +139,9 @@ Para o caso de SVM, foram utilizadas os parâmetros sugeridos por
 $2^9$ e $\sigma$ de $^{-15}$ até $2^{3}$.  Após
 isso, foi executada mais uma rodada de testes, desta vez utilizando uma
 faixa de valores mais curta, indo de 0,3125 até 2, tando para $C$ quanto
-para $\sigma$. A figura \ref{fig:loadsimres} apresenta o desempenho desses
-parâmetros para utilizando dados da máquina n4. O script utilizado para testes
-está no apêndice \ref{chap:programasteste}.
-
-\begin{figure}[htp]
-\centering
-\includegraphics[width=0.7\textwidth]{src/test-data/checking-load-simulator/load-simulator-n4.png}
-\figinfo{Sobreposição do uso de CPU observado na MV e o esperado}
-\label{fig:loadsimres}
-\end{figure}
+para $\sigma$. A figura \ref{fig:svmn4} apresenta o desempenho desses parâmetros
+para utilizando dados da máquina n4. O script utilizado para testes está no
+apêndice \ref{chap:programasteste}.
 
 %%% XXX XXX XXX CROSS VALIDATION!!!
 %%% XXX figura de parâmetros da SVM aqui!
@@ -260,7 +253,9 @@ de transmissão pelo menos dez vezes mais rápidas.
 Para que seja possível avaliar o produto final deste projeto, ou seja, a
 consolidação de máquinas virtuais, foi necessário avaliar também a técnica
 utilizada para reproduzir o comportamento de uso de CPU de máquinas virtuais de
-acordo com um histórico de outra máquina, descrita na seção \ref{sec:desemp}.
+acordo com um histórico de outra máquina, descrita na seção \ref{sec:desemp}. O
+teste durou uma hora e utilizou um intervalo de 10 segundos entre cada valor de
+carga.
 
 Para tal, foi implementado um programa em linguage Python que utiliza \emph{busy
 loops} para simular a carga de CPU. Seu código fonte está no apêndice, página
@@ -271,7 +266,12 @@ sobreposto com o histórico que foi obtido da máquina n4. Pode-ser observar que
 mesmo com alguns \emph{outliers}, a maioria dos valores foi corretamente
 simulada.
 
-%%% FIXME colocar a figura aqui!
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{src/test-data/checking-load-simulator/load-simulator-n4.png}
+\figinfo{Sobreposição entre histórico de uso de CPU e observado em MV}
+\label{fig:simworkload}
+\end{figure}
 
 \section{Consolidação}
 
@@ -284,15 +284,16 @@ biblioteca \libvirt{} para acessar as informações de uso de CPU.
 \subsection{Carga simulada}
 
 Para o teste de carga simulada, foram utilizados históricos de carga de CPU que
-foram coletados das máquinas observadas, descritas na seção \ref{sec:coleta}. O
-intervalo de tempo testado foi de um dia. Neste ambiente simulado foram
-adicionados três hospedeiros com 4 CPUs cada. Os testes foram executados na
-máquina tcc159. O quadro \ref{quadro:simula0} apresenta os resultados obtidos.
+foram coletados das máquinas observadas, descritas na seção \ref{sec:coleta}.
+Neste ambiente simulado foram adicionados três hospedeiros com 4 CPUs cada. Os
+testes foram executados na máquina tcc159. O quadro \ref{quadro:simula0}
+apresenta os resultados obtidos para o período de 24 horas, ao passo que o
+quadro \ref{quadro:simula1} apresenta o desempenho para 7 dias.
 
 \begin{table}[htp]
 \centering
 \hspace{-2cm} % FIXME arrumar no template
-\quadro{Resultados do teste dos teste de consolidação simulados}\label{quadro:simula0}
+\quadro{Resultados do teste de consolidação simulado para um dia}\label{quadro:simula0}
 \begin{tabular}{| c | c | c | c | c | c |}
 \hline
 Técnica & Migrações & host0  & host1   & host2 & Dur. Simulação \\
@@ -303,6 +304,54 @@ SVM 	& 120       & 24h    & 3:39:00 & 0h    & 02:23  \\
 \hline
 \end{tabular}
 \end{table}
+
+\begin{table}[htp]
+\centering
+\hspace{-2cm} % FIXME arrumar no template
+\quadro{Resultados do teste de consolidação para sete dias}\label{quadro:simula1}
+\begin{tabular}{| c | c | c | c | c | c |}
+\hline
+Técnica & Migrações & host0  & host1    & host2       & Dur. Simulação \\
+\hline
+$k$-NN 	& 510        & 168h  & 13:00    & 26:14:30    & 1:50:17  \\
+\hline
+SVM 	& 550        & 168h  & 13:30 	& 27:01:30    & 31:46  \\
+\hline
+\end{tabular}
+\end{table}
+
+É possível observar na figura \ref{fig:svmhosts} que durante toda a simulação no
+máximo dois hospedeiros foram utilizados ao mesmo tempo. Além disso, o
+comportamento do escalonador foi praticamente idêntico para as duas técnicas
+testadas, e mesmo variando o número de hospedeiros disponíveis para migração de
+3 até 6, a ocupação de hospedeiros continou inalterada.
+
+\begin{figure}[htp]
+\centering
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-svm-oneday-used.pdf}}
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-knn-oneday-used.pdf}}
+\figinfo{Número de hospedeiros utilizados para SVM e $k$-NN}
+\label{fig:svmhosts}
+\end{figure}
+
+Observou-se que, das 2856 observações feitas no teste de um dia para $k$-NN, 232
+momentos, ou seja, uma hora e dez minutos de tempo de execução, tiveram
+hospedeiros acomodando máquinas virtuais com demanda maior que poderia ser
+comportada. No caso de SVM, o comportamento foi ligeiramente menor, apresentando
+220 situações de sobrecarga. A figura \ref{fig:cpuhost0} apresenta os pontos de
+demanda de CPU para o hospedeiro host0, sendo que o valor limite é de 200\%.
+
+\begin{figure}[htp]
+\centering
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-svm-oneday-host0.pdf}}
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-knn-oneday-host0.pdf}}
+\figinfo{Demanda de CPU para o hospedeiro host0 para SVM e $k$-NN}
+\label{fig:cpuhost0}
+\end{figure}
 
 \section{Aspectos não explorados neste trabalho}
 
