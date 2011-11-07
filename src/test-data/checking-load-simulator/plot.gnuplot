@@ -1,3 +1,3 @@
 set terminal png
 set output "output.png"
-plot "workloadsmaller.txt" using 1, "steadysmaller.txt" using 1
+plot "workloadsmaller.txt" using 1 title "Carga simulada", "steadysmaller.txt" using 1

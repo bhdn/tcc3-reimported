@@ -176,7 +176,7 @@ para o ambiente observado. No quadro \ref{quadro:clacruzada}, que apresenta
 os desempenhos obtidos, é possível observar que a máquina n4 possui o
 melhor desempenho de classficação.
 
-\section{Testes virtualização}
+\section{Testes de virtualização}
 
 \subsection{Ambiente de testes}
 
@@ -195,16 +195,44 @@ megabytes de RAM.
 
 Para conhecer o tempo esperado de uma migração entre uma máquina hospedeira e
 outra, foram feitas 50 migrações de máquinas virtuais, em ambos os sentidos.
-Observou-se que o tempo médio foi de 8,9 segundos, com desvio padrão de 0,8
-segundos.
+Observou-se que o tempo médio de migração foi de 8,9 segundos, com desvio padrão
+de 0,8 segundos.
 
 Deve-se levar em consideração que as máquinas virtuais utlizadas para este e
 outros testes no trabalho têm apenas 128MB de memória RAM, o que é uma
 quantidade de memória muito pequena para os padrões de uso atuais. Porém,
-espera-se que em casos aonde as máquinas virtuais tenham mais memória seja
-utilizada uma rede \emph{gigabit} (1000BASE-TX).
+espera-se que em casos aonde as máquinas virtuais tenham mais memória, seja
+utilizada uma rede do tipo \emph{gigabit} (1000BASE-TX), que permite ter taxas
+de transmissão pelo menos dez vezes mais rápidas.
+
+\subsection{Simulação de carga}\label{sec:loadsim}
+
+Para que seja possível avaliar o produto final deste projeto, ou seja, a
+consolidação de máquinas virtuais, foi necessário avaliar também a técnica
+utilizada para reproduzir o comportamento de uso de CPU de máquinas virtuais de
+acordo com um histórico de outra máquina, descrita na seção \ref{sec:desemp}.
+
+Para tal, foi implementado um programa em linguage Python que utiliza \emph{busy
+loops} para simular a carga de CPU. Seu código fonte está no apêndice, página
+\pageref{fig:progsimload}.
+
+A figura \ref{fig:simworkload} apresenta o uso de CPU medido da máquina virtual
+sobreposto com o histórico que foi obtido da máquina n4. Pode-ser observar que,
+mesmo com alguns \emph{outliers}, a maioria dos valores foi corretamente
+simulada.
+
+%%% FIXME colocar a figura aqui!
 
 \section{Consolidação}
+
+Para a etapa de consolidação, foram feitos dois tipos de testes. Um simulado, em
+que históricos de máquinas são utilizados para fornecer informações de uso de
+CPU ao software de consolidação que faz parte deste projeto. O outro tipo de
+teste consiste em simular a carga em máquinas virtuais reais, utilizando a
+biblioteca \libvirt{} para acessar as informações de uso de CPU.
+
+\subsection{Carga simulada}
+
 
 
 
