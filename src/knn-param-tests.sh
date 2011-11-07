@@ -1,13 +1,7 @@
 #!/bin/bash -ex
-
-hostname
-date
-
-for N in {2..20}; do
+for N in {2..15} 30 40 50 75 100 150; do
 	echo "***** N: $N"
-
 	rm -rf databases/
-
 	for h in n2 n3 n4 n6 seggie; do
 		./tcc3-collect -o "tcc3.knn-number-neighbours=$N" \
 			-H $h vmstat-$h-partial.log
@@ -18,7 +12,6 @@ for N in {2..20}; do
 	done 
 	wait
 	for h in n2 n3 n4 n6 seggie; do
-		echo "testing host $h"
 		./tcc3-test -o "tcc3.knn-number-neighbours=$N" \
 			-H $h &
 	done 
