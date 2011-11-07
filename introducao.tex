@@ -53,20 +53,22 @@ que está executando dentro dessas máquinas. Porém, o caso mais comum em
 ambientes comerciais trata-se de servidores de aplicações web e banco de
 dados.} em um mesmo computador. 
 
-Assim, este trabalho propõe uma metodologia baseada em técnicas de
+Assim, este trabalho apresenta um software que utliza técnicas de
 aprendizado de máquina para prever o comportamento de máquinas
 virtuais em um ambiente de virtualização baseado em \libvirt{}, tendo como
-objetivo a minimização do uso de recursos usados em parque computacional,
-quando possível. Serão avaliadas as técnicas de Máquinas de Vetores de
-Suporte e $k$-NN para a predição e a técnica de \emph{first fit} para a
-alocação. Para avaliar a metodologia será utilizado um histórico de uso de
-CPU em um ambiente de compilação de software que faz parte do projeto
-\emph{Mandriva Linux\footnote{http://www.mandriva.com/}}.
+objetivo a minimização (consolidação) do uso de recursos usados em parque
+computacional, quando possível. Serão avaliadas as técnicas de Máquinas de
+Vetores de Suporte e $k$-NN para a predição e a técnica de \emph{first fit} para
+a alocação. Para avaliar a metodologia será utilizado um histórico de uso de CPU
+em um ambiente de compilação de software que faz parte do projeto \emph{Mandriva
+Linux\footnote{http://www.mandriva.com/}}.
 
 Na seção \ref{sec:aprendizado} é apresentado o conceito de aprendizado de
-máquina, com uma descrição detalhada de Máquinas de Vetores de Suporte na
-seção \ref{sec:svm}. A seção \ref{sec:relacionados} apresenta trabalhos com
-objetivos e/ou técnicas relacionadas.Os conceitos relacionados às tecnologias
-de virtualização são descritos na seção \ref{sec:virt}, com uma descrição à
+máquina, com uma descrição detalhada de Máquinas de Vetores de Suporte na seção
+\ref{sec:svm}. A seção \ref{sec:relacionados} apresenta trabalhos com objetivos
+e/ou técnicas relacionadas.Os conceitos relacionados às tecnologias de
+virtualização são descritos na seção \ref{sec:virt}, com uma descrição à
 ferramenta \libvirt{} na seção \ref{sec:libvirt}. Então é apresentada a
-metodologia de desenvolvimento do projeto na seção \ref{sec:meto}.
+metodologia de desenvolvimento do projeto na seção \ref{sec:meto}. Finalmente,
+na seção \ref{sec:resultados} são apresentados os testes realizados e resultados
+obtidos.
