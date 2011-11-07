@@ -10,7 +10,11 @@ pair_re = re.compile("<guest '(?P<guest>[^']+)'>: <host '(?P<host>[^']+)'>")
 first = None
 all = []
 cur = {}
-for line in open(sys.argv[1]):
+if len(argv) > 1:
+    f = open(sys.argv[1])
+else:
+    f = sys.stdin
+for line in f:
     match = is_re.search(line)
     if match:
         guest = match.group("guest")
@@ -24,7 +28,9 @@ for line in open(sys.argv[1]):
     found = pair_re.findall(line)
     if found:
         usage = {}
+        used = set()
         for guest, host in found:
+            used.add(host)
             if guest in cur:
                 if host in usage:
                     usage[host] += cur[guest]
@@ -32,3 +38,4 @@ for line in open(sys.argv[1]):
                     usage[host] = cur[guest]
         for host, perc in usage.iteritems():
             print host, perc
+        print "used", len(used)
