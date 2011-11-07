@@ -55,7 +55,14 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	src/test-data/scheduler/stats-svm-oneday-host0.pdf \
 	src/test-data/scheduler/stats-knn-oneday-host0.pdf \
 	src/test-data/scheduler/stats-svm-oneday-host1.pdf \
-	src/test-data/scheduler/stats-knn-oneday-host1.pdf
+	src/test-data/scheduler/stats-knn-oneday-host1.pdf \
+	src/test-data/scheduler/stats-tendency-oneday-host0.pdf \
+	src/test-data/scheduler/stats-tendency-oneday-used.pdf \
+	src/test-data/scheduler/stats-svm-real-oneday-tcc159.pdf \
+	src/test-data/scheduler/stats-svm-real-oneday-used.pdf \
+	src/test-data/scheduler/stats-svm-manual-oneday-tcc159.pdf \
+	src/test-data/scheduler/stats-svm-manual-oneday-tcc158.pdf \
+	src/test-data/scheduler/stats-svm-manual-oneday-used.pdf
 
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<

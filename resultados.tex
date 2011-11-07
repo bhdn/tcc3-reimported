@@ -353,7 +353,76 @@ demanda de CPU para o hospedeiro host0, sendo que o valor limite é de 200\%.
 \label{fig:cpuhost0}
 \end{figure}
 
-\section{Aspectos não explorados neste trabalho}
+Vendo que o desempenho entre $k$-NN e SVM foi praticamente o mesmo, optou-se por
+implementar a técnica baseada em tendência avaliada por
+\citeonline{yang2003homeostatic}, tentando observar alguma variação de
+comportamento. O resultado observado foi que aconteceram 330 migrações (em
+comparação às 98 de $k$-NN), porém, com apenas 89 momentos de sobrecarga. Este
+comportamento pode ser atribuído ao fato de que esta estratégia prevê apenas o
+valor para o próximo item da série, aumentando o erro em leituras futuras e
+também aumentando a quantidade de migrações, pois a perspectiva muda a cada nova
+leitura. Por outro lado, a maior quantidade de migrações favorece um melhor
+ajuste às demandas.
 
-% - a definição de valor “futuro”, talvez escolher o valor máximo faria
-%   mais sentido.
+\begin{figure}[htp]
+\centering
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-tendency-oneday-used.pdf}}
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-tendency-oneday-host0.pdf}}
+\figinfo{Uso de hospedeiros global e demanda de CPU para o hospedeiro host0 com
+a técnica baseada em tendência}
+\label{fig:cpuhost0}
+\end{figure}
+
+\subsection{Carga real}
+
+Para este teste foi repdoduzido um histórico baseado nas máquinas observadas,
+com momentos distribuídos por 16 máquinas virtuais. A figura \ref{fig:cpuhost1}
+apresenta a sobrecarga e quantidade de máquinas utilizadas. Nela é possível
+observar que não há sobrecarga (a máquina tcc159 tem 4 processadores e assim
+suporta até 400\% de demanda de CPU), mesmo acomodando durante a maioria do
+tempo 16 hospedeiros. Além disso foram observadas apenas duas migrações entre
+hóspedes.
+
+\begin{figure}[htp]
+\centering
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-svm-real-oneday-used.pdf}}
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-svm-real-oneday-tcc159.pdf}}
+\figinfo{Uso de hospedeiros global e demanda de CPU para o hospedeiro tcc159 (SVM)}
+\label{fig:cpuhost1}
+\end{figure}
+
+Este comportamento evidenciou um problema na coleta de informações de uso de CPU
+a partir da \libvirt{}. A função utilizada para obter uso de CPU (e recomendada
+pelos desenvolvedores da
+libvirt\footnote{http://people.redhat.com/\~rjones/virt-top/faq.html\#calccpu}),
+representa apenas o tempo de CPU do hóspede que foi disponibilizado para
+executar o hospedeiro. Desta maneira, se um hóspede tem 2 processadores e 4
+hospedeiros em \emph{busy loop}, cada um deles estará usando apenas 50\% de
+tempo de CPU real.
+
+Assim sendo, não foi possível realizar um teste de carga completo e totalmente
+automatizado em um ambiente real. Nos feitos em situações aonde o número de
+hóspedes era igual ou pouco maior que o de núcleos do hospedeiro, foi possível
+observar o funcionamento do projeto. A figura \ref{fig:cpuhost2} apresenta as
+demandas de CPU para cada hospedeiro e o período em que houve demanda maior que
+a capacidade da máquina tcc159, causando um pico na máquina tcc158, até que a
+demanda cessa e as máquinas virtuais são migradas de volta para a máquina
+tcc159, permitindo assim que tcc158 entre em modo de consumo de baixa energia
+enquanto não é utilizada.
+
+\begin{figure}[htp]
+\centering
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-svm-manual-oneday-used.pdf}}
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-svm-manual-oneday-tcc159.pdf}}
+\subfigure{
+\includegraphics[width=0.45\textwidth]{src/test-data/scheduler/stats-svm-manual-oneday-tcc158.pdf}}
+\figinfo{Uso de hospedeiros global e demanda de CPU para tcc159 e tcc158 (SVM)}
+\label{fig:cpuhost2}
+\end{figure}
+
