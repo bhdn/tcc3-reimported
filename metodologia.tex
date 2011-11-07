@@ -323,16 +323,21 @@ utilizado para o trainamento desta máquina especial.
 Para a etapa de predição, são utilizados os métodos de classificação das
 técnicas de aprendizado de máquina que foram descritas acima. O resultado da
 classificação, para cada máquina virtual, irá consistir em uma faixa de
-percentual de uso de CPU. Esta faixa então é usada para calcular o
-potencial uso total de CPU para o próximo intervalo de tempo (intervalo este
-que é diferente durante os testes) e então deve-se decidir se cada máquina
-virtual deve permanecer no mesmo hospedeiro ou ser migrada para outra com maior
-disponibilidade. Para esta decisão é utilizada a estratégia de \emph{first
-fit}, que procura alocar novos objetos no primeiro espaço mais próximo do
-começo do espaço disponível~\cite{yao1980new}. Opta-se por utilizar esta
-técnica de empacotamento em razão desta ser mais conservadora se comparada a
-\emph{first fit decreasing} ou outras técnicas, pois reordenar a lista de
-máquinas virtuais pode resultar em desnecessárias migrações entre hospedeiros.
+percentual de uso de CPU. Esta faixa então é usada para calcular o potencial
+uso total de CPU para o próximo intervalo de tempo (intervalo este que é
+diferente durante os testes) e então deve-se decidir se cada máquina virtual
+deve permanecer no mesmo hospedeiro ou ser migrada para outra com maior
+disponibilidade. Para esta decisão é utilizada a estratégia de \emph{next\-fit
+increasing}\cite{kou1977multidimensional}, que ordena os elementos a serem
+empacotados e então acomoda-os de acordo com sua ordenação e capacidade do
+recipiente. Esta ténica foi escolhida por ser usada e avaliada por
+\citeonline{Ferreto20111027} para o problema de acomodação de máquinas
+virtuais.
+
+O critério de ordenação para o algoritmo de empacotamento será o número de
+núcleos de processamento e memória RAM total. Para que haja estabilidade no
+algoritmo de ordenação, será utilizado também um terceiro critério que é o nome
+do hóspede.
 
 Após o empacotamento das previsões na lista de hospedeiros, aquelas
 máquinas virtuais que não estiverem mais em seus hospedeiros originais
@@ -390,42 +395,6 @@ observados no ambiente de compilação descrito anteriormente.  Estes programas
 são implementados utilizando laços de repetição que executarão operações
 simples (também chamados de \emph{busy loops}), como implementado também por
 \citeonline{dinda2000realistic}.
-
-Finalmente, são avaliados diferentes valores em parâmetros utilizados
-pelo sistema a ser implementado, a saber:
-
-\begin{itemize}
-  \item no caso de $k$-NN, o valor de $k$ é alterado, seguindo as
-        recomendações de \citeonline{hall2008choice};
-   \item o tamanho da janela usada para treinamento e predição, como sugerido
-        por \citeonline{frank2001time};
-   \item no caso de SVM, o parâmetros $C$, como descrito por \citeonline{ben2010user};
-   \item no caso de simulação sem ambiente completo, o número de hospedeiros disponíveis;
-   \item a quantidade de faixas dividindo o percentual de uso de CPU para
-         uso no atributo categórico da etapa de classificação;
-% o que mais?
-\end{itemize}
-
-% FIXME não sei que técnicas usar aqui
-% A mudança no valor destes parâmetros serão avaliados por meio das seguintes
-% métricas:
-% \begin{itemize}
-%   \item
-%   \item bar
-% \end{itemize}
-
-Os resultados para cada combinação de parâmetros são considerados
-aceitáveis ou não de acordo com a aderência aos seguintes o
-objetivos/questionamentos:
-\begin{itemize}
-  \item Em momentos de baixo uso de tempo de CPU, foi possível manter as
-        máquinas virtuais em um conjunto menor de hospedeiros? (Permitindo
-        assim que estas máquinas entrem em estados de menor consumo de
-        energia e menor gasto com manutenção.)
-  \item Em momentos de alto uso de CPU, as máquinas virtuais mais ativas
-        foram migradas para hospedeiros mais ociosos? (Evitando assim a
-        degradação do desempenho em outros processos.)
-\end{itemize}
 
 \section{Detalhes de implementação}
 

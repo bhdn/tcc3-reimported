@@ -73,7 +73,7 @@ ferramentas fazem uso apenas de uma CPU, resultando em leituras de CPU em
 torno de 25\%.
 
 Após o estágio de preparação o software é compilado. A maioria dos
-códigos-fonte é preparada para compilar código parelelamente, permitindo
+códigos-fonte é preparada para compilar código paralelamente, permitindo
 assim fazer uso de todas as CPUs disponíveis, chegando aos 100\% de
 utilização. Finalmente, quando a tarefa de compilação é concluída os
 binários gerados são comprimidos em um arquivo, resultando novamente no uso
@@ -214,7 +214,7 @@ máquinas tiveram seus históricos preditos por todas as outras máquinas, de
 maneira a identificar qual delas tem melhor capacidade de generalização
 para o ambiente observado, e assim cumprir o papel de \emph{generic}. No quadro
 \ref{quadro:clacruzada}, que apresenta os desempenhos obtidos, é possível
-observar que a máquina n4 possui o melhor desempenho de classficação.
+observar que a máquina n4 possui o melhor desempenho de classificação.
 
 \section{Testes de virtualização}
 
@@ -241,7 +241,7 @@ outra, foram feitas 50 migrações de máquinas virtuais, em ambos os sentidos.
 Observou-se que o tempo médio de migração foi de 8,9 segundos, com desvio padrão
 de 0,8 segundos.
 
-Deve-se levar em consideração que as máquinas virtuais utlizadas para este e
+Deve-se levar em consideração que as máquinas virtuais utilizadas para este e
 outros testes no trabalho têm apenas 128MB de memória RAM, o que é uma
 quantidade de memória muito pequena para os padrões de uso atuais. Porém,
 espera-se que em casos aonde as máquinas virtuais tenham mais memória, seja
@@ -257,7 +257,7 @@ acordo com um histórico de outra máquina, descrita na seção \ref{sec:desemp}
 teste durou uma hora e utilizou um intervalo de 10 segundos entre cada valor de
 carga.
 
-Para tal, foi implementado um programa em linguage Python que utiliza \emph{busy
+Para tal, foi implementado um programa em linguagem Python que utiliza \emph{busy
 loops} para simular a carga de CPU. Seu código fonte está no apêndice, página
 \pageref{fig:progsimload}.
 
@@ -324,7 +324,7 @@ SVM 	& 550        & 168h  & 13:30 	& 27:01:30    & 31:46  \\
 máximo dois hospedeiros foram utilizados ao mesmo tempo. Além disso, o
 comportamento do escalonador foi praticamente idêntico para as duas técnicas
 testadas, e mesmo variando o número de hospedeiros disponíveis para migração de
-3 até 6, a ocupação de hospedeiros continou inalterada.
+3 até 6, a ocupação de hospedeiros continuou inalterada.
 
 \begin{figure}[htp]
 \centering
@@ -377,7 +377,7 @@ a técnica baseada em tendência}
 
 \subsection{Carga real}
 
-Para este teste foi repdoduzido um histórico baseado nas máquinas observadas,
+Para este teste foi reproduzido um histórico baseado nas máquinas observadas,
 com momentos distribuídos por 16 máquinas virtuais. A figura \ref{fig:cpuhost1}
 apresenta a sobrecarga e quantidade de máquinas utilizadas. Nela é possível
 observar que não há sobrecarga (a máquina tcc159 tem 4 processadores e assim
