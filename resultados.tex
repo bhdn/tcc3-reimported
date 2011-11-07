@@ -1,6 +1,6 @@
 \chapter{Testes e observações}\label{sec:resultados}
 
-\section{Coleta dos dados}
+\section{Coleta dos dados}\label{sec:coleta}
 
 O dados foram coletados de cinco máquinas do ambiente de compilação do
 projeto Mandriva Linux entre os dias 15 de março de 2011 e 11 de abril de
@@ -124,26 +124,73 @@ Para os testes de $k$ de $k$-NN, foi utilizado um programa escrito em
 \emph{shell script} que executa a etapa de treinamento e predição para
 valores de $k$ que vão de 2 até 20 e também para 30, 40, 50, 75, 100 e 150
 vizinhos. O script utilizado está no apêndice \ref{chap:programasteste}. A
-figura \ref{fig:XXXX} mostra a taxa de acerto de acordo com o valor de $k$
+figura \ref{fig:knnn4} mostra a taxa de acerto de acordo com o valor de $k$
 para a máquina n4.
 
-%%%XXX figura de knn aqui!!
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{src/test-data/classification/knn-n4.pdf}
+\figinfo{Distribuição dos valores de uso de CPU da máquina n4}
+\label{fig:knnn4}
+\end{figure}
 
 Para o caso de SVM, foram utilizadas os parâmetros sugeridos por
 \citeonline{hsu2003practical}, com valores de $C$ indo de $2^{-5}$ até
-$2^9$ e $\sigma$ de $^{-15}$ até $2^{3}$. A figura \ref{fig:XXXX} apresenta
-o desempenho desses parâmetros para utilizando dados da máquina n4. Após
+$2^9$ e $\sigma$ de $^{-15}$ até $2^{3}$.  Após
 isso, foi executada mais uma rodada de testes, desta vez utilizando uma
 faixa de valores mais curta, indo de 0,3125 até 2, tando para $C$ quanto
-para $\sigma$. O script utilizado para testes está no apêndice
-\ref{chap:programasteste}.
+para $\sigma$. A figura \ref{fig:loadsimres} apresenta o desempenho desses
+parâmetros para utilizando dados da máquina n4. O script utilizado para testes
+está no apêndice \ref{chap:programasteste}.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.7\textwidth]{src/test-data/checking-load-simulator/load-simulator-n4.png}
+\figinfo{Sobreposição do uso de CPU observado na MV e o esperado}
+\label{fig:loadsimres}
+\end{figure}
 
 %%% XXX XXX XXX CROSS VALIDATION!!!
 %%% XXX figura de parâmetros da SVM aqui!
 
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{src/test-data/classification/svm-n4-finer.pdf}
+\figinfo{Espaço de busca de $C$ e $\sigma$ para SVM}
+\label{fig:svmn4}
+\end{figure}
+
 Finalmente, foram feitos os testes utilizando diferentes tamanhos de janela
-para trainamento e valores futuros. A figura \ref{fig:XXXX} apresenta o
+para trainamento e valores futuros. A figura \ref{fig:svmwindowfuturen4} apresenta o
 espaço de busca e o desempenho utilizando dados da máquina n4.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.8\textwidth]{src/test-data/classification/svm-n4-window-future.pdf}
+\figinfo{Espaço de busca de tamanhos de janela para classificação e futuro para
+SVM}
+\label{fig:svmwindowfuturen4}
+\end{figure}
+
+O quadro \ref{quadro:clageral} apresenta o desempenho observado para cada
+máquina utilizando os parâmetros escolhidos para uso na etapa de consolidação.
+
+\begin{table}[htp]
+\centering
+\hspace{-2cm} % FIXME arrumar no template
+\quadro{Desempenho de classificação para SVM e $k$-NN}\label{quadro:clageral}
+\begin{tabular}{| l | c | c | c | c | c | c |}
+\hline
+\multirow{2}{*}{Técnica} & \multicolumn{6}{c|}{Máquina treinada} \\
+\cline{2-7}
+		& n2      & n3       & n4      	 & n6        & seggie  	 & média   \\
+\hline
+SVM     	& 99,32\%  & 99,78\% &   99,68\% &   99,34\% &   99,20\% & 99,46\% \\
+\hline
+$k$-NN  	& 97,22\%  & 99,04\% &   97,60\% &   96,88\% &   95,89\% & 97,33\% \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Classificação cruzada}
 
@@ -172,20 +219,23 @@ de uma máquina especial, chamada \emph{generic}. Assim, para o grupo de
 máquinas estudado neste projeto, foi feito um teste em que todas as
 máquinas tiveram seus históricos preditos por todas as outras máquinas, de
 maneira a identificar qual delas tem melhor capacidade de generalização
-para o ambiente observado. No quadro \ref{quadro:clacruzada}, que apresenta
-os desempenhos obtidos, é possível observar que a máquina n4 possui o
-melhor desempenho de classficação.
+para o ambiente observado, e assim cumprir o papel de \emph{generic}. No quadro
+\ref{quadro:clacruzada}, que apresenta os desempenhos obtidos, é possível
+observar que a máquina n4 possui o melhor desempenho de classficação.
 
 \section{Testes de virtualização}
 
 \subsection{Ambiente de testes}
 
 O ambiente utilizado para testes de virtualização é composto por três máquinas
-hospedeiras, uma tendo processador Intel Core i3 550, \emph{clock} de 3GHz e 4
-gigabytes de memória RAM, e as outras duas máquinas com processador Intel
-Pentium Dual-Core, \emph{clock} de 3GHz e 4 gigabytes de memória RAM. A rede de
-dados utilizada para conectar estas máquinas era do tipo 100BASE-TX, que pode
-transmitir dados a 100 megabits por segundo\footnote{http://standards.ieee.org/about/get/802/802.3.html}.
+hospedeiras, a máquina tcc159 tendo processador Intel Core i3 550, \emph{clock}
+de 3GHz e 4 gigabytes de memória RAM, e as outras duas máquinas, lviv e tcc158,
+com processador Intel Pentium Dual-Core, \emph{clock} de 3GHz e 4 gigabytes de
+memória RAM. A rede de dados utilizada para conectar estas máquinas era do tipo
+100BASE-TX, que pode transmitir dados a 100 megabits por
+segundo\footnote{http://standards.ieee.org/about/get/802/802.3.html}.
+
+%% FIXME descrever o uso de NFS, bridge e essas coisas!!!!!
 
 As máquinas virtuais eram instalações mínimas de Mandriva Linux, com imagens de
 disco ocupando 1 gigabyte, emulando máquinas com processador i686 e 128
@@ -233,8 +283,26 @@ biblioteca \libvirt{} para acessar as informações de uso de CPU.
 
 \subsection{Carga simulada}
 
+Para o teste de carga simulada, foram utilizados históricos de carga de CPU que
+foram coletados das máquinas observadas, descritas na seção \ref{sec:coleta}. O
+intervalo de tempo testado foi de um dia. Neste ambiente simulado foram
+adicionados três hospedeiros com 4 CPUs cada. Os testes foram executados na
+máquina tcc159. O quadro \ref{quadro:simula0} apresenta os resultados obtidos.
 
-
+\begin{table}[htp]
+\centering
+\hspace{-2cm} % FIXME arrumar no template
+\quadro{Resultados do teste dos teste de consolidação simulados}\label{quadro:simula0}
+\begin{tabular}{| c | c | c | c | c | c |}
+\hline
+Técnica & Migrações & host0  & host1   & host2 & Dur. Simulação \\
+\hline
+$k$-NN 	& 98        & 24h    & 3:24:30 & 0h    & 12:31  \\
+\hline
+SVM 	& 120       & 24h    & 3:39:00 & 0h    & 02:23  \\
+\hline
+\end{tabular}
+\end{table}
 
 \section{Aspectos não explorados neste trabalho}
 

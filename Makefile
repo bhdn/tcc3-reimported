@@ -29,7 +29,30 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	src/test-data/workload/dispersion-n4.png \
 	src/test-data/workload/dispersion-n6.png \
 	src/test-data/workload/dispersion-seggie.png \
-	src/test-data/workload/dispersion-4h-n4.png
+	src/test-data/workload/dispersion-4h-n4.png \
+	src/test-data/classification/knn-n2.pdf \
+	src/test-data/classification/knn-n3.pdf \
+	src/test-data/classification/knn-n4.pdf \
+	src/test-data/classification/knn-n6.pdf \
+	src/test-data/classification/knn-seggie.pdf \
+	src/test-data/classification/svm-n2.pdf \
+	src/test-data/classification/svm-n3.pdf \
+	src/test-data/classification/svm-n4.pdf \
+	src/test-data/classification/svm-n6.pdf \
+	src/test-data/classification/svm-seggie.pdf \
+	src/test-data/classification/svm-n2-finer.pdf \
+	src/test-data/classification/svm-n3-finer.pdf \
+	src/test-data/classification/svm-n4-finer.pdf \
+	src/test-data/classification/svm-n6-finer.pdf \
+	src/test-data/classification/svm-seggie-finer.pdf \
+	src/test-data/classification/svm-seggie.pdf \
+	src/test-data/classification/svm-n2-window-future.pdf \
+	src/test-data/classification/svm-n3-window-future.pdf \
+	src/test-data/classification/svm-n4-window-future.pdf \
+	src/test-data/classification/svm-n6-window-future.pdf \
+	src/test-data/classification/svm-seggie-window-future.pdf
+
+
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
 imgi-%.pdf: imgi-%.svg
@@ -61,12 +84,17 @@ apresentacao.pdf: apresentacao.tex \
 
 src/test-data/workload/%.pdf: src/test-data/workload/%.eps
 	epstopdf --outfile=$@ $<
+src/test-data/classification/%.pdf: src/test-data/classification/%.eps
+	epstopdf --outfile=$@ $<
 
 src/test-data/workload/workload-%.eps: src/test-data/workload/plot-histogram.gnuplot
 	cd src/test-data/workload; gnuplot $(<F)
 
 src/test-data/workload/dispersion-%.png: src/test-data/workload/plot-dispersion.gnuplot
 	cd src/test-data/workload; gnuplot $(<F)
+
+src/test-data/classification/%.eps: src/test-data/classification/plot-stats.gnuplot
+	cd $(<D); gnuplot $(<F)
 
 .PHONY: clean
 clean:
