@@ -306,6 +306,18 @@ informações a respeito do período do dia, e dia da semana, de maneira a
 tentar capturar características sazonais no comportamento das máquinas
 virtuais.
 
+\subsubsection{Máquinas desconhecidas}\label{sec:maquinasdesconhecidas}
+
+Sabendo que a \libvirt{} permite que novos hóspedes sejam adicionados nas
+máquinas hospedeiras a qualquer momento, é necessário que o software deste
+projeto possa prever o uso de CPU também nestas máquinas que não têm um
+histórico conhecido e assim não possuem nenhum dado para treinamento.
+Assim, toda a vez que houver a necessidade de predizer o comportamento de
+uma máquina desconhecida, o software recorre ao histórico (e dados de
+treinamento) de uma máquina chamada \emph{generic}. No escopo deste
+projeto, fica a cargo do usuário do software escolher qual será o histórico
+utilizado para o trainamento de desta máquina especial.
+
 \subsection{Predição e migração}
 
 Para a etapa de predição, são utilizados os métodos de classificação das

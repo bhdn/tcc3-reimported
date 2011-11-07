@@ -80,3 +80,24 @@ do período em que os dados foram coletados.
 \label{fig:appdispseggie}
 \end{figure}
 
+\chapter{Ajuste de parâmetros}
+
+%% FIXME figuras do ajuste de parâmetros aqui!!
+
+\chapter{Programas de teste}\label{chap:programasteste}
+
+\lstset{showspaces=false, frame=single, basicstyle=\scriptsize}
+
+\begin{figure}[htp]
+\begin{espacosimples}
+\lstinputlisting[language=bash]{src/knn-param-tests.sh}
+\figinfo{Programa utilizado para testar valor de $k$ para $k$-NN}
+\end{espacosimples}
+\end{figure}
+
+\begin{figure}[htp]
+\begin{espacosimples}
+\lstinputlisting[language=bash]{src/svm-param-test-lviv-finer.sh}
+\figinfo{Programa utilizado para testar parâmetros de SVM}
+\end{espacosimples}
+\end{figure}
