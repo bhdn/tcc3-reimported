@@ -353,6 +353,13 @@ demanda de CPU para o hospedeiro host0, sendo que o valor limite é de 200\%.
 \label{fig:cpuhost0}
 \end{figure}
 
+Apesar do tempo de simulação de $k$-NN ser consideravelmente maior que o de
+SVM, cada previsão individual não durou mais que 0,5 segundos, o que não impõe
+nenhum problema de responsividade de um sistema quando usando-se até
+aproximadamente 60 hóspedes, visto que o tempo de cada ciclo de coleta e
+predição não pode demorar mais que 30 segundos nas especificações atuais do
+projeto.
+
 Vendo que o desempenho entre $k$-NN e SVM foi praticamente o mesmo, optou-se por
 implementar a técnica baseada em tendência avaliada por
 \citeonline{yang2003homeostatic}, tentando observar alguma variação de
