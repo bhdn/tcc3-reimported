@@ -176,9 +176,37 @@ para o ambiente observado. No quadro \ref{quadro:clacruzada}, que apresenta
 os desempenhos obtidos, é possível observar que a máquina n4 possui o
 melhor desempenho de classficação.
 
-\section{Migração}
+\section{Testes virtualização}
+
+\subsection{Ambiente de testes}
+
+O ambiente utilizado para testes de virtualização é composto por três máquinas
+hospedeiras, uma tendo processador Intel Core i3 550, \emph{clock} de 3GHz e 4
+gigabytes de memória RAM, e as outras duas máquinas com processador Intel
+Pentium Dual-Core, \emph{clock} de 3GHz e 4 gigabytes de memória RAM. A rede de
+dados utilizada para conectar estas máquinas era do tipo 100BASE-TX, que pode
+transmitir dados a 100 megabits por segundo\footnote{http://standards.ieee.org/about/get/802/802.3.html}.
+
+As máquinas virtuais eram instalações mínimas de Mandriva Linux, com imagens de
+disco ocupando 1 gigabyte, emulando máquinas com processador i686 e 128
+megabytes de RAM.
+
+\subsection{Migração}
+
+Para conhecer o tempo esperado de uma migração entre uma máquina hospedeira e
+outra, foram feitas 50 migrações de máquinas virtuais, em ambos os sentidos.
+Observou-se que o tempo médio foi de 8,9 segundos, com desvio padrão de 0,8
+segundos.
+
+Deve-se levar em consideração que as máquinas virtuais utlizadas para este e
+outros testes no trabalho têm apenas 128MB de memória RAM, o que é uma
+quantidade de memória muito pequena para os padrões de uso atuais. Porém,
+espera-se que em casos aonde as máquinas virtuais tenham mais memória seja
+utilizada uma rede \emph{gigabit} (1000BASE-TX).
 
 \section{Consolidação}
+
+
 
 \section{Aspectos não explorados neste trabalho}
 
