@@ -3,6 +3,7 @@
 \usepackage[brazil]{babel}
 \usepackage{hyperref}
 \usepackage{amssymb,amsmath}
+\usepackage{subfigure}
 
 \usetheme{Warsaw}
 \bibliographystyle{abnt-alf}
@@ -161,7 +162,7 @@ neste ambiente.\cite{goldberg1974survey}
 \end{frame}
 
 \begin{frame}{Técnicas de aprendizado}
-Serão avaliadas duas técnicas:
+Técnicas avaliadas:
 \begin{itemize}
 \item $k$-Nearest Neighbours ($k$-NN),
 \item \emph{Support Vector Machines} (SVM)
@@ -207,10 +208,10 @@ voz e escrita à mão\cite{bennett2000support}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Avaliação de desempenho}
+\begin{frame}{Testes}
 Primera etapa:
 \begin{itemize}
-\item usos de CPU lidos de 6 máquinas a cada segundo durante um mês,
+\item usos de CPU lidos de 5 máquinas a cada 30 segundos durante um mês,
 \item este histórico será usado para avaliar o desempenho do previsor.
 \end{itemize}
 Então:
@@ -222,18 +223,145 @@ será reproduzido em um conjunto de máquinas virtuais
 \tiny{(Validação cruzada do histórico.)}
 \end{frame}
 
-\begin{frame}{Problemas conhecidos}
+\section{Resultados observados}
+
+\begin{frame}{Dados coletados}
 \begin{itemize}
-  \item O título \textbf{Avaliação de técnicas de predição de comportamento
-        de máquinas virtuais para a otimização de uso de parque computacional} é
-        inadequado.
-  \item descrição de porquê utilizar uma técnica baseada em janelas para
-        predição
+  \item 80~200 valores lidos durante 27 dias
+  \item ambiente: máquinas de compilação de software do projeto Mandriva Linux
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Valores coletados da máquina n4}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/workload/dispersion-n4.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Histograma da máquina n4}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/workload/histograma-n4.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Período de 4 horas da máquina n4}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/workload/dispersion-4h-n4.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Busca de parâmetros}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/classification/svm-n4-finer.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Desempenho de predição}
+\begin{block}{Predição por hospedeiro}
+\begin{table}
+\centering
+\begin{tabular}{| l | c | c | c | c | c | c |}
+\hline
+		& n2      & n3       & n4      	 & n6        & seggie  	 & média   \\
+\hline
+SVM     	& 99,32\%  & 99,78\% &   99,68\% &   99,34\% &   99,20\% & 99,46\% \\
+\hline
+$k$-NN  	& 97,22\%  & 99,04\% &   97,60\% &   96,88\% &   95,89\% & 97,33\% \\
+\hline
+\end{tabular}
+\end{table}
+\end{block}
+\end{frame}
+
+\begin{frame}{Testes de consolidação}
+\begin{block}{Carga simulada de um dia}
+\begin{table}
+\centering
+\begin{tabular}{| c | c | c | c | c | c |}
+\hline
+Técnica & Migrações & host0  & host1   & host2 & Dur. Simulação \\
+\hline
+$k$-NN 	& 98        & 24h    & 3:24:30 & 0h    & 12:31  \\
+\hline
+SVM 	& 120       & 24h    & 3:39:00 & 0h    & 02:23  \\
+\hline
+\end{tabular}
+\end{table}
+\end{block}
+\end{frame}
+
+\begin{frame}{Testes de consolidação}
+\begin{block}{Carga simulada de uma semana}
+\begin{table}
+\begin{tabular}{| c | c | c | c | c | c |}
+\hline
+Técnica & Migrações & host0  & host1    & host2       & Dur. Simulação \\
+\hline
+$k$-NN 	& 510        & 168h  & 13:00    & 26:14:30    & 1:50:17  \\
+\hline
+SVM 	& 550        & 168h  & 13:30 	& 27:01:30    & 31:46  \\
+\hline
+\end{tabular}
+\end{table}
+\end{block}
+\end{frame}
+
+\begin{frame}{Hospedeiros utilizados}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/scheduler/stats-svm-oneday-used.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Reprodução de carga real: uso de hospedeiros}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/scheduler/stats-svm-real-oneday-used.pdf}
+\end{figure}
+\tiny{\emph{(Esperava-se o uso mais intenso dos três hospedeiros)}}
+\end{frame}
+
+\begin{frame}{Reprodução de carga real: demanda de CPU}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/scheduler/stats-svm-real-oneday-tcc159.pdf}
+\end{figure}
+\tiny{\emph{(Demanda de CPU deveria exceder 400\%)}}
+\end{frame}
+
+\begin{frame}{Reprodução de carga real: comportamento esperado}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/scheduler/stats-svm-oneday-host0.pdf}
+\end{figure}
+\tiny{\emph{(Demanda de CPU efetivamente excede o limite de 200\%)}}
+\end{frame}
+
+\begin{frame}{Reprodução de carga real: avaliando reprodução de carga}
+\begin{figure}
+\centering
+\includegraphics[height=5.5cm]{src/test-data/checking-load-simulator/load-simulator-n4.png}
+\end{figure}
+\tiny{\emph{(Carga aplicada em uma máq. virtual em um hospeiro)}}
+\end{frame}
+
 \section{Conclusões}
-\frame{\frametitle{Conclusões}}
+
+\begin{frame}{Conclusões}
+\begin{itemize}
+  \item foi possível antingir taxa de acerto de \emph{pelo menos} 97\% na
+        predição de uso de CPU, para $k$-NN e SVM
+  \item foi possível consolidar, de maneira simulada, a carga de 5 máquinas
+        utilizando durante a maioria do tempo apenas dois hóspedes
+  \item não foi possível reproduzir uma carga real em máquinas virtuais de
+        maneira satisfatória para os testes
+\end{itemize}
+\end{frame}
+
 \frame[allowframebreaks]{\frametitle{Referências}
   \bibliography{biblio}}
 \frame{\frametitle{Dúvidas?} \centering{Dúvidas?}}
