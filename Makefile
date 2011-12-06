@@ -62,7 +62,8 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	src/test-data/scheduler/stats-svm-real-oneday-used.pdf \
 	src/test-data/scheduler/stats-svm-manual-oneday-tcc159.pdf \
 	src/test-data/scheduler/stats-svm-manual-oneday-tcc158.pdf \
-	src/test-data/scheduler/stats-svm-manual-oneday-used.pdf
+	src/test-data/scheduler/stats-svm-manual-oneday-used.pdf \
+	src/test-data/checking-load-simulator/load-simulator-n4.pdf
 
 img-%.pdf: img-%.eps
 	epstopdf --outfile=$@ $<
@@ -106,6 +107,8 @@ src/test-data/classification/%.eps: src/test-data/classification/plot-stats.gnup
 	cd $(<D); gnuplot $(<F)
 
 src/test-data/scheduler/%.eps: src/test-data/scheduler/plot.gnuplot
+	cd $(<D); gnuplot $(<F)
+src/test-data/checking-load-simulator/%.eps: src/test-data/checking-load-simulator/plot.gnuplot
 	cd $(<D); gnuplot $(<F)
 
 .PHONY: clean

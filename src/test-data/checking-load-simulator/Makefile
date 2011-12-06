@@ -1,5 +1,5 @@
 N = 500
-output.pdf:	steadysmaller.txt workloadsmaller.txt plot.gnuplot
+load-simulator-n4.eps:	steadysmaller.txt workloadsmaller.txt plot.gnuplot
 	gnuplot plot.gnuplot
 
 steadysmaller.txt: steady.txt
