@@ -1,4 +1,8 @@
+set encoding utf8
 set term postscript eps color font 20
+
+set ylabel "Uso de CPU de todas as tarefas"
+set xlabel "Observações a cada ciclo do escalonador"
 
 set output "stats-knn-oneday-host0.eps"
 plot "stats-knn-oneday-host0" u 2 title "Demanda total de CPU para host0 (KNN)"
@@ -31,6 +35,9 @@ set output "stats-svm-manual-oneday-tcc158.eps"
 plot "stats-svm-manual-oneday-tcc158" u 2 title "Demanda total de CPU para tcc159 (SVM)"
 
 set yrange [0:3]
+
+set ylabel "Número de hospedeiros utiilizados"
+set xlabel "Observações a cada ciclo do escalonador"
 
 set output "stats-knn-oneday-used.eps"
 plot "stats-knn-oneday-used" u 2 title "Hospedeiros usados para KNN" \

@@ -52,6 +52,7 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	src/test-data/classification/svm-n6-window-future.pdf \
 	src/test-data/classification/svm-seggie-window-future.pdf \
 	src/test-data/scheduler/stats-knn-oneday-used.pdf \
+	src/test-data/scheduler/stats-svm-oneday-used.pdf \
 	src/test-data/scheduler/stats-svm-oneday-host0.pdf \
 	src/test-data/scheduler/stats-knn-oneday-host0.pdf \
 	src/test-data/scheduler/stats-svm-oneday-host1.pdf \
