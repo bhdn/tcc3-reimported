@@ -4,6 +4,13 @@ hoje
 
 % vim:ft=txt2tags
 
+= Correção final =
+
+- colocar medidas nos gráficos
+- trabalhos futuros
+- "corrigir" posicionamento das figuras
+- melhorar a conclusão
+
 = Das referências =
 
 
