@@ -1,3 +1,4 @@
+set encoding utf8
 set terminal postscript eps color font 20
 
 set xlabel "Janela"
@@ -21,7 +22,7 @@ set output "knn-seggie.eps"
 splot "knn-stats-seggie" using 1:2:4 title "KNN seggie"
 
 set xlabel "C"
-set ylabel "$\sigma$"
+set ylabel "σ"
 
 set output "svm-n2.eps"
 splot "svm-stats-n2" using 1:2:4 title "SVM n2"
