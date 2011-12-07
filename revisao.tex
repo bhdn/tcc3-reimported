@@ -12,11 +12,11 @@
 
 O conceito clássico de virtualização consiste na execução simulada de cada
 instrução de uma determinada arquitetura, bem como a emulação de seu
-hardware original, de maneira a permitir que qualquer sistema operacional
+\emph{hardware} original, de maneira a permitir que qualquer sistema operacional
 compatível possa executar neste ambiente~\cite{goldberg1974survey}.
 Diferentemente do que se observa na arquitetura clássica de computadores,
 onde cada componente provê uma abstração para os componentes mais próximos do
-usuário, a virtualização multiplexa os serviços de hardware para
+usuário, a virtualização multiplexa os serviços de \emph{hardware} para
 componentes virtuais que possam ser utilizados por sistemas operacionais
 sem adaptações~\cite{dutra2009a}.
 
@@ -27,18 +27,18 @@ virtualização, que neste caso era limitada a apenas uma instância de uma
 ``máquina virtual'' para os processos não-privilegiados. Com o passar do
 tempo isto foi aprimorado com o desenvolvimento dos ``Monitores de
 Máquinas Virtuais'', também conhecidos como hipervisores ou
-\emph{hypervisors}, que são softwares especializados em executar um
+\emph{hypervisors}, que são \emph{softwares} especializados em executar um
 conjunto de instruções de alguma arquitetura e que permitiam então, por
 estar não relacionado a um serviço de sistema operacional, executar
 múltiplas máquinas virtuais, permitindo, assim, que o custo computacional com
 a execução simulada das instruções fosse compensado com a execução de
-muitas máquinas virtuais, aproveitando assim o tempo de
+muitas máquinas virtuais, aproveitando o tempo de
 CPU~\cite{goldberg1974survey}.
 
-Com a popularização da internet e o barateamento do hardware, a
+Com a popularização da \emph{internet} e o barateamento do \emph{hardware}, a
 virtualização começou a ser utilizada com o intuito de facilitar a
 manutenção em ambiente de servidores. A facilidade da criação e
-configuração permitiu que serviços executem em máquinas (virtuais)
+configuração permitiu que serviços sejam executados em máquinas (virtuais)
 dedicadas, aumentando a segurança (por meio do isolamento) e facilitando a
 manutenção com menor risco de comprometimento de outros
 serviços~\cite{smith2005architecture}.
@@ -61,7 +61,7 @@ tratar de virtualização, como apresentado por
   \item[Migração] ocorre quando todo o estado de um hóspede
        (memória, registradores, dispositivos) que está executando em um
        determinado hospedeiro é transferido para outro, de maneira que a
-       execução do hóspede prossegue, sem que software executando dentro
+       execução do hóspede prossegue, sem que \emph{software} executando dentro
        desta note diferença.
 \end{description}
 
@@ -85,7 +85,7 @@ pela facilidade de uso e disponibilização de recursos para integração entre
 ambientes \emph{desktop} de hóspede e hospedeiro~\cite{nieh2000examining}.
 
 Tradução binária dinâmica é uma técnica que visa fazer com que o processador
-execute diretamente as instruções de uma máquina virtual, evitando assim o
+execute diretamente as instruções de uma máquina virtual, evitando o
 custo computacional de uma emulação por parte do monitor de máquinas
 virtuais (MMV). Porém, a máquina virtual não terá permissão para executar
 todas as instruções, pois o monitor de máquinas virtuais é um processo
@@ -98,13 +98,13 @@ privilegiadas~\cite{ung2000machine}.
 
 As técnicas mais primitivas de tradução binária exigiam que a arquitetura
 do sistema hospedeiro fosse a mesma do sistema hóspede. A ferramenta
-QEMU tornou-se popular por prover uma técnica de
+\emph{QEMU} tornou-se popular por prover uma técnica de
 tradução dinâmica binária entre arquiteturas diferentes de maneira
 eficiente. Definiu-se um conjunto reduzido de micro-operações que
 são usadas para compor pequenas funções que descrevem o comportamento
 individual de grande parte das instruções de cada uma das arquiteturas
 suportadas por essa ferramenta. A implementação das micro-operações é feita
-também em linguagem C, permitindo assim o aproveitamento de todo o
+também em linguagem C, permitindo o aproveitamento de todo o
 trabalho expendido ao implementar um compilador C para a arquitetura do
 hóspede~\cite{bellard2005qemu}.
 
@@ -120,7 +120,7 @@ instruções disponíveis nas arquiteturas de processadores da família
 \emph{x86}~\cite{uhlig2005intel}. Os sistemas operacionais populares utilizam
 apenas \emph{ring} 0 e \emph{ring} 3, deixando o nível 1 disponível para uso
 pelo \emph{VirtualBox}. Para a tradução de instruções, é utilizada uma porção
-de código da ferramenta QEMU para tal fim~\cite{virtualboxTech}.
+de código da ferramenta \emph{QEMU} para tal fim~\cite{virtualboxTech}.
 
 A ferramenta \emph{Xen} popularizou o conceito de
 paravirtualização ao prover um sistema composto por um \emph{kernel} com papel
@@ -133,8 +133,8 @@ todo~\cite{whitaker2002denali}. Tal abordagem permitiu que a ferramenta
 \emph{Xen} apresentasse melhor desempenho de execução se comparado a
 \emph{VMware}~\cite{barham2003xen}.
 
-Em 2006 a empresa Qumranet implementou uma série de modificações no
-\emph{kernel} do sistema operacional Linux, de maneira que este pudesse prover
+Em 2006 a empresa \emph{Qumranet} implementou uma série de modificações no
+\emph{kernel} do sistema operacional \emph{Linux}, de maneira que este pudesse prover
 uma interface programável para que aplicações utilizassem os recursos de
 virtualização que as versões mais recentes de processadores da família
 x86 estavam começando a oferecer~\cite{kerneltrap2007avi}, nomeadamente
@@ -147,10 +147,10 @@ configuração e acesso a máquinas virtuais por meio de
 por meio da chamada de sistema \emph{ioctl} para o \emph{kernel} ou especificamente o
 \emph{driver} de algum dispositivo representado por aquele arquivo.
 
-Além desta interface, a Qumranet desenvolveu a ferramenta \textbf{kvm},
+Além desta interface, a \emph{Qumranet} desenvolveu a ferramenta \textbf{kvm},
 que é um monitor de máquinas virtuais que utiliza a interface KVM. Para a
 emulação de dispositivos e a interação com o usuário, tal ferramenta utiliza uma grande
-porção do código da ferramenta QEMU~\cite{kerneltrap2007avi}.
+porção do código da ferramenta \emph{QEMU}~\cite{kerneltrap2007avi}.
 
 Em versões mais recentes, a ferramenta \textbf{kvm} recebeu o suporte a
 paravirtualização com a introdução dos \emph{drivers} para dispositivos do tipo
@@ -174,14 +174,14 @@ hóspedes dentro de um mesmo hospedeiro~\cite{russell2008virtio}.
 \libvirt{} é um conjunto de ferramentas que visa prover uma abstração
 uniforme para gerenciamento de máquinas virtuais, de maneira independente 
 da aplicação de virtualização que está sendo utilizada. Seu desenvolvimento
-foi iniciado em 2005 pela empresa Red Hat e inicialmente chamava-se
+foi iniciado em 2005 pela empresa \emph{Red Hat} e inicialmente chamava-se
 \emph{libxen}, indicando assim que era uma abstração específica para a
 ferramenta \emph{Xen}, porém, teve seu nome alterado para \libvirt{} em
 2006, de maneira a refletir o interesse em suportar mais ferramentas de
 virtualização \apud{gitlibvirt}{eriksson2009virtualization}.
 
-As ferramentas de virtualização suportadas atualmente são: \emph{Xen}, QEMU,
-KVM, LXC\footnote{http://lxc.sf.net/},
+As ferramentas de virtualização suportadas atualmente são: \emph{Xen},
+\emph{QEMU}, KVM, LXC\footnote{http://lxc.sf.net/},
 OpenVZ\footnote{http://openvz.org/}, \emph{User Mode
 Linux}\footnote{http://user-mode-linux.sf.net/} e VMware ESX e GSX~\cite{libvirtindex}.
 

@@ -2,9 +2,9 @@
 % Metodologia
 %
 % - diagramas de contexto descrevendo quais serão as informações de
-%   entrada, qual módulo do software fará o processamento e como serão
+%   entrada, qual módulo do \emph{software} fará o processamento e como serão
 %   disponibilizadas as informações da predição,
-% - diagrama de classes para a implementação do software,
+% - diagrama de classes para a implementação do \emph{software},
 % - descrição de quais técnicas serão utilizadas e como serão implementadas,
 % - descrição de um protocolo para avaliação do desempenho das técnicas
 % implementadas.
@@ -22,7 +22,7 @@ hospedando três máquinas virtuais vm-1, vm-2 e
 vm-3. Estas máquinas virtuais estão sendo gerenciadas por qualquer
 uma das ferramentas que são suportadas pela \libvirt{}, e cada uma delas
 pode estar executando qualquer sistema operacional, e nestes podem estar
-executando qualquer tipo de software, mais comumente servidores de banco de
+executando qualquer tipo de \emph{software}, mais comumente servidores de banco de
 dados e aplicações Web.
 
 \begin{figure}[htp]
@@ -56,7 +56,7 @@ executando neste ambiente.
 Na figura \ref{fig:hostguests3}, a máquina host3 possui cinco máquinas
 virtuais que ocupam, ao todo, 57\% do tempo de processamento. Se estas
 máquinas virtuais mantiverem o mesmo comportamento no decorrer do tempo de
-vida deste ambiente, a única mudança necessária seria de talvez desligar
+vida deste ambiente, a única mudança necessária seria desligar
 host1 e migrar estas máquinas virtuais para host3, já que
 este hospedeiro ainda tem aproximadamente 43\% de tempo de processamento
 sendo desperdiçado. Sendo host1 desligada, haveria menos custos
@@ -69,9 +69,9 @@ com energia e manutenção.
 \label{fig:hostguests3}
 \end{figure}
 
-Porém, os serviços que executam nestas máquinas virtuais podem sofrer um
+No entando, os serviços que executam nestas máquinas virtuais podem sofrer um
 abrupto aumento de demanda, o que é mais ainda provável em aplicações que
-estão acessíveis por meio da Internet, como servidores web ou serviços
+estão acessíveis por meio da Internet, como servidores \emph{web} ou serviços
 relacionados, como servidores de banco de dados. Nestes casos, o
 administrador do ambiente precisa provisionar rapidamente recursos para
 atender a essa demanda evitando assim degradar a qualidade da
@@ -86,8 +86,8 @@ disponibilização do serviço.
 
 No exemplo da figura \ref{fig:hostguests4}, a máquina virtual
 vm-11 está executando algum processo que está exigindo muito tempo
-de CPU. Este tipo de situação pode ocorrer quando este processo faz uso intenso
-de CPU (é CPU-\emph{bound}) (que faz uso intensivo do processador), o que
+de CPU. Esse tipo de situação pode ocorrer quando este processo faz uso intenso
+de CPU (CPU-\emph{bound}) (que faz uso intensivo do processador), o que
 geralmente pode ser uma tarefa rotineira de \emph{backup} (compressão,
 descompressão ou sincronização de árvores) ou rotinas aritméticas. Neste
 caso fica claro que seria melhor ter esta máquina executando no hospedeiro
@@ -96,28 +96,28 @@ executando em host1 ainda pode acomodar vm-11. A dificuldade neste modelo
 está no fato de que este uso de CPU pode ser sazonal, e que outras máquinas
 virtuais além de vm-11 podem ter situações de demanda abrupta.
 
-Com isso, o software deste projeto atua tentando prever o comportamento
+Com isso, o \emph{software} deste projeto atua tentando prever o comportamento
 destas máquinas virtuais e requisitando à ferramenta de virtualização que
 migre aquelas que apresentarem perspectiva de uso intensivo de CPU para um
-hospedeiro que tenha condições de tratar aquela demanda. Este software é
+hospedeiro que tenha condições de tratar a demanda. Este \emph{software} é
 executado na forma de um \emph{daemon}, ou seja, um serviço do sistema
 independente aos serviços de virtualização. Este poderá estar instalado em
 qualquer uma das máquinas hospedeiras ou até mesmo em uma máquina separada,
 providas as credenciais de acesso para a \libvirt{}.
 
-Como dados de entrada, o software recebe as leituras de uso de CPU de cada
+Como dados de entrada, o \emph{software} recebe as leituras de uso de CPU de cada
 uma das máquinas virtuais executando no ambiente. A saída observável do
-software é uma série de comandos de migração que são então enviados à
+\emph{software} é uma série de comandos de migração que são então enviados à
 \libvirt{}.
 
 A escolha da ferramenta \libvirt{} como interface de controle do ambiente
 de virtualização deve-se ao fato da mesma permitir controlar ambientes
 formados for diferentes monitores de máquinas virtuais, como descrito na
 seção \ref{sec:libvirt}. A figura \ref{fig:libvirtcontexto0} descreve de maneira
-superficial como é a interação entre o software a ser implementado e a
-\libvirt{}. O software periodicamente coleta informações a respeito
+superficial como é a interação entre o \emph{software} a ser implementado e a
+\libvirt{}. O \emph{software} periodicamente coleta informações a respeito
 do uso de CPU das máquinas virtuais sendo gerenciadas (1). Com essas
-informações, o software faz então predições a respeito do comportamento destas
+informações, o \emph{software} faz então predições a respeito do comportamento destas
 máquinas virtuais e, então, envia comandos por meio da API (\emph{Application
 Programming Interface}, Interface de Programação de Aplicação) da \libvirt{}
 (2), comandos estes indicando qual máquina virtual deve migrar para qual
@@ -136,15 +136,15 @@ outro (4).
 % estão em um ambiente "folgado" e então indicar uma situação em que uma
 % máquina virtual precisa ser migrada e daí migrar para outra máquina.
 
-\section{Modelagem do software}\label{sec:modelagem}
+\section{Modelagem do \emph{software}}\label{sec:modelagem}
 
 A figura \ref{fig:contexto0} apresenta o diagrama de contexto,
 indicando a relação entre o projeto e a biblioteca \libvirt{}. O fluxo
-estatísticas das máq. virtuais indica as informações a respeito de uso de
-CPU que são providas pela libVirt, enquanto que cmds. de migração indica os
+estatísticas das “máquinas virtuais” indica as informações a respeito de uso de
+CPU que são providas pela libVirt, enquanto que “comandos de migração” indica os
 comandos, transmitidos por meio da API (introduzida na seção
 \ref{sec:libvirtapi}), que são enviadas à \libvirt{} para a migração das
-máquinas virtuais, de acordo com o que o software a ser implementado
+máquinas virtuais, de acordo com o que o \emph{software} a ser implementado
 decidir.
 
 \begin{figure}[htp]
@@ -155,7 +155,7 @@ sistema}
 \label{fig:contexto0}
 \end{figure}
 
-Como o projeto é implementado utilizando o conceito de orientação a
+Como o projeto foi implementado utilizando o conceito de orientação a
 objetos, a figura \ref{fig:contexto1} apresenta
 de maneira mais detalhada, na forma de um diagrama de contexto, como é a
 interação entre os módulos que são implementados no projeto. O fluxo
@@ -189,26 +189,26 @@ projeto proposto}
 % FIXME explicar esse tal pré-processamento
 
 A figura \ref{fig:diagramaclasses0} apresenta um diagrama com as
-principais classes do software. A classe Projeto representa uma
+principais classes do \emph{software}. A classe Projeto representa uma
 instância de todo o projeto e também é responsável pelo controle do ciclo
 de vida das classes que fazem coleta, aprendizado e predição. Cada uma
 destas classes possui apenas um método público, para que estes sejam
 chamados apenas quando a classe Projeto considerar conveniente,
 fazendo com que esta classe tenha um papel de escalonador do
-software. As classes são a grosso modo um mapeamento dos processos
+\emph{software}. As classes são a grosso modo um mapeamento dos processos
 apresentados na figura \ref{fig:contexto1}, com exceção da classe
 InterfaceMMV, que significa Interface para Monitor de
 Máquinas Virtuais, a qual tem como propósito centralizar o acesso à \libvirt{},
 facilitando a manutenção em caso de mudança de interface, porte para outra
 biblioteca ou a simulação de valores (descrita na seção
 \ref{sec:desemp}). À exceção de InterfaceMMV, todas estas
-classes são abstratas, pois devem ainda ser especializadas para cada uma
-das técnicas de aprendizado que serão implementadas no projeto.
+classes são abstratas, pois são especializadas para cada uma
+das técnicas de aprendizado que foram implementadas no projeto.
 
 \begin{figure}[htp]
 \centering
 \includegraphics{img-diagrama-classes0.pdf}
-\figinfo{Diagrama das principais classes do software proposto}
+\figinfo{Diagrama das principais classes do \emph{software} proposto}
 \label{fig:diagramaclasses0}
 \end{figure}
 
@@ -228,7 +228,7 @@ pode estar mal implementada, como indicado por
 \citeonline{joachims1998text} e \citeonline{hafner2007comparison}.
 
 Assim, das classes que foram apresentadas na seção \ref{sec:modelagem},
-serão especializações para cada tipo de técnica de aprendizado. O diagrama
+são especializações para cada tipo de técnica de aprendizado. O diagrama
 representando estas especializações é apresentado na figura
 \ref{fig:diagramaclasses1}.
 
@@ -245,7 +245,7 @@ utilizada}
 % representando a identificação de uma classe.
 
 Para o caso de SVMs, este trabalho seguirá a metodologia proposta
-por~\citeonline{hsu2003practical} para a avaliação dos parâmetros que serão
+por~\citeonline{hsu2003practical} para a avaliação dos parâmetros que são
 utilizados no sistema. Esta consiste na execução nos seguintes passos:
 \begin{enumerate}
   \item Processar os dados coletados para transformar no formato da biblioteca
@@ -309,13 +309,13 @@ virtuais.
 \subsubsection{Máquinas desconhecidas}\label{sec:maquinasdesconhecidas}
 
 Sabendo que a \libvirt{} permite que novos hóspedes sejam adicionados nas
-máquinas hospedeiras a qualquer momento, é necessário que o software deste
+máquinas hospedeiras a qualquer momento, é necessário que o \emph{software} deste
 projeto possa prever o uso de CPU também nestas máquinas que não têm um
 histórico conhecido e assim não possuem nenhum dado para treinamento.
 Assim, toda a vez que houver a necessidade de predizer o comportamento de
-uma máquina desconhecida, o software recorre ao histórico (e dados de
+uma máquina desconhecida, o \emph{software} recorre ao histórico (e dados de
 treinamento) de uma máquina especial chamada \emph{generic}. No escopo deste
-projeto, fica a cargo do usuário do software escolher qual será o histórico
+projeto, fica a cargo do usuário do \emph{software} escolher qual será o histórico
 utilizado para o trainamento desta máquina especial.
 
 \subsection{Predição e migração}
@@ -352,20 +352,20 @@ são efetivamente migradas utilizando a \libvirt{}.
 
 O processo de validação é constituído de duas etapas. A primeira trata de
 avaliar o desempenho de apenas o sistema de predição, utilizando dados reais de
-CPU que serão coletados. A segunda etapa irá avaliar o desempenho do sistema
+CPU que são coletados. A segunda etapa irá avaliar o desempenho do sistema
 completo em um ambiente utilizando virtualização. Além disso, na primeira etapa
-serão ajustados os parâmetros (descritos mais adiante) das técnicas de extração
+são ajustados os parâmetros (descritos mais adiante) das técnicas de extração
 e treinamento, ao passo que na segunda etapa somente os parâmetros com melhor
-desempenho serão utilizados.
+desempenho são utilizados.
 
-Os valores de uso de CPU serão provenientes de um conjunto de máquinas que
-fazem parte do ambiente de compilação de software que é utilizado no projeto
-\emph{Mandriva Linux}. Tais valores serão lidos por um período de 30 dias, com
+Os valores de uso de CPU são provenientes de um conjunto de máquinas que
+fazem parte do ambiente de compilação de \emph{software} que é utilizado no projeto
+\emph{Mandriva Linux}. Tais valores foram lidos por um período de 30 dias, com
 o intuito de cobrir as diferentes taxas de uso de CPU que pode-se observar
 durante dias úteis e finais de semana.
 
 Este ambiente de compilação é composto por 6 máquinas que recebem
-comandos de compilação de pacotes de software, fazem download códigos fonte
+comandos de compilação de pacotes de \emph{software}, fazem download códigos fonte
 compactados, os descompactam, compilam (que na maioria dos casos são em
 linguagem C ou C++) e então os binários e arquivos documentação gerados são
 arquivados no formato RPM~\cite{ewing1996rpm}. Estas etapas apresentam
@@ -388,7 +388,7 @@ para a classe InterfaceMMV, como descrito na figura
 \ref{fig:diagramaclasses2}, que lerá os arquivos com o histórico de acesso às
 máquinas e então entregará estes valores ao módulo de aprendizado.
 
-Para a segunda etapa, o software implementado é testado em um ambiente de
+Para a segunda etapa, o \emph{software} implementado é testado em um ambiente de
 virtualização real, onde cada máquina virtual estará executando pequenos
 programas que estarão ocupando as CPUs de maneira a simular os comportamentos
 observados no ambiente de compilação descrito anteriormente.  Estes programas
@@ -416,7 +416,7 @@ os módulos da \libvirt{}.
 
 Para o monitor de máquinas virtuais é utilizado o
 KVM,\footnote{http://linux-kvm.org/} que é de código aberto e também
-desenvolvido pela empresa Red Hat, garantindo assim maior compatibilidade
+desenvolvido pela empresa \emph{Red Hat}, garantindo assim maior compatibilidade
 com a \libvirt{}.
 
 Para a implementação das instâncias de SVM, é utilizada a

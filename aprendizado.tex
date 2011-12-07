@@ -42,7 +42,7 @@ Nem sempre é possível obter um resultado ótimo para novas situações, pois n
 
 A construção da hipótese no aprendizado indutivo ocorre por meio da exposição de exemplos ao algoritmo de indução, sendo este processo chamado de treinamento. O processo de atribuir rótulos ou classes a novos exemplos é chamado de classificação. Porém, se o conjunto de exemplos usado para a indução for pequeno ou pouco representativo, há o risco de que as hipóteses escolhidas não descrevam corretamente novas situações e o sistema inteligente traga resultados incorretos~\cite[p. 90]{rezende2003sistemas}.
 
-Sistemas de aprendizado de máquina podem ser divididos em dois tipos, dependendo de como são realizadas suas respectivas etapas de treinamento: supervisionados e não-supervisionados.
+Dois tipos de sistemas de aprendizado comumente utilizados são os supervisionados e não-supervisionados~\cite{luger2004inteligencia}.
 
 O aprendizado supervisionado é aquele em que há exemplos pré-existentes e estes já possuem rótulos. Tais rótulos podem ter sido atribuídos por um especialista no domínio ou representam resultados de experiências anteriores do sistema. Um classificador baseado em aprendizado supervisionado deve tentar estabelecer uma hipótese que seja genérica a ponto de que o algoritmo possa classificar corretamente novos casos. Uma hipótese muito genérica pode resultar em uma classificação inadequada (\emph{underfitting} --- sub-ajuste), ao passo que uma hipótese que descreva corretamente apenas os exemplos que foram usados para o treinamento pode ter um desempenho inadequado em casos novos (\emph{overfitting} --- sobre-ajuste).
 
@@ -51,11 +51,11 @@ No aprendizado não-supervisionado, não há rótulos para atribuir aos exemplos
 
 \subsection{Técnicas de aprendizado supervisionado}
 
-Dentre as técnicas de aprendizado supervisionado mais populares estão, não exclusivamente supervisionados, Redes Neurais Artificiais, Máquinas de Vetores de Suporte (SVMs --- \emph{Support Vector Machines}), $k$ Vizinhos Mais Próximos ($k$-NN --- \emph{k-Nearest Neighbors}) e \emph{Naïve Bayes}.
+Dentre as técnicas de aprendizado supervisionado mais populares estão, não exclusivamente supervisionados, Redes Neurais Artificiais, Máquinas de Vetores de Suporte (SVMs --- \emph{Support Vector Machines}), $k$ Vizinhos Mais Próximos ($k$-NN --- \emph{k-Nearest Neighbors}), \emph{Naïve Bayes} e Árvores de Decisão.
 
 % FIXME faltou descrever GGM, RBF, Redes Bayesianas e árvores de decisão
 
-$k$-NN é uma técnica de aprendizado supervisionado que utiliza todos os exemplos durante a etapa de classificação, tendo assim pouco custo para treinamento e alto custo para classificação. Para classificar as entradas, comumente mede-se a distância euclideana de todos os exemplos da base e então é selecionada a classe que predomina no grupo de $N$ elementos que estiver mais próximo~\cite{tan2006effective}.
+$k$-NN é uma técnica de aprendizado supervisionado que utiliza todos os exemplos durante a etapa de classificação, tendo assim pouco custo para treinamento e alto custo para classificação. Para classificar as entradas, comumente mede-se a distância Euclidiana de todos os exemplos da base e então é selecionada a classe que predomina no grupo de $N$ elementos que estiver mais próximo~\cite{tan2006effective}.
 
 Há também as técnicas baseadas em Árvores de Decisão, que visam a indução de uma árvore que represente o conhecimento. Os ramos desta árvore indicam conjunções (tanto de testes binários quanto multivalorados), ao passo que as folhas representam classficações. Para classificar novos casos simplemente percorre-se a árvore de decisão avaliando cada conjunção em cada ramo e seguindo para a subárvore adequada, quando atinge-se as folhas é encontrada a classe final~\cite{de-categorizacao}. Esta técnica possui a vantagem de que sua forma de representação permita que humanos compreendam com facilidade o conteúdo que ela representa~\cite[p. 52]{mitchell1997machine}. Os algoritmos para indução de árvores de decisão mais populares são ID3~\cite{quinlan1986induction}, C4.5~\cite{quinlan1993programs} e CART~\cite{breiman1984classification}.
 
@@ -70,7 +70,7 @@ probabilidade é escolhida como rótulo para o elemento desconhecido.
 
 A técnica de Redes Neurais Artificiais (RNAs) baseou-se originalmente no comportamento de neurônios observados na natureza. Uma RNA é formada por uma rede com grande quantidade de unidades de aprendizado, que recebem uma série de valores contínuos que fazem parte dos exemplos de treinamento, produzindo então um valor contínuo, que por sua vez pode ser repassado para outros agrupamentos dessas unidades ou ser utilizado para reajustar pesos internos, permitindo que novos exemplos sejam classificados em iterações futuras.~\cite[p. 81-86]{mitchell1997machine}
 
-SVMs é uma técnica modelada como um problema de otimização que tenta encontrar, no espaço do conjunto de exemplos, um hiperplano que separe com maior margem os exemplos de cada uma das duas classes. Em razão da aplicação desta técnica em parte da metodologia proposta neste trabalho, será feita uma apresentação mais detalhada a partir da seção \ref{sec:svm}). Antes disso, as seções a seguir buscam apresentar os conceitos e terminologia comumente utilizados na apresentação das SVMs.
+SVMs é uma técnica modelada como um problema de otimização que tenta encontrar, no espaço do conjunto de exemplos, um hiperplano que separe com maior margem os exemplos de cada uma das duas classes. Em razão da aplicação desta técnica em parte da metodologia proposta neste trabalho, é feita uma apresentação mais detalhada a partir da seção \ref{sec:svm}). Antes disso, as seções a seguir buscam apresentar os conceitos e terminologia comumente utilizados na apresentação das SVMs.
 
 \subsection{Formalização do aprendizado supervisionado}
 
@@ -225,15 +225,15 @@ Segundo o teorema de \citeonline{cover1965geometrical}, as chances de que um con
 
 Com isso, os dois vetores $\vect{x}$ e $\vect{x}_i$, que são utilizados na função de decisão (equação \ref{eq:classificadora}), são convertidos para o espaço de maior dimensão por um mapeamento $\vect{\Phi}: X \rightarrow \Im$, aonde $X$ é o espaço de entrada e $\Im$ o espaço de características.
 
-Adicionalmente, o produto entre os vetores $\vect{x}$ e $\vect{x}_i$ é representado como uma função $K(\vect{x}_i, \vect{x}_j) = \vect{\Phi}(\vect{x}_i)\cdot\vect{\Phi}(\vect{x}_j)$. Esta função é chamada de \emph{função kernel} e tem por finalidade permitir o uso de funções que atentem às condições definidas pelo teorema de Mercer \cite[p. 141]{burges1998tutorial}. Esta forma de representação permite que se use estas funções de kernel dentro da implementação de uma SVM sem a necessidade de conhecimento dos detalhes internos das mesmas. O quadro \ref{quadro:kernels} apresenta alguns dos kernels mais populares utilizados com SVMs~\cite{lorena2003introducaoas}.
+Adicionalmente, o produto entre os vetores $\vect{x}$ e $\vect{x}_i$ é representado como uma função $K(\vect{x}_i, \vect{x}_j) = \vect{\Phi}(\vect{x}_i)\cdot\vect{\Phi}(\vect{x}_j)$. Esta função é chamada de \emph{função kernel} e tem por finalidade permitir o uso de funções que atentem às condições definidas pelo teorema de Mercer \cite[p. 141]{burges1998tutorial}. Esta forma de representação permite que se use estas funções de \emph{kernel} dentro da implementação de uma SVM sem a necessidade de conhecimento dos detalhes internos das mesmas. O quadro \ref{quadro:kernels} apresenta alguns dos \emph{kernels} mais populares utilizados com SVMs~\cite{lorena2003introducaoas}.
 
 \begin{table}[htp]
 \centering
 \hspace{-2cm} % FIXME arrumar no template
-\quadro{Funções de kernel comumente usadas}\label{quadro:kernels}
+\quadro{Funções de \emph{kernel} comumente usadas}\label{quadro:kernels}
 \begin{tabular}{|c|c|c|}
 \hline
-Tipo de kernel & Função & Parâmetros \\
+Tipo de \emph{kernel} & Função & Parâmetros \\
 \hline
 Polinomial & $(\delta(\vect{x}_i\cdot\vect{x}_j)+\kappa)^d$ & $\delta$, $\kappa$, e $d$ \\
 Gaussiano (ou RBF*) & $\exp(-\sigma\norma{\vect{x}_i-\vect{x}_j}^2)$ & $\sigma$ \\
@@ -241,7 +241,7 @@ Sigmoidal & $\tanh(\delta(\vect{x}_i\cdot\vect{x}_j)+\kappa)$ & $\delta$ e $\kap
 \hline
 \end{tabular}
 \\
-\small{* RBF --- Radial Basis Function, ou, Função de base radial.}
+\small{* RBF --- \emph{Radial Basis Function}, ou, Função de Base Radial.}
 \end{table}
 
 \subsubsection{Classificação multiclasses}\label{sec:svmmulti}

@@ -21,7 +21,7 @@ set output "knn-seggie.eps"
 splot "knn-stats-seggie" using 1:2:4 title "KNN seggie"
 
 set xlabel "C"
-set ylabel "sigma"
+set ylabel "$\sigma$"
 
 set output "svm-n2.eps"
 splot "svm-stats-n2" using 1:2:4 title "SVM n2"
