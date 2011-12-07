@@ -37,10 +37,10 @@ utilizado.
 
 Tendo alta disponibilidade, esses provedores de recursos computacionais
 precisam, também, tentar fazer bom uso de seu parque de computadores
-disponíveis, minimizando custos de manutenção e energia elétrica
+disponíveis, minimizando custos de manutenção e energia elétrica,
 sem degradar a qualidade do que é provido aos clientes. Mantendo mais
 máquinas virtuais em um mesmo hipervisor diminui custos de energia e
-manutenção, tendo, porém o risco de degradar o desempenho, uma vez que
+manutenção, tendo porém, o risco de degradar o desempenho, uma vez que
 unidades de processamento (CPUs) e barramentos de dados são utilizadas
 concorrentemente entre as máquinas virtuais.
 
@@ -48,19 +48,20 @@ Com isso, fica evidente o potencial de aproveitar as ferramentas e APIs de
 virtualização para observar o comportamento de máquinas virtuais de maneira
 a tentar prever quando é mais adequado separar máquinas virtuais ou
 agrupá-las\footnote{Entende-se agrupamento simplesmente por
-executar máquinas virtuais em um mesmo computador, independente do software
+executar máquinas virtuais em um mesmo computador, independente do
+\emph{software}
 que está executando dentro dessas máquinas. Porém, o caso mais comum em
 ambientes comerciais trata-se de servidores de aplicações web e banco de
 dados.} em um mesmo computador. 
 
-Assim, este trabalho apresenta um software que utiliza técnicas de
+Assim, este trabalho apresenta um \emph{software} que utiliza técnicas de
 aprendizado de máquina para prever o comportamento de máquinas
 virtuais em um ambiente de virtualização baseado em \libvirt{}, tendo como
 objetivo a minimização (consolidação) do uso de recursos usados em parque
-computacional, quando possível. Serão avaliadas as técnicas de Máquinas de
+computacional, quando possível. São avaliadas as técnicas de Máquinas de
 Vetores de Suporte e $k$-NN para a predição e a técnica de \emph{first fit} para
-a alocação. Para avaliar a metodologia será utilizado um histórico de uso de CPU
-em um ambiente de compilação de software que faz parte do projeto \emph{Mandriva
+a alocação. Para avaliar a metodologia é utilizado um histórico de uso de CPU
+em um ambiente de compilação de \emph{software} que faz parte do projeto \emph{Mandriva
 Linux\footnote{http://www.mandriva.com/}}.
 
 Na seção \ref{sec:aprendizado} é apresentado o conceito de aprendizado de
