@@ -2,7 +2,7 @@ set encoding utf8
 set terminal postscript eps color font 20
 
 set xlabel "Janela"
-set ylabel "Futuro"
+set ylabel "Janela de previsão"
 
 set view 108,74
 
@@ -55,7 +55,7 @@ set output "svm-seggie-finer.eps"
 splot "svm-stats-finer-seggie" using 1:2:4 title "SVM seggie"
 
 set xlabel "Janela"
-set ylabel "Futuro"
+set ylabel "Janela de previsão"
 
 set output "svm-n2-window-future.eps"
 splot "svm-stats-window-future-n2" using 1:2:4 title "SVM n2"
