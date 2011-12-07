@@ -19,6 +19,7 @@ trabalho.pdf: revisao.tex introducao.tex metodologia.tex consideracoes.tex \
 	img-diagrama-classes2.pdf \
 	img-libvirt-contexto0.pdf \
 	img-libvirt-contexto1.pdf \
+	src/test-data/workload/all \
 	src/test-data/workload/histograma-n2.pdf \
 	src/test-data/workload/histograma-n3.pdf \
 	src/test-data/workload/histograma-n4.pdf \
@@ -97,6 +98,9 @@ apresentacao.pdf: apresentacao.tex \
 
 src/test-data/%.pdf: src/test-data/%.eps
 	epstopdf --outfile=$@ $<
+
+src/test-data/%/all: src/test-data/%/Makefile
+	$(MAKE) -C "$(<D)" $($F)
 
 src/test-data/workload/%.eps: src/test-data/workload/plot-histogram.gnuplot
 	cd src/test-data/workload; gnuplot $(<F)
