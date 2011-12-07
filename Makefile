@@ -98,7 +98,7 @@ apresentacao.pdf: apresentacao.tex \
 src/test-data/%.pdf: src/test-data/%.eps
 	epstopdf --outfile=$@ $<
 
-src/test-data/workload/workload-%.eps: src/test-data/workload/plot-histogram.gnuplot
+src/test-data/workload/%.eps: src/test-data/workload/plot-histogram.gnuplot
 	cd src/test-data/workload; gnuplot $(<F)
 
 src/test-data/workload/dispersion-%.png: src/test-data/workload/plot-dispersion.gnuplot

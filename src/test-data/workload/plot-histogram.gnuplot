@@ -7,9 +7,10 @@ min=0	#min value
 width=(max-min)/n	#interval width
 #function used to map a value to the intervals
 hist(x,width)=width*floor(x/width)+width/2.0
-set term postscript eps color font 7 portrait
+set encoding utf8
+set term postscript eps color font 20
 #set term png
-set size 0.7,0.4
+#set size 0.7,0.7
 set xrange [min:max]
 set yrange [0:]
 #to put an empty boundary around the
@@ -21,6 +22,11 @@ set xtics min,(max-min)/5,max
 set style fill solid 0.5	#fillstyle
 #set tics out nomirror
 #count and plot
+#
+
+set ylabel "Frequência"
+set xlabel "Valor coletado de uso de CPU (%)"
+
 set output "histograma-n2.eps"
 plot "workload-n2.txt-full" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"green" notitle
 set output "histograma-n3.eps"
