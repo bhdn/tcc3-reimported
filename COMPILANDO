@@ -1,6 +1,11 @@
 Softwares necessários para compilar:
 
-texlive
+make (gmake)
+texlive (texlive-latex e amigos)
 dia
 gnuplot
 inkscape
+python-2.x
+latex-abntex
+
+Daí é só executar 'make' e devem aparecer as marcações.
