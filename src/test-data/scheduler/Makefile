@@ -25,3 +25,4 @@ all:
 	zcat scheduler-libvirt-svm-0-6-hosts-manual-stripped.log.gz | ../../parse-sched-log-real.py | grep tcc158 > stats-svm-manual-oneday-tcc158
 	-zcat scheduler-libvirt-svm-0-6-hosts-manual-stripped.log.gz | ../../parse-sched-log-real.py | grep lviv > stats-svm-manual-oneday-lviv
 	zcat scheduler-libvirt-svm-0-6-hosts-manual-stripped.log.gz | ../../parse-sched-log-real.py | grep used > stats-svm-manual-oneday-used
+	touch $@
