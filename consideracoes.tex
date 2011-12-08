@@ -15,3 +15,36 @@ Houve dificuldade, porém, em avaliar o desempenho da ferramenta de consolidaç�
 em um ambiente real, em função da dificuldade de obter uma fonte de informação
 apropriada para conhecer quanto tempo de CPU uma máquina virtual realmente
 demanda.
+
+\section{Trabalhos futuros}
+
+É possível modificar cada componente distinto do projeto, como apresentado
+na seção \ref{sec:modelagem}, para avaliar diferentes abordagens para
+implementá-los. Também é possível que cada funcionalidade seja separada e
+avaliada como um problema distinto.
+
+Para as etapas de coleta de dados e predição, é possível considerar o uso
+de mais informações providas pelo comando \emph{vmstat} como, por exemplo,
+a quantidade de dados lida de dispositivos de bloco ou o número de
+processos em espera para execução.
+
+Especificamente para a etapa de predição, é possível comparar o desempenho
+de SVM e $k$-NN com outras técnicas para predição de séries temporais.
+
+Para a etapa de consolidação das máquinas virtuais, pode-se comparar o
+desempenho com as técnicas avaliadas no trabalho de
+\citeonline{Ferreto20111027}, bem como os históricos de carga que são
+utilizados no mesmo.
+
+Finalmente, é possível avaliar o uso de outras técnicas para a coleta de
+demanda de uso de CPU, de maneira a evitar o quando adiciona-se muitas
+máquinas virtuais em um mesmo hospedeiro, como descrito na seção
+\ref{sec:cargareal}. É possível avaliar a implementação de um módulo
+\emph{virtio} que seria carregado pelo \emph{kernel} de cada máquina
+virtual, e reportaria a demanda de uso de CPU para o monitor de máquinas
+virtuais.
+
+% Componentes que poderiam ser melhorados:
+% - predição: técnicas de predição:tab
+% - escalonador/provisionador/consolidador, testar algoritmos específicos, focar apenas nisso
+% - coleta de dados: usar virtio para comunicar-se com o kernel etc
