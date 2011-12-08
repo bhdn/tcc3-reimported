@@ -42,9 +42,9 @@ Nem sempre é possível obter um resultado ótimo para novas situações, pois n
 
 A construção da hipótese no aprendizado indutivo ocorre por meio da exposição de exemplos ao algoritmo de indução, sendo este processo chamado de treinamento. O processo de atribuir rótulos ou classes a novos exemplos é chamado de classificação. Porém, se o conjunto de exemplos usado para a indução for pequeno ou pouco representativo, há o risco de que as hipóteses escolhidas não descrevam corretamente novas situações e o sistema inteligente traga resultados incorretos~\cite[p. 90]{rezende2003sistemas}.
 
-Dois tipos de sistemas de aprendizado comumente utilizados são os supervisionados e não-supervisionados~\cite{luger2004inteligencia}.
+Dois tipos de sistemas de aprendizado comumente utilizados são os supervisionados e não-supervisionados~\cite{rezende2003sistemas}.
 
-O aprendizado supervisionado é aquele em que há exemplos pré-existentes e estes já possuem rótulos. Tais rótulos podem ter sido atribuídos por um especialista no domínio ou representam resultados de experiências anteriores do sistema. Um classificador baseado em aprendizado supervisionado deve tentar estabelecer uma hipótese que seja genérica a ponto de que o algoritmo possa classificar corretamente novos casos. Uma hipótese muito genérica pode resultar em uma classificação inadequada (\emph{underfitting} --- sub-ajuste), ao passo que uma hipótese que descreva corretamente apenas os exemplos que foram usados para o treinamento pode ter um desempenho inadequado em casos novos (\emph{overfitting} --- sobre-ajuste).
+O aprendizado supervisionado é aquele em que há exemplos pré-existentes e estes já possuem rótulos. Tais rótulos podem ter sido atribuídos por um especialista no domínio ou representam resultados de experiências anteriores do sistema. Um classificador baseado em aprendizado supervisionado deve tentar estabelecer uma hipótese que seja genérica a ponto de que o algoritmo possa classificar corretamente novos casos. Uma hipótese muito genérica pode resultar em uma classificação inadequada (\emph{underfitting} --- sub-ajuste), ao passo que uma hipótese que descreva corretamente apenas os exemplos que foram usados para o treinamento pode ter um desempenho inadequado em casos novos (\emph{overfitting} --- sobre-ajuste)~\cite{rezende2003sistemas}.
 
 No aprendizado não-supervisionado, não há rótulos para atribuir aos exemplos, pois o objetivo do algoritmo é encontrar grupos de exemplos que possuam semelhança entre eles. As técnicas deste modelo são referenciadas como sendo ``técnicas de agrupamento'' ou \emph{clustering}~\cite{rezende2003sistemas}.
 %FIXME terminar não-supervisionado (dar uma olhada no livro do Luger)
@@ -104,11 +104,11 @@ Para encontrar o hiperplano separador ideal, é necessário utilizar, pelo menos
 \begin{figure}[htp!]
   \centering
   \includegraphics[width=0.5\textwidth]{img/fig-hiperplanos.png}
-  \figinfox{Hiperplano separador e margens}{LORENA, 2003}
+  \figinfox{Hiperplano separador e margens}{(LORENA, 2003)}
   \label{fig:hiperplanos}
 \end{figure}
 
-Como um dos objetivos do problema de otimização é obter uma margem larga entre os exemplos, pode-se restringir a busca por $\vect{w}$ apenas em termos do cálculo do tamanho da margem. Para isso, é necessário calcular a distância entre dois hiperplanos que são formados pelos exemplos $\vect{x}_1$ e $\vect{x}_2$. Sejam $H_1: \vect{w}\cdot\vect{x} + b = +1$ e $H2: \vect{w}\cdot\vect{x} +b = -1$ dois hiperplanos que ficam paralelamente acima e abaixo, respectivamente, do hiperplano separador. Além disso, assume-se que $H_1$ passa por $\vect{x}_1$ e $H_2$ passa por $\vect{x}_2$. A figura \ref{fig:hiperplanos} mostra a relação entre os hiperplanos e os pontos $\vect{x}_1$ e $\vect{x}_2$.
+Como um dos objetivos do problema de otimização é obter uma margem larga entre os exemplos, pode-se restringir a busca por $\vect{w}$ apenas em termos do cálculo do tamanho da margem. Para isso, é necessário calcular a distância entre dois hiperplanos que são formados pelos exemplos $\vect{x}_1$ e $\vect{x}_2$. Sejam $H_1: \vect{w}\cdot\vect{x} + b = +1$ e $H_2: \vect{w}\cdot\vect{x} +b = -1$ dois hiperplanos que ficam paralelamente acima e abaixo, respectivamente, do hiperplano separador. Além disso, assume-se que $H_1$ passa por $\vect{x}_1$ e $H_2$ passa por $\vect{x}_2$. A figura \ref{fig:hiperplanos} mostra a relação entre os hiperplanos e os pontos $\vect{x}_1$ e $\vect{x}_2$.
 
 Conhecendo os hiperplanos, agora é possível calcular a distância entre os hiperplanos que servem de fronteira entre cada ponta da margem do hiperplano separador. A equação \ref{eq:projecao_w} apresenta o cálculo necessário para projetar $\vect{x}_1 - \vect{x}_2$ na direção de $\vect{w}$, que é perpendicular ao hiperplano separador $\vect{w}\cdot\vect{x} + b = 0$.
 \begin{equation}\label{eq:projecao_w}
@@ -134,7 +134,7 @@ Portanto, as distâncias entre $\vect{x}_1$, $\vect{x}_2$ e o hiperplano separad
 No problema de maximização da equação \ref{eq:max_w0}, $\frac{2}{\norma{\vect{w}}}$ pode ser descrito como um problema de minimização de $\norma{\vect{w}}^2/{2}$:
 \begin{eqnarray}
 & \label{eq:min_w0}\operatorname{Minimizar} & \frac{\norma{\vect{w}}^2}{2} \\
-& \nonumber \operatorname{sujeito\;a} & y_i(\vect{w}\cdot\vect{x}_i + b) - 1 \ge 0 \quad i = 1,\dotsc,n.
+& \label{eq:min_w1}\operatorname{sujeito\;a} & y_i(\vect{w}\cdot\vect{x}_i + b) - 1 \ge 0 \quad i = 1,\dotsc,n.
 \end{eqnarray}
 
 %% FIXME rev Neusa: Que função é essa? [função de lagrange] Pelo menos deve colocar uma referência
@@ -170,21 +170,21 @@ Assim, substituindo as equações \ref{eq:lagsum0} e \ref{eq:lagsum1}, é possí
 \end{array}
 \end{eqnarray}
 
-A equação \ref{eq:maxalpha} é denominada a forma dual do problema, ao passo que a formulação original (equação \ref{eq:min_w0}), é denominada a forma primal, baseada no trabalho de \apudonline{fletcher1987practical}{burges1998tutorial}. Chama-se de forma dual a disposição do problema de otimização que envolve os mesmos coeficientes, mas são dispostos de maneira diferente do problema original (chamada de primal), formando um problema que tem ponto ótimo próximo ao da formulação original~\cite{puccini1990introducao}.
+A equação \ref{eq:maxalpha} é denominada a forma dual do problema, ao passo que a formulação original (equação \ref{eq:min_w0}) é denominada a forma primal, baseada no trabalho de \apudonline{fletcher1987practical}{burges1998tutorial}. Chama-se de forma dual a disposição do problema de otimização que envolve os mesmos coeficientes, mas são dispostos de maneira diferente do problema original (chamada de primal), formando um problema que tem ponto ótimo próximo ao da formulação original~\cite{puccini1990introducao}.
 
 % TODO REV Marcio pg16, "quais são as condições [de KKT]"
 
-É possível utilizar as condições Karush-Kuhn-Tucker (KKT), que indicam em quais situações um problema de otimização pode garantidamente chegar a um ponto ótimo, descritas em \citeonline[proposição 3.3.1]{bertsekas-nonlinear}, visto que o problema de otimização \ref{eq:maxalpha} possui restrições lineares e a função objetivo é convexa \cite{burges1998tutorial}. Assim, segundo essas condições, é possível encontrar $\vect{w^*}$ e $b^*$ que podem ser considerados solução ótima para o problema a partir da solução do problema dual ao encontrar $\alpha_i^*$:
+É possível utilizar as condições Karush-Kuhn-Tucker (KKT) que indicam em quais situações um problema de otimização pode garantidamente chegar a um ponto ótimo, descritas em \citeonline[proposição 3.3.1]{bertsekas-nonlinear}, visto que o problema de otimização \ref{eq:maxalpha} possui restrições lineares e a função objetivo é convexa \cite{burges1998tutorial}. Assim, segundo essas condições, é possível encontrar $\vect{w^*}$ e $b^*$ que podem ser considerados solução ótima para o problema a partir da solução do problema dual ao encontrar $\alpha_i^*$:
 \begin{equation}\label{eq:dualalpha}
   \alpha_i^*(y_i(\vect{w^*}\cdot\vect{x}_i+b^*) - 1) = 0, \forall{i}=1,\dotsc,n
 \end{equation}
 
 Na equação \ref{eq:dualalpha}, $\alpha_i^*$ é diferente de zero apenas para os valores que tocam a borda das margens do hiperplano de decisão ($H_1$ e $H_2$). Assim, esses dados são chamados de ``vetores de suporte'', pois são os dados mais significativos para a localização de hiperplano $\vect{w}\cdot\vect{x} + b = 0$.
 
-E para calcular $b^*$, de acordo com com a equação \ref{eq:dualalpha}:
+Para calcular $b^*$, de acordo com com a equação \ref{eq:dualalpha}:
 \begin{equation}
   b^* = \frac{1}{n_{SV}}\sum_{x_j \in SV}{\frac{1}{y_j} - \vect{w^*}\cdot\vect{x}_j}
-\end{equation} Onde $n_{SV}$ é o número de vetores de suporte e $SV$ o conjunto dos mesmos.
+\end{equation} onde $n_{SV}$ é o número de vetores de suporte e $SV$ o conjunto dos mesmos.
 
 % ALELUIA!!!!!!!!!!!! PQPQPQPQPQPQPQP!!!
 Finalmente, obtém-se a seguinte função classificadora:
@@ -221,9 +221,9 @@ A constante $C$ impõe uma penalização à violação das restrições descrita
 
 \subsubsection{Classificação não-linear}\label{sec:naolinear}
 
-Segundo o teorema de \citeonline{cover1965geometrical}, as chances de que um conjunto de exemplos não linearmente separável possa ser separado por um hiperplano é grande quando este é disposto em um espaço de maior dimensionalidade. Assim, a implementação de SVMs utiliza esta técnica para conseguir separar dados ainda de maneira linear~\cite{burges1998tutorial}.
+Segundo o teorema de \citeonline{cover1965geometrical}, as chances de que um conjunto de exemplos não-linearmente separável possa ser separado por um hiperplano é grande quando este é disposto em um espaço de maior dimensionalidade. Assim, a implementação de SVMs utiliza esta técnica para conseguir separar dados ainda de maneira linear~\cite{burges1998tutorial}.
 
-Com isso, os dois vetores $\vect{x}$ e $\vect{x}_i$, que são utilizados na função de decisão (equação \ref{eq:classificadora}), são convertidos para o espaço de maior dimensão por um mapeamento $\vect{\Phi}: X \rightarrow \Im$, aonde $X$ é o espaço de entrada e $\Im$ o espaço de características.
+Com isso, os dois vetores $\vect{x}$ e $\vect{x}_i$, que são utilizados na função de decisão (equação \ref{eq:classificadora}), são convertidos para o espaço de maior dimensão por um mapeamento $\vect{\Phi}: X \rightarrow \Im$, onde $X$ é o espaço de entrada e $\Im$ o espaço de características.
 
 Adicionalmente, o produto entre os vetores $\vect{x}$ e $\vect{x}_i$ é representado como uma função $K(\vect{x}_i, \vect{x}_j) = \vect{\Phi}(\vect{x}_i)\cdot\vect{\Phi}(\vect{x}_j)$. Esta função é chamada de \emph{função kernel} e tem por finalidade permitir o uso de funções que atentem às condições definidas pelo teorema de Mercer \cite[p. 141]{burges1998tutorial}. Esta forma de representação permite que se use estas funções de \emph{kernel} dentro da implementação de uma SVM sem a necessidade de conhecimento dos detalhes internos das mesmas. O quadro \ref{quadro:kernels} apresenta alguns dos \emph{kernels} mais populares utilizados com SVMs~\cite{lorena2003introducaoas}.
 
