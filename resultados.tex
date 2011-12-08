@@ -99,7 +99,7 @@ compilação.
 O primeiro passo ao avaliar as técnicas de predição foi ajustar os
 parâmetros que eram utilizados pelas mesmas para o domínio de dados que é
 utilizado neste projeto. Para o caso de $k$-NN, o parâmetro investigado é o
-número de vizinhos ($k$), e no caso de SVM, $C$ e $\sigma$, descritos a
+número de vizinhos ($k$), e no caso da SVM, $C$ e $\sigma$, descritos a
 partir da página \pageref{sec:margenssuaves}. Além disso, há outros dois
 parâmetros que são específicos a este projeto e são relacionados à etapa de
 predição: o tamanho da janela utilizada para treinamento e o tamanho da
@@ -120,9 +120,9 @@ O tamanho de janela considerado ideal para este projeto foi 10, ou seja,
 representa um horizonte de 5 minutos. Este período de tempo é suficiente
 para incluir o tempo de migração das máquinas virtuais (abordado a seguir.)
 
-Para os testes de $k$ de $k$-NN, foi utilizado um programa escrito em
-\emph{shell script} que executa a etapa de treinamento e predição para
-valores de $k$ que vão de 2 até 20 e também para 30, 40, 50, 75, 100 e 150
+Para os testes de $k$ de $k$-NN, utilizou-se um programa escrito em
+\emph{shell script}, que executa a etapa de treinamento e predição para
+valores de $k$, que vão de 2 até 20 e também para 30, 40, 50, 75, 100 e 150
 vizinhos. O \emph{script} utilizado está no apêndice \ref{chap:programasteste}. A
 figura \ref{fig:knnn4} mostra a taxa de acerto de acordo com o valor de $k$
 para a máquina n4.
@@ -134,13 +134,13 @@ para a máquina n4.
 \label{fig:knnn4}
 \end{figure}
 
-Para o caso de SVM, foram utilizadas os parâmetros sugeridos por
+Para o caso da SVM, foram utilizadas os parâmetros sugeridos por
 \citeonline{hsu2003practical}, com valores de $C$ indo de $2^{-5}$ até
 $2^9$ e $\sigma$ de $^{-15}$ até $2^{3}$.  Após
 isso, foi executada mais uma rodada de testes, desta vez utilizando uma
-faixa de valores mais curta, indo de 0,3125 até 2, tando para $C$ quanto
+faixa de valores mais curta, indo de 0,3125 até 2, tanto para $C$ quanto
 para $\sigma$. A figura \ref{fig:svmn4} apresenta o desempenho desses parâmetros
-para utilizando dados da máquina n4. O \emph{script} utilizado para testes está no
+utilizando dados da máquina n4. O \emph{script} utilizado para testes está no
 apêndice \ref{chap:programasteste}.
 
 %%% XXX XXX XXX CROSS VALIDATION!!!
@@ -207,7 +207,7 @@ n6      	& 99,13\%  & 98,30\% &   99,27\% &   99,34\% &   99,36\% & 99,08\% \\
 \end{table}
 
 Para o caso de máquinas desconhecidas, como descrito na seção
-\ref{sec:maquinasdesconhecidas}, o software tentará recorrer ao histórico
+\ref{sec:maquinasdesconhecidas}, o software implementado tenta recorrer ao histórico
 de uma máquina especial, chamada \emph{generic}. Assim, para o grupo de
 máquinas estudado neste projeto, foi feito um teste em que todas as
 máquinas tiveram seus históricos preditos por todas as outras máquinas, de
@@ -255,11 +255,9 @@ consolidação de máquinas virtuais, foi necessário avaliar também a técnica
 utilizada para reproduzir o comportamento de uso de CPU de máquinas virtuais de
 acordo com um histórico de outra máquina, descrita na seção \ref{sec:desemp}. O
 teste durou uma hora e utilizou um intervalo de 10 segundos entre cada valor de
-carga.
-
-Para tal, foi implementado um programa em linguagem Python que utiliza \emph{busy
-loops} para simular a carga de CPU. Seu código fonte está no apêndice, página
-\pageref{fig:progsimload}.
+carga. Para tal, foi implementado um programa em linguagem Python que utiliza \emph{busy
+loops} para simular a carga de CPU. Seu código fonte está no apêndice
+\ref{fig:progsimload}, página \pageref{fig:progsimload}.
 
 A figura \ref{fig:simworkload} apresenta o uso de CPU medido da máquina virtual
 sobreposto com o histórico que foi obtido da máquina n4. Pode-ser observar que,
@@ -339,7 +337,7 @@ testadas, e mesmo variando o número de hospedeiros disponíveis para migração
 Observou-se que, das 2856 observações feitas no teste de um dia para $k$-NN, 232
 momentos, ou seja, uma hora e dez minutos de tempo de execução, tiveram
 hospedeiros acomodando máquinas virtuais com demanda maior que poderia ser
-comportada. No caso de SVM, o comportamento foi ligeiramente menor, apresentando
+comportada. No caso da SVM, o comportamento foi ligeiramente menor, apresentando
 220 situações de sobrecarga. A figura \ref{fig:cpuhost0} apresenta os pontos de
 demanda de CPU para o hospedeiro host0, sendo que o valor limite é de 200\%.
 
