@@ -104,8 +104,8 @@ eficiente. Definiu-se um conjunto reduzido de micro-operações que
 são usadas para compor pequenas funções que descrevem o comportamento
 individual de grande parte das instruções de cada uma das arquiteturas
 suportadas por essa ferramenta. A implementação das micro-operações é feita
-também em linguagem C, permitindo o aproveitamento de todo o
-trabalho expendido ao implementar um compilador C para a arquitetura do
+também em linguagem \emph{C}, permitindo o aproveitamento de todo o
+trabalho expendido ao implementar um compilador \emph{C} para a arquitetura do
 hóspede~\cite{bellard2005qemu}.
 
 Outra ferramenta muito popular para virtualização é a
@@ -176,21 +176,14 @@ uniforme para gerenciamento de máquinas virtuais, de maneira independente
 da aplicação de virtualização que está sendo utilizada. Seu desenvolvimento
 foi iniciado em 2005 pela empresa \emph{Red Hat} e inicialmente chamava-se
 \emph{libxen}, indicando assim que era uma abstração específica para a
-ferramenta \emph{Xen}, porém, teve seu nome alterado para \libvirt{} em
-2006, de maneira a refletir o interesse em suportar mais ferramentas de
-virtualização \apud{gitlibvirt}{eriksson2009virtualization}.
+ferramenta \emph{Xen}, porém, em 2006, teve seu nome alterado para
+\libvirt{}, de maneira a refletir o interesse em suportar mais ferramentas
+de virtualização \apud{gitlibvirt}{eriksson2009virtualization}.
 
 As ferramentas de virtualização suportadas atualmente são: \emph{Xen},
 \emph{QEMU}, KVM, LXC\footnote{http://lxc.sf.net/},
 OpenVZ\footnote{http://openvz.org/}, \emph{User Mode
 Linux}\footnote{http://user-mode-linux.sf.net/} e VMware ESX e GSX~\cite{libvirtindex}.
-
-\begin{figure}[htp]
-\centering
-\includegraphics{img-libvirt-contexto1.pdf}
-\figinfox{Funcionamento da \libvirt{}}{BOLTE, 2010}
-\label{fig:libvirtcontexto1}
-\end{figure}
 
 A figura \ref{fig:libvirtcontexto1} apresenta o funcionamento básico da
 \libvirt{} e a interação entre ela e outros componentes do ambiente. A
@@ -200,6 +193,12 @@ de chamadas de funções, que então são convertidas em comandos e enviadas at�
 com a configuração do ambiente de virtualização, irá então converter esses
 comandos para a ferramenta de virtualização utilizada (hipervisor \textbf{kvm}
 no caso)~\cite{bolte2010non}.
+\begin{figure}[htp]
+\centering
+\includegraphics{img-libvirt-contexto1.pdf}
+\figinfox{Funcionamento da \libvirt{}}{(BOLTE, 2010)}
+\label{fig:libvirtcontexto1}
+\end{figure}
 
 Como a interface de acesso desta ferramenta é por meio de uma interface
 programática, o administrador do sistema hospedeiro precisa
